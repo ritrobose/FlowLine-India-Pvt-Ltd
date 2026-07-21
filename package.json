@@ -4,11 +4,21 @@
   "description": "Replica of the DB Longbow website",
   "main": "index.html",
   "scripts": {
+    "start:editor": "npx intlayer-editor start --with 'next dev --turbopack'",
     "dev": "live-server --port=5175 --no-browser",
     "start": "live-server --port=5175 --no-browser"
   },
   "devDependencies": {
+    "intlayer-editor": "^8.12.4",
     "live-server": "^1.2.2",
     "puppeteer-core": "^25.3.0"
+  },
+  "imports": {
+    "#intlayer/dictionaries-entry": ".intlayer/main/dictionaries.mjs",
+    "#intlayer/unmerged-dictionaries-entry": ".intlayer/main/unmerged_dictionaries.mjs",
+    "#intlayer/remote-dictionaries-entry": ".intlayer/main/remote_dictionaries.mjs",
+    "#intlayer/dynamic-dictionaries-entry": ".intlayer/main/dynamic_dictionaries.mjs",
+    "#intlayer/fetch-dictionaries-entry": ".intlayer/main/fetch_dictionaries.mjs",
+    "#intlayer/config/built": ".intlayer/config/configuration.mjs"
   }
 }
