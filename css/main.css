@@ -3262,6 +3262,7 @@ figure {
 
 .header__logo {
   color: var(--primary);
+  text-decoration: none;
 }
 
 .header__button {
