@@ -1,0 +1,13 @@
+{
+  "name": "db-longbow-replica",
+  "version": "1.0.0",
+  "description": "Replica of the DB Longbow website",
+  "main": "index.html",
+  "scripts": {
+    "dev": "live-server --port=5175 --no-browser",
+    "start": "live-server --port=5175 --no-browser"
+  },
+  "devDependencies": {
+    "live-server": "^1.2.2"
+  }
+}
