@@ -8,6 +8,7 @@
     "start": "live-server --port=5175 --no-browser"
   },
   "devDependencies": {
-    "live-server": "^1.2.2"
+    "live-server": "^1.2.2",
+    "puppeteer-core": "^25.3.0"
   }
 }
