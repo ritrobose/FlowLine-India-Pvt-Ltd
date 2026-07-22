@@ -1,7 +1,7 @@
 {
-  "name": "db-longbow-replica",
+  "name": "flowline-india-pvt-ltd",
   "version": "1.0.0",
-  "description": "Replica of the DB Longbow website",
+  "description": "Website for Flowline India Private Limited",
   "main": "index.html",
   "scripts": {
     "dev": "live-server --port=5175 --no-browser",

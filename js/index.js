@@ -255,7 +255,7 @@ const initPreloader = (callbackFunction) => {
     ModuleType2["Widgets"] = "widgets";
     ModuleType2["Features"] = "features";
   })(ModuleType || (ModuleType = {}));
-  const projectName = "DB-Longbow";
+  const projectName = "Flowline-India";
   const baseSourceUrl = "https://cdn.digitalbutlers.me/projects";
   const isLocalMode = false;
   const getUrl = (segments) => {
