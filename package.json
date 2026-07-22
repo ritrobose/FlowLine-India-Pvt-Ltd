@@ -4,7 +4,6 @@
   "description": "Replica of the DB Longbow website",
   "main": "index.html",
   "scripts": {
-    "start:editor": "npx intlayer-editor start --with 'next dev --turbopack'",
     "dev": "live-server --port=5175 --no-browser",
     "start": "live-server --port=5175 --no-browser"
   },
