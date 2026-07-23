@@ -302,8 +302,44 @@ const initPreloader = (callbackFunction) => {
       console.error(`Error features load:`, error);
     }
   };
+  const initProductModal = () => {
+    const modal = document.getElementById("product-modal-axial");
+    if (!modal) return;
+
+    const openTriggers = document.querySelectorAll('[data-open-modal="axial-flow-fan"]');
+    const closeTriggers = modal.querySelectorAll("[data-close-modal]");
+
+    const openModal = (e) => {
+      if (e) e.preventDefault();
+      modal.classList.add("is-active");
+      modal.setAttribute("aria-hidden", "false");
+      document.body.style.overflow = "hidden";
+    };
+
+    const closeModal = () => {
+      modal.classList.remove("is-active");
+      modal.setAttribute("aria-hidden", "true");
+      document.body.style.overflow = "";
+    };
+
+    openTriggers.forEach((trigger) => {
+      trigger.addEventListener("click", openModal);
+    });
+
+    closeTriggers.forEach((trigger) => {
+      trigger.addEventListener("click", closeModal);
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && modal.classList.contains("is-active")) {
+        closeModal();
+      }
+    });
+  };
+
   initPreloader(() => {
     initWidgets();
     initFeatures();
+    initProductModal();
   });
 })();
