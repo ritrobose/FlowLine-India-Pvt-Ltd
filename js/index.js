@@ -337,9 +337,17 @@ const initPreloader = (callbackFunction) => {
     });
   };
 
+  const initVideos = () => {
+    document.querySelectorAll("video").forEach((video) => {
+      video.load();
+      video.play().catch(() => {});
+    });
+  };
+
   initPreloader(() => {
     initWidgets();
     initFeatures();
     initProductModal();
+    initVideos();
   });
 })();
