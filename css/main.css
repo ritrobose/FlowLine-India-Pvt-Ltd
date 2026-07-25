@@ -4942,7 +4942,7 @@ figure {
 }
 
 #w-node-_31ab2708-7fec-bf5d-f919-4cc79ad79328-25e2aed5 {
-  grid-area: 2 / 4 / 3 / 5;
+  grid-area: 2 / 3 / 3 / 5;
 }
 
 #w-node-b790504e-6b18-13a9-ea45-5d0650660516-25e2aed5 {
@@ -5888,7 +5888,7 @@ figure {
   }
 
   #w-node-_31ab2708-7fec-bf5d-f919-4cc79ad79328-25e2aed5 {
-    grid-column: 4 / 5;
+    grid-column: 3 / 5;
   }
 
   #w-node-_27480f73-e1ea-684d-0925-8046a99ca681-25e2aed5 {
@@ -7537,9 +7537,11 @@ figure {
   .layout.layout--catalog {
     grid-template-columns: repeat(2, 1fr);
   }
+
   .layout.layout--catalog a.card:nth-of-type(2n) {
     border-right: none;
   }
+
   .layout.layout--catalog a.card:nth-of-type(4n) {
     border-right: 1px solid rgba(255, 255, 255, 0.08);
   }
@@ -7549,7 +7551,126 @@ figure {
   .layout.layout--catalog {
     grid-template-columns: 1fr;
   }
+
   .layout.layout--catalog a.card {
     border-right: none;
   }
+}
+
+/* ==========================================================================
+   #speed-section — grid stabilization + uniform layout-box sizing.
+   MIRRORS the #philosophy section composition exactly (the golden reference
+   that has the same 2-line heading + marquee + logo/image pattern).
+
+   Design pattern (per philosophy section):
+   - Row 2 is a uniform ~506px grid row, sized by the MARQUEE-WRAPPER cell
+     filling its full natural height (height:100% flex chain from base rule).
+     This is the "square box" height driver that locks all rows to the
+     same uniform height across every section on the page.
+   - Within that row, TOP line uses align-self:start, BOTTOM line uses
+     align-self:end — stacking two heading words vertically in one grid cell.
+   - Rows 3-4 image/logo row matches the same row height.
+
+   What went wrong before and is now fixed:
+   1. Blanket `align-self:start` had been applied to Behind + Performance too,
+      kicking them off their designed BOTTOM-line anchor onto the TOP line.
+      They now restore their original align-self:end per breakpoints.
+   2. Power marquee-wrapper had been forced to `height:auto !important` which
+      broke its `height:100%` flex fill chain. Without that driver row 2/4
+      blew out to random 688px 1fr leftovers. Now it fills naturally = 506px
+      uniform box height matching philosophy exactly.
+   ========================================================================== */
+
+/* 1. Lock the 4-column grid to strictly equal widths (prevents "Behind" /
+      "Performance" inline content from stretching column 4 wider than 25%). */
+#speed .layout.layout--min-row {
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+}
+
+/* 2. Column blowout prevention only — keep each grid cell inside its column
+      bounds. No alignment or height rules here: let each cell use its
+      assigned grid-area + align-self from the base per-ID rules and
+      breakpoint overrides. */
+#speed #w-node-_58023ef7-787a-e64f-eeb6-51ff4ca5e908-25e2aed5,
+#speed #w-node-e9c824f9-5968-6b5d-7ef4-b0cb6ba07971-25e2aed5,
+#speed #w-node-_31ab2708-7fec-bf5d-f919-4cc79ad79328-25e2aed5,
+#speed #w-node-b790504e-6b18-13a9-ea45-5d0650660516-25e2aed5,
+#speed #w-node-_74e8d8d9-c7a4-148d-8a6d-3805387e0430-25e2aed5 {
+  min-width: 0;
+  max-width: 100%;
+  width: 100%;
+  min-height: 0;
+}
+
+/* 3. Row 2 — TOP-LINE heading cells (The, Behind).
+      Each shrinks to its natural ~138px heading-box content height and
+      anchors to the TOP of row 2 so BOTTOM-line start/end stacking works. */
+#speed #w-node-_58023ef7-787a-e64f-eeb6-51ff4ca5e908-25e2aed5 {
+  align-self: start !important;
+  height: auto !important;
+  max-height: none;
+  overflow: visible;
+}
+#speed #w-node-_31ab2708-7fec-bf5d-f919-4cc79ad79328-25e2aed5 {
+  align-self: start !important;
+  justify-self: end !important;
+  text-align: right !important;
+  height: auto !important;
+  max-height: none;
+  overflow: visible;
+}
+#speed #w-node-_58023ef7-787a-e64f-eeb6-51ff4ca5e908-25e2aed5 > .heading-marquee,
+#speed #w-node-_31ab2708-7fec-bf5d-f919-4cc79ad79328-25e2aed5 > .heading-marquee {
+  max-width: none;
+  overflow: visible;
+  padding-right: 0.15em;
+}
+
+/* 4. Row 2 — Power MARQUEE-WRAPPER (the HEIGHT-DRIVER cell).
+      EXACTLY mirrors #philosophy's "Provide" marquee-wrapper which fills
+      100% of row 2 via base `.marquee-wrapper { height: 100% }`. This single
+      fill is what locks row 2 height to the uniform ~506px "square box" size
+      that every other layout section on the page uses.
+      align-self:end anchors the duplicated marquee-word copy to the BOTTOM
+      edge so it lines up with Performance on the lower visual line. */
+#speed #w-node-e9c824f9-5968-6b5d-7ef4-b0cb6ba07971-25e2aed5 {
+  height: 100% !important;
+  min-height: 0;
+  max-height: none;
+  align-self: end !important;
+}
+#speed #w-node-e9c824f9-5968-6b5d-7ef4-b0cb6ba07971-25e2aed5 > div.marquee-parent,
+#speed #w-node-e9c824f9-5968-6b5d-7ef4-b0cb6ba07971-25e2aed5 > div.marquee-parent > div.marquee-moving-line {
+  height: 100% !important;
+  min-height: 0;
+  max-height: none;
+}
+
+/* 5. Row 2 — BOTTOM-LINE heading cells (Performance).
+      Anchored to BOTTOM of row 2 (align-self:end, per their original
+      per-ID breakpoint assignment) so they form the second visual line
+      directly under The + Power. */
+#speed #w-node-b790504e-6b18-13a9-ea45-5d0650660516-25e2aed5 {
+  align-self: end !important;
+  height: auto !important;
+  max-height: none;
+  overflow: visible;
+}
+#speed #w-node-b790504e-6b18-13a9-ea45-5d0650660516-25e2aed5 > .heading-marquee {
+  max-width: none;
+  overflow: visible;
+}
+
+/* 6. Longbow logo / image cell.
+      Mirrors #philosophy's image cell placement exactly.
+      place-self:center keeps the logo centered within its grid area;
+      height:min(100%, 20.75rem) restores the .content--logo size cap so the
+      aspect-ratio rule cannot blow the logo taller than 332px within its
+      uniform row-4 box. */
+#speed #w-node-_74e8d8d9-c7a4-148d-8a6d-3805387e0430-25e2aed5 {
+  place-self: center center !important;
+  justify-self: center !important;
+  align-self: center !important;
+  height: min(100%, 20.75rem) !important;
+  width: auto !important;
 }
