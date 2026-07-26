@@ -2394,7 +2394,12 @@ figure {
 
 .layout.layout--desktop-sm {
   grid-template-rows: auto auto auto 1fr;
-  grid-template-columns: 25% 25% 25% 25% !important;
+}
+
+@media screen and (min-width: 992px) {
+  .layout.layout--desktop-sm {
+    grid-template-columns: 25% 25% 25% 25% !important;
+  }
 }
 
 .layout.layout--desktop-sm .heading-marquee {
@@ -7710,10 +7715,13 @@ figure {
 
 /* 1. Lock the 4-column grid to strictly equal widths (prevents "Behind" /
       "Performance" inline content from stretching column 4 wider than 25%). */
-#speed .layout.layout--min-row {
-  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+@media screen and (min-width: 992px) {
+  #speed .layout.layout--min-row {
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  }
 }
 
+@media screen and (min-width: 992px) {
 /* 2. Column blowout prevention only — keep each grid cell inside its column
       bounds. No alignment or height rules here: let each cell use its
       assigned grid-area + align-self from the base per-ID rules and
@@ -7804,4 +7812,5 @@ figure {
   align-self: center !important;
   height: min(100%, 20.75rem) !important;
   width: auto !important;
+}
 }
