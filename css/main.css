@@ -2354,7 +2354,7 @@ figure {
   grid-row-gap: 0px;
   flex: 1;
   grid-template-rows: auto 1fr auto 1fr;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   grid-auto-rows: 1fr;
   grid-auto-columns: 1fr;
   width: 100%;
@@ -7575,11 +7575,12 @@ figure {
   }
 }
 
-/* 12 Products Layout Section - Perfect Uniform Dimensions */
+/* 12 Products Layout Section - Responsive & Flexible Dimensions */
 .layout.layout--catalog {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   width: 100%;
+  max-width: 100%;
 }
 
 .layout.layout--catalog .line {
@@ -7589,13 +7590,14 @@ figure {
 .layout.layout--catalog a.card {
   min-height: 28rem;
   width: 100%;
+  min-width: 0;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
   text-align: center;
-  padding: 2rem 1.5rem;
+  padding: 2rem 1.25rem;
   border-right: 1px solid rgba(255, 255, 255, 0.08);
 }
 
@@ -7612,6 +7614,7 @@ figure {
   width: 100%;
   height: 100%;
   flex: 1;
+  min-width: 0;
 }
 
 .layout.layout--catalog .card__layout .heading {
@@ -7621,6 +7624,8 @@ figure {
   justify-content: center;
   align-items: center;
   margin-bottom: 0.5rem;
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
 .layout.layout--catalog .card__layout .text {
@@ -7631,6 +7636,10 @@ figure {
   font-size: 0.75rem;
   letter-spacing: 0.05em;
   opacity: 0.85;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  text-align: center;
+  max-width: 100%;
 }
 
 .layout.layout--catalog .card__video {
@@ -7641,6 +7650,7 @@ figure {
   justify-content: center;
   margin-block: 1rem;
   position: relative;
+  min-width: 0;
 }
 
 .layout.layout--catalog .card__video .background--mobile,
@@ -7650,6 +7660,7 @@ figure {
   display: flex;
   align-items: center;
   justify-content: center;
+  min-width: 0;
 }
 
 .layout.layout--catalog .card__video img {
@@ -7665,9 +7676,13 @@ figure {
   align-self: center;
 }
 
-@media (max-width: 991px) {
+@media (max-width: 1200px) {
   .layout.layout--catalog {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .layout.layout--catalog a.card {
+    border-right: 1px solid rgba(255, 255, 255, 0.08);
   }
 
   .layout.layout--catalog a.card:nth-of-type(2n) {
