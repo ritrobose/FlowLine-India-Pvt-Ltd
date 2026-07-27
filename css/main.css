@@ -2626,7 +2626,7 @@ figure {
   font-family: var(--font-family--1);
   margin-bottom: 0;
   padding-bottom: 0;
-  font-size: clamp(7.438rem, 5.208rem + 9.51vw, 16.625rem);
+  font-size: clamp(2.5rem, 5.208rem + 9.51vw, 16.625rem);
   line-height: .72em;
 }
 
@@ -2635,7 +2635,7 @@ figure {
   margin-bottom: 0;
   padding-top: .05em;
   padding-bottom: 0;
-  font-size: clamp(5.625rem, 3.38rem + 9.58vw, 14.875rem);
+  font-size: clamp(2.2rem, 3.38rem + 9.58vw, 14.875rem);
   line-height: .72em;
 }
 
@@ -2644,7 +2644,7 @@ figure {
   margin-bottom: 0;
   padding-top: .05em;
   padding-bottom: 0;
-  font-size: clamp(5.25rem, 3.035rem + 9.45vw, 14.375rem);
+  font-size: clamp(2.2rem, 3.035rem + 9.45vw, 14.375rem);
   line-height: .72em;
 }
 
@@ -2657,7 +2657,9 @@ figure {
 .marquee-parent {
   flex: none;
   width: 100%;
+  max-width: 100%;
   display: flex;
+  overflow: hidden;
 }
 
 .marquee-parent.marquee-parent--tag {
@@ -2957,13 +2959,13 @@ figure {
   margin-bottom: -.1em;
   padding-top: .01em;
   padding-right: .2em;
-  font-size: clamp(10.625rem, 1.339rem + 14.51vw, 18.75rem);
+  font-size: clamp(2rem, 1.339rem + 14.51vw, 18.75rem);
   font-weight: 400;
   line-height: .8em;
 }
 
 .heading-marquee.heading-marquee--lg {
-  font-size: clamp(13.125rem, 21.88vw - .875rem, 25.375rem);
+  font-size: clamp(2.5rem, 21.88vw - .875rem, 25.375rem);
 }
 
 .heading-marquee.heading-marquee--no-pad {
@@ -4820,23 +4822,27 @@ figure {
     text-transform: uppercase;
     margin-top: 0;
     margin-bottom: -.1em;
-    font-size: 7.5rem;
+    font-size: clamp(2.2rem, 9.5vw, 4rem);
     font-weight: 400;
-    line-height: .8em;
+    line-height: .85em;
     display: block;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    max-width: 100%;
   }
 
   .heading-mobile.heading-mobile--sm {
     letter-spacing: -.05em;
-    max-width: 26.25rem;
-    font-size: 5.625rem;
+    max-width: 100%;
+    font-size: clamp(1.8rem, 7.5vw, 3.2rem);
   }
 
   .heading-mobile.heading-mobile--footer {
     text-align: center;
     padding-top: 1.25rem;
     padding-bottom: 1.25rem;
-    font-size: 8.375rem;
+    font-size: clamp(2.2rem, 9.5vw, 4.5rem);
+    max-width: 100%;
   }
 
   .line.line--mobile {
