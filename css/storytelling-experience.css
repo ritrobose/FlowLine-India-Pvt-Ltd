@@ -1,0 +1,513 @@
+/* ==========================================================================
+   Flowline India - Award-Winning 3-Section Storytelling Experience CSS
+   ========================================================================== */
+
+:root {
+  --story-red: #E30613;
+  --story-dark: #0B0C10;
+  --story-light-bg: #FFFFFF;
+  --story-blueprint-bg: #FAFBFD;
+  --story-blueprint-line: rgba(212, 220, 226, 0.45);
+  --story-text-muted: rgba(11, 12, 16, 0.35);
+  --story-font-heading: "Bebas Neue", sans-serif;
+  --story-font-body: "EB Garamond", serif;
+  --story-font-mono: "Geist Mono", monospace;
+}
+
+/* Container & Global Scroll wrapper */
+.story-wrapper {
+  position: relative;
+  width: 100%;
+  background-color: var(--story-blueprint-bg);
+  color: var(--story-dark);
+  font-family: var(--story-font-body);
+  overflow: hidden;
+  transition: background-color 0.8s ease;
+}
+
+/* Subtle Blueprint Grid */
+.story-wrapper::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    linear-gradient(var(--story-blueprint-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--story-blueprint-line) 1px, transparent 1px);
+  background-size: 50px 50px;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.7;
+}
+
+/* Fixed/Sticky WebGL 3D Canvas Container */
+.story-canvas-container {
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 2;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+#story-webgl-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Story Sections Container (overlays canvas) */
+.story-content-container {
+  position: relative;
+  z-index: 3;
+  margin-top: -100vh; /* Sit over the sticky canvas */
+}
+
+.story-section {
+  position: relative;
+  min-height: 140vh; /* Cinematic height for smooth pinning */
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 8vh 6vw;
+  box-sizing: border-box;
+}
+
+/* Giant 20+ Watermark behind Section 1 */
+.story-watermark {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.8);
+  font-family: var(--story-font-heading);
+  font-size: clamp(14rem, 30vw, 36rem);
+  font-weight: 700;
+  color: rgba(227, 6, 19, 0.04);
+  line-height: 0.8;
+  letter-spacing: -0.05em;
+  user-select: none;
+  pointer-events: none;
+  z-index: 0;
+  transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.8s ease;
+  opacity: 0;
+}
+
+.story-watermark.active {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+/* Section Header Badges */
+.story-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  font-family: var(--story-font-mono);
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: var(--story-red);
+  margin-bottom: 1.5rem;
+  padding: 0.4rem 0.9rem;
+  background: rgba(227, 6, 19, 0.05);
+  border: 1px solid rgba(227, 6, 19, 0.2);
+  border-radius: 100px;
+  width: fit-content;
+}
+
+.story-badge::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  background-color: var(--story-red);
+  border-radius: 50%;
+  box-shadow: 0 0 10px var(--story-red);
+}
+
+/* Section Titles */
+.story-title {
+  font-family: var(--story-font-heading);
+  font-size: clamp(2.8rem, 6.5vw, 6rem);
+  line-height: 0.95;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--story-dark);
+  margin: 0 0 2rem 0;
+}
+
+.story-title .accent-red {
+  color: var(--story-red);
+}
+
+/* Section 1 Content */
+.section-one-inner {
+  max-width: 850px;
+  margin: 0 auto;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+  pointer-events: auto;
+}
+
+.story-paragraph-word-reveal {
+  font-size: clamp(1.25rem, 2.2vw, 1.85rem);
+  line-height: 1.6;
+  color: var(--story-dark);
+  margin-top: 2rem;
+}
+
+.story-paragraph-word-reveal .word {
+  display: inline-block;
+  opacity: 0.15;
+  transition: opacity 0.4s ease, color 0.4s ease, transform 0.4s ease;
+  margin-right: 0.28em;
+  transform: translateY(4px);
+}
+
+.story-paragraph-word-reveal .word.active {
+  opacity: 1;
+  color: #050507;
+  transform: translateY(0);
+}
+
+.story-paragraph-word-reveal .word.highlight {
+  color: var(--story-red);
+  font-weight: 600;
+}
+
+/* Section 2: Split Layout */
+.section-two-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4vw;
+  align-items: center;
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.section-two-left {
+  position: relative;
+  height: 100%;
+  min-height: 500px;
+  pointer-events: none;
+}
+
+.section-two-right {
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+  pointer-events: auto;
+}
+
+.story-step-card {
+  opacity: 0.25;
+  transform: translateY(20px);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(225, 232, 237, 0.8);
+  border-radius: 1.25rem;
+  padding: 2.2rem;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.03);
+}
+
+.story-step-card.active {
+  opacity: 1;
+  transform: translateY(0);
+  border-color: rgba(227, 6, 19, 0.3);
+  box-shadow: 0 25px 50px rgba(227, 6, 19, 0.08);
+}
+
+.story-step-num {
+  font-family: var(--story-font-mono);
+  font-size: 0.85rem;
+  color: var(--story-red);
+  letter-spacing: 0.15em;
+  margin-bottom: 0.75rem;
+}
+
+.story-step-text {
+  font-size: 1.25rem;
+  line-height: 1.6;
+  color: #1a1a1e;
+  margin: 0;
+}
+
+/* Product Icons SVG Grid */
+.product-icon-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+  opacity: 0;
+  transform: translateY(15px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.story-step-card.active .product-icon-grid {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.product-icon-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 0.75rem 0.5rem;
+  background: rgba(250, 251, 253, 0.9);
+  border: 1px solid #E1E8ED;
+  border-radius: 0.75rem;
+  font-family: var(--story-font-mono);
+  font-size: 0.68rem;
+  color: #4A5568;
+  transition: border-color 0.3s ease, transform 0.3s ease;
+}
+
+.product-icon-item:hover {
+  border-color: var(--story-red);
+  transform: translateY(-2px);
+  color: var(--story-red);
+}
+
+.product-icon-item svg {
+  width: 28px;
+  height: 28px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.5;
+  margin-bottom: 0.4rem;
+}
+
+/* 3D Blueprint Callout Tags (Pinned to 3D Fan in Canvas) */
+.blueprint-callout-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.callout-node {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--story-font-mono);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #1A202C;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--story-red);
+  padding: 0.4rem 0.85rem;
+  border-radius: 6px;
+  box-shadow: 0 10px 25px rgba(227, 6, 19, 0.15);
+  opacity: 0;
+  transform: scale(0.8);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.callout-node.visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.callout-node::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  background-color: var(--story-red);
+  border-radius: 50%;
+  box-shadow: 0 0 8px var(--story-red);
+}
+
+/* SVG Machinery & Factory Outline Overlay */
+.factory-svg-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  max-width: 550px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+
+.factory-svg-overlay.active {
+  opacity: 0.85;
+}
+
+.factory-svg-path {
+  stroke: var(--story-red);
+  stroke-width: 1.5;
+  fill: none;
+  stroke-dasharray: 1200;
+  stroke-dashoffset: 1200;
+  transition: stroke-dashoffset 1.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.factory-svg-overlay.active .factory-svg-path {
+  stroke-dashoffset: 0;
+}
+
+/* Section 3: Built on Trust */
+.section-three-inner {
+  max-width: 1000px;
+  margin: 0 auto;
+  width: 100%;
+  pointer-events: auto;
+}
+
+.trust-card-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+  margin-top: 3rem;
+}
+
+.trust-card {
+  background: #FFFFFF;
+  border: 1px solid rgba(225, 232, 237, 0.9);
+  border-radius: 1.25rem;
+  padding: 2.5rem;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.03);
+  transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease;
+}
+
+.trust-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(227, 6, 19, 0.3);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.06);
+}
+
+.dealer-highlight {
+  grid-column: span 2;
+  background: linear-gradient(135deg, #FFFFFF 0%, #FAFAFC 100%);
+  border: 1.5px solid rgba(227, 6, 19, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.dealer-highlight::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 200px;
+  height: 100%;
+  background: radial-gradient(circle at right center, rgba(227, 6, 19, 0.06), transparent 70%);
+  pointer-events: none;
+}
+
+.dealer-brand-title {
+  font-family: var(--story-font-heading);
+  font-size: clamp(2rem, 3.8vw, 3.5rem);
+  letter-spacing: 0.04em;
+  color: var(--story-dark);
+  line-height: 1;
+}
+
+.dealer-brand-title span {
+  color: var(--story-red);
+}
+
+/* Final CTA Section */
+.story-cta-box {
+  margin-top: 5rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.8rem;
+}
+
+.story-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 1rem;
+  font-family: var(--story-font-mono);
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: #FFFFFF;
+  background-color: var(--story-red);
+  padding: 1.25rem 2.8rem;
+  border-radius: 100px;
+  text-decoration: none;
+  box-shadow: 0 10px 30px rgba(227, 6, 19, 0.35);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.story-cta-btn::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.story-cta-btn:hover {
+  transform: scale(1.04) translateY(-2px);
+  box-shadow: 0 20px 45px rgba(227, 6, 19, 0.5);
+  background-color: #C7000E;
+}
+
+.story-cta-btn:hover::before {
+  opacity: 1;
+}
+
+.story-cta-btn svg {
+  width: 18px;
+  height: 18px;
+  stroke: #FFFFFF;
+  fill: none;
+  stroke-width: 2;
+  transition: transform 0.3s ease;
+}
+
+.story-cta-btn:hover svg {
+  transform: translateX(4px);
+}
+
+/* Responsive Media Queries */
+@media (max-width: 991px) {
+  .section-two-grid {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+  
+  .section-two-left {
+    min-height: 380px;
+  }
+  
+  .trust-card-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .dealer-highlight {
+    grid-column: span 1;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
