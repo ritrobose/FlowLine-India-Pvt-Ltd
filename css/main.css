@@ -3472,38 +3472,45 @@ figure {
 
 @media screen and (max-width: 991px) {
   .header__wrapper {
-    grid-template-columns: minmax(0, 1fr) auto auto !important;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) !important;
     padding-inline: 1rem !important;
+    width: 100% !important;
     max-width: 100% !important;
     overflow: hidden !important;
     box-sizing: border-box !important;
   }
 
   .header__logo-text {
-    font-size: 1.1rem;
+    font-size: clamp(0.85rem, 3.5vw, 1.1rem);
     letter-spacing: 1px;
     line-height: 1.2;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
+
+  .button.button--ghost {
+    justify-self: end;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
 }
 
 @media screen and (max-width: 480px) {
   .header__wrapper {
-    padding-inline: 0.625rem !important;
-    grid-column-gap: 8px !important;
-    grid-row-gap: 8px !important;
+    padding-inline: 0.5rem !important;
+    grid-column-gap: 6px !important;
+    grid-row-gap: 6px !important;
   }
 
   .header__logo-text {
-    font-size: 0.92rem;
+    font-size: clamp(0.75rem, 3.2vw, 0.92rem);
     letter-spacing: 0.5px;
   }
 
   .button.button--ghost {
-    padding: 0.35rem 0.6rem;
-    font-size: 0.7rem;
+    padding: 0.35rem 0.5rem;
+    font-size: 0.68rem;
     white-space: nowrap;
     flex-shrink: 0;
   }
@@ -4574,7 +4581,9 @@ figure {
   }
 
   .figure-image {
-    min-width: 54.125rem;
+    max-width: 100%;
+    width: 100%;
+    min-width: 0;
   }
 
   .card-privacy-line {
