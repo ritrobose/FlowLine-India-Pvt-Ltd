@@ -3979,6 +3979,24 @@ figure {
   display: flex;
 }
 
+.preloader-square-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  animation: preloader-spin 2s linear infinite;
+  transform-origin: center center;
+  will-change: transform;
+}
+
+@keyframes preloader-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 .sub-squares {
   width: 100%;
   height: 100%;
