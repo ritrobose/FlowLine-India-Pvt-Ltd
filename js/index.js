@@ -344,10 +344,229 @@ const initPreloader = (callbackFunction) => {
     });
   };
 
+  const initCompanyProfileScrollHighlight = () => {
+    const card = document.querySelector(".company-profile-card");
+    const paragraph = document.querySelector(".scroll-highlight-paragraph");
+    if (!paragraph || !card) return;
+
+    const rawText = paragraph.textContent.trim();
+    const words = rawText.split(/\s+/);
+
+    paragraph.innerHTML = words
+      .map((word, wordIdx) => {
+        const delay = (0.15 + wordIdx * 0.022).toFixed(2);
+        return `<span class="highlight-word" style="font-family: 'Satoshi', sans-serif !important; transition-delay: ${delay}s;">${word}</span>`;
+      })
+      .join(" ");
+
+    const wordSpans = paragraph.querySelectorAll(".highlight-word");
+
+    const entryObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            card.classList.add("js--animated");
+          }
+        });
+      },
+      { threshold: 0.65, rootMargin: "0px 0px -40px 0px" }
+    );
+    entryObserver.observe(card);
+
+    const updateWordHighlight = () => {
+      const rect = paragraph.getBoundingClientRect();
+      const windowHeight = window.innerHeight || document.documentElement.clientHeight;
+
+      const startPoint = windowHeight * 0.85;
+      const endPoint = windowHeight * 0.35;
+
+      let progress = (startPoint - rect.top) / (startPoint - endPoint);
+      progress = Math.max(0, Math.min(1, progress));
+
+      const activeIndex = Math.floor(progress * wordSpans.length);
+
+      wordSpans.forEach((span, index) => {
+        if (index <= activeIndex) {
+          span.classList.add("active");
+        } else {
+          span.classList.remove("active");
+        }
+      });
+    };
+
+    // 3D Parallax Tilt movement on mouse hover
+    card.addEventListener("mousemove", (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left - rect.width / 2;
+      const y = e.clientY - rect.top - rect.height / 2;
+      const tiltX = (y / (rect.height / 2)) * -10;
+      const tiltY = (x / (rect.width / 2)) * 10;
+      card.style.transform = `translateY(55%) translateZ(65px) rotateX(${tiltX.toFixed(2)}deg) rotateY(${tiltY.toFixed(2)}deg) scale(1.03)`;
+    });
+
+    card.addEventListener("mouseleave", () => {
+      card.style.transform = `translateY(55%) translateZ(50px) rotateX(0deg) rotateY(0deg) scale(1.02)`;
+    });
+
+    window.addEventListener("scroll", updateWordHighlight, { passive: true });
+    window.addEventListener("resize", updateWordHighlight, { passive: true });
+    updateWordHighlight();
+  };
+
+  const initProductsPortfolioScrollHighlight = () => {
+    const card = document.querySelector(".products-portfolio-card");
+    const paragraph = document.querySelector(".portfolio-scroll-highlight-paragraph");
+    if (!paragraph || !card) return;
+
+    const rawText = paragraph.textContent.trim();
+    const words = rawText.split(/\s+/);
+
+    paragraph.innerHTML = words
+      .map((word, wordIdx) => {
+        const delay = (0.15 + wordIdx * 0.015).toFixed(2);
+        return `<span class="portfolio-highlight-word" style="font-family: 'Satoshi', sans-serif !important; transition-delay: ${delay}s;">${word}</span>`;
+      })
+      .join(" ");
+
+    const wordSpans = paragraph.querySelectorAll(".portfolio-highlight-word");
+
+    const entryObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            card.classList.add("js--animated");
+          }
+        });
+      },
+      { threshold: 0.4, rootMargin: "0px 0px -40px 0px" }
+    );
+    entryObserver.observe(card);
+
+    const updateWordHighlight = () => {
+      const rect = paragraph.getBoundingClientRect();
+      const windowHeight = window.innerHeight || document.documentElement.clientHeight;
+
+      const startPoint = windowHeight * 0.85;
+      const endPoint = windowHeight * 0.35;
+
+      let progress = (startPoint - rect.top) / (startPoint - endPoint);
+      progress = Math.max(0, Math.min(1, progress));
+
+      const activeIndex = Math.floor(progress * wordSpans.length);
+
+      wordSpans.forEach((span, index) => {
+        if (index <= activeIndex) {
+          span.classList.add("active");
+        } else {
+          span.classList.remove("active");
+        }
+      });
+    };
+
+    // 3D Parallax Tilt movement on mouse hover
+    card.addEventListener("mousemove", (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left - rect.width / 2;
+      const y = e.clientY - rect.top - rect.height / 2;
+      const tiltX = (y / (rect.height / 2)) * -10;
+      const tiltY = (x / (rect.width / 2)) * 10;
+      card.style.transform = `translateY(0) translateZ(65px) rotateX(${tiltX.toFixed(2)}deg) rotateY(${tiltY.toFixed(2)}deg) scale(1.03)`;
+    });
+
+    card.addEventListener("mouseleave", () => {
+      card.style.transform = `translateY(0) translateZ(50px) rotateX(0deg) rotateY(0deg) scale(1.02)`;
+    });
+
+    window.addEventListener("scroll", updateWordHighlight, { passive: true });
+    window.addEventListener("resize", updateWordHighlight, { passive: true });
+    updateWordHighlight();
+  };
+
+  const initValuesLeadershipScrollHighlight = () => {
+    const card = document.querySelector(".values-leadership-card");
+    const paragraphs = document.querySelectorAll(".values-leadership-text-wrapper p");
+    if (paragraphs.length === 0 || !card) return;
+
+    let globalWordIdx = 0;
+    let allWordSpans = [];
+
+    paragraphs.forEach((p) => {
+      const rawText = p.textContent.trim();
+      const words = rawText.split(/\s+/);
+      p.innerHTML = words
+        .map((word) => {
+          const delay = (0.15 + (globalWordIdx++) * 0.008).toFixed(2);
+          const cleanWord = word.replace(/[.,;:]/g, "");
+          const isBold = ["NICOTRA", "Gebhardt", "Amrita", "Singh"].includes(cleanWord);
+          const fontWeight = isBold ? "700" : "300";
+          const extraClass = isBold ? " bold-word" : "";
+          return `<span class="values-highlight-word${extraClass}" style="font-family: 'Satoshi', sans-serif !important; font-weight: ${fontWeight} !important; transition-delay: ${delay}s;">${word}</span>`;
+        })
+        .join(" ");
+      allWordSpans.push(...p.querySelectorAll(".values-highlight-word"));
+    });
+
+    const entryObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            card.classList.add("js--animated");
+          }
+        });
+      },
+      { threshold: 0.3, rootMargin: "0px 0px -40px 0px" }
+    );
+    entryObserver.observe(card);
+
+    const updateWordHighlight = () => {
+      const wrapper = document.querySelector(".values-leadership-text-wrapper");
+      if (!wrapper) return;
+      const rect = wrapper.getBoundingClientRect();
+      const windowHeight = window.innerHeight || document.documentElement.clientHeight;
+
+      const startPoint = windowHeight * 0.85;
+      const endPoint = windowHeight * 0.25;
+
+      let progress = (startPoint - rect.top) / (startPoint - endPoint);
+      progress = Math.max(0, Math.min(1, progress));
+
+      const activeIndex = Math.floor(progress * allWordSpans.length);
+
+      allWordSpans.forEach((span, index) => {
+        if (index <= activeIndex) {
+          span.classList.add("active");
+        } else {
+          span.classList.remove("active");
+        }
+      });
+    };
+
+    // 3D Parallax Tilt movement on mouse hover
+    card.addEventListener("mousemove", (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left - rect.width / 2;
+      const y = e.clientY - rect.top - rect.height / 2;
+      const tiltX = (y / (rect.height / 2)) * -10;
+      const tiltY = (x / (rect.width / 2)) * 10;
+      card.style.transform = `translateY(0) translateZ(65px) rotateX(${tiltX.toFixed(2)}deg) rotateY(${tiltY.toFixed(2)}deg) scale(1.03)`;
+    });
+
+    card.addEventListener("mouseleave", () => {
+      card.style.transform = `translateY(0) translateZ(50px) rotateX(0deg) rotateY(0deg) scale(1.02)`;
+    });
+
+    window.addEventListener("scroll", updateWordHighlight, { passive: true });
+    window.addEventListener("resize", updateWordHighlight, { passive: true });
+    updateWordHighlight();
+  };
+
   initPreloader(() => {
     initWidgets();
     initFeatures();
     initProductModal();
     initVideos();
+    initCompanyProfileScrollHighlight();
+    initProductsPortfolioScrollHighlight();
+    initValuesLeadershipScrollHighlight();
   });
 })();

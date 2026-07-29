@@ -1,3 +1,40 @@
+/* Satoshi Font Definitions (Local Assets) */
+@font-face {
+  font-family: 'Satoshi';
+  src: url('/assets/satoshi-light.woff2') format('woff2');
+  font-weight: 300;
+  font-display: swap;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Satoshi';
+  src: url('/assets/satoshi-regular.woff2') format('woff2');
+  font-weight: 400;
+  font-display: swap;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Satoshi';
+  src: url('/assets/satoshi-medium.woff2') format('woff2');
+  font-weight: 500;
+  font-display: swap;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Satoshi';
+  src: url('/assets/satoshi-bold.woff2') format('woff2');
+  font-weight: 700;
+  font-display: swap;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Satoshi';
+  src: url('/assets/satoshi-black.woff2') format('woff2');
+  font-weight: 900;
+  font-display: swap;
+  font-style: normal;
+}
+
 html {
   -webkit-text-size-adjust: 100%;
   -ms-text-size-adjust: 100%;
@@ -3398,13 +3435,27 @@ figure {
   grid-template-columns: 1fr;
   grid-auto-columns: 1fr;
   width: 100%;
-  max-width: 29.625rem;
+  max-width: 32.5875rem;
   display: grid;
   position: fixed;
   top: .625rem;
   left: 50%;
-  overflow: hidden;
+  overflow: visible;
   transform: translate(-50%);
+  box-shadow: 0 10px 30px -5px rgba(255, 255, 255, 0.15), 0 20px 40px -10px rgba(0, 0, 0, 0.5);
+}
+
+.header::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  height: 28px;
+  background: radial-gradient(ellipse 85% 100% at 50% 0%, rgba(255, 255, 255, 0.45) 0%, rgba(255, 255, 255, 0.12) 50%, rgba(255, 255, 255, 0) 80%);
+  filter: blur(4px);
+  pointer-events: none;
+  z-index: -1;
 }
 
 .header__icon {
@@ -3418,6 +3469,8 @@ figure {
   text-decoration: none;
   min-width: 0;
   overflow: hidden;
+  position: relative;
+  z-index: 2;
 }
 
 .header__logo-text {
@@ -3441,6 +3494,7 @@ figure {
   display: flex;
   position: relative;
   flex-shrink: 0;
+  z-index: 2;
 }
 
 .header__button-line {
@@ -3468,10 +3522,22 @@ figure {
   grid-auto-columns: 1fr;
   width: 100%;
   max-width: 100%;
-  padding: 1.25rem;
+  padding: 1.3125rem 1.25rem;
   display: grid;
   position: relative;
   box-sizing: border-box;
+  border-radius: .75rem;
+  overflow: visible;
+}
+
+.header__wrapper::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.45) 0%, rgba(255, 255, 255, 0.15) 35%, rgba(255, 255, 255, 0) 75%);
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 1;
 }
 
 @media screen and (max-width: 991px) {
@@ -3480,7 +3546,7 @@ figure {
     padding-inline: 1rem !important;
     width: 100% !important;
     max-width: 100% !important;
-    overflow: hidden !important;
+    overflow: visible !important;
     box-sizing: border-box !important;
   }
 
@@ -3691,6 +3757,7 @@ figure {
     align-items: flex-start;
     gap: 0.35rem;
   }
+
   .contact-row__label {
     min-width: auto;
   }
@@ -3992,6 +4059,7 @@ figure {
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
@@ -7829,95 +7897,741 @@ figure {
 }
 
 @media screen and (min-width: 992px) {
-/* 2. Column blowout prevention only — keep each grid cell inside its column
+
+  /* 2. Column blowout prevention only — keep each grid cell inside its column
       bounds. No alignment or height rules here: let each cell use its
       assigned grid-area + align-self from the base per-ID rules and
       breakpoint overrides. */
-#speed #w-node-_58023ef7-787a-e64f-eeb6-51ff4ca5e908-25e2aed5,
-#speed #w-node-e9c824f9-5968-6b5d-7ef4-b0cb6ba07971-25e2aed5,
-#speed #w-node-_31ab2708-7fec-bf5d-f919-4cc79ad79328-25e2aed5,
-#speed #w-node-b790504e-6b18-13a9-ea45-5d0650660516-25e2aed5,
-#speed #w-node-_74e8d8d9-c7a4-148d-8a6d-3805387e0430-25e2aed5 {
-  min-width: 0;
-  max-width: 100%;
-  width: 100%;
-  min-height: 0;
-}
+  #speed #w-node-_58023ef7-787a-e64f-eeb6-51ff4ca5e908-25e2aed5,
+  #speed #w-node-e9c824f9-5968-6b5d-7ef4-b0cb6ba07971-25e2aed5,
+  #speed #w-node-_31ab2708-7fec-bf5d-f919-4cc79ad79328-25e2aed5,
+  #speed #w-node-b790504e-6b18-13a9-ea45-5d0650660516-25e2aed5,
+  #speed #w-node-_74e8d8d9-c7a4-148d-8a6d-3805387e0430-25e2aed5 {
+    min-width: 0;
+    max-width: 100%;
+    width: 100%;
+    min-height: 0;
+  }
 
-/* 3. Row 2 — TOP-LINE heading cells (The, Behind).
+  /* 3. Row 2 — TOP-LINE heading cells (The, Behind).
       Each shrinks to its natural ~138px heading-box content height and
       anchors to the TOP of row 2 so BOTTOM-line start/end stacking works. */
-#speed #w-node-_58023ef7-787a-e64f-eeb6-51ff4ca5e908-25e2aed5 {
-  align-self: start !important;
-  height: auto !important;
-  max-height: none;
-  overflow: visible;
-}
+  #speed #w-node-_58023ef7-787a-e64f-eeb6-51ff4ca5e908-25e2aed5 {
+    align-self: start !important;
+    height: auto !important;
+    max-height: none;
+    overflow: visible;
+  }
 
-#speed #w-node-_31ab2708-7fec-bf5d-f919-4cc79ad79328-25e2aed5 {
-  align-self: start !important;
-  justify-self: end !important;
-  text-align: right !important;
-  height: auto !important;
-  max-height: none;
-  overflow: visible;
-}
+  #speed #w-node-_31ab2708-7fec-bf5d-f919-4cc79ad79328-25e2aed5 {
+    align-self: start !important;
+    justify-self: end !important;
+    text-align: right !important;
+    height: auto !important;
+    max-height: none;
+    overflow: visible;
+  }
 
-#speed #w-node-_58023ef7-787a-e64f-eeb6-51ff4ca5e908-25e2aed5>.heading-marquee,
-#speed #w-node-_31ab2708-7fec-bf5d-f919-4cc79ad79328-25e2aed5>.heading-marquee {
-  max-width: none;
-  overflow: visible;
-  padding-right: 0.15em;
-}
+  #speed #w-node-_58023ef7-787a-e64f-eeb6-51ff4ca5e908-25e2aed5>.heading-marquee,
+  #speed #w-node-_31ab2708-7fec-bf5d-f919-4cc79ad79328-25e2aed5>.heading-marquee {
+    max-width: none;
+    overflow: visible;
+    padding-right: 0.15em;
+  }
 
-/* 4. Row 2 — Power MARQUEE-WRAPPER (the HEIGHT-DRIVER cell).
+  /* 4. Row 2 — Power MARQUEE-WRAPPER (the HEIGHT-DRIVER cell).
       EXACTLY mirrors #philosophy's "Provide" marquee-wrapper which fills
       100% of row 2 via base `.marquee-wrapper { height: 100% }`. This single
       fill is what locks row 2 height to the uniform ~506px "square box" size
       that every other layout section on the page uses.
       align-self:end anchors the duplicated marquee-word copy to the BOTTOM
       edge so it lines up with Performance on the lower visual line. */
-#speed #w-node-e9c824f9-5968-6b5d-7ef4-b0cb6ba07971-25e2aed5 {
-  height: 100% !important;
-  min-height: 0;
-  max-height: none;
-  align-self: end !important;
-}
+  #speed #w-node-e9c824f9-5968-6b5d-7ef4-b0cb6ba07971-25e2aed5 {
+    height: 100% !important;
+    min-height: 0;
+    max-height: none;
+    align-self: end !important;
+  }
 
-#speed #w-node-e9c824f9-5968-6b5d-7ef4-b0cb6ba07971-25e2aed5>div.marquee-parent,
-#speed #w-node-e9c824f9-5968-6b5d-7ef4-b0cb6ba07971-25e2aed5>div.marquee-parent>div.marquee-moving-line {
-  height: 100% !important;
-  min-height: 0;
-  max-height: none;
-}
+  #speed #w-node-e9c824f9-5968-6b5d-7ef4-b0cb6ba07971-25e2aed5>div.marquee-parent,
+  #speed #w-node-e9c824f9-5968-6b5d-7ef4-b0cb6ba07971-25e2aed5>div.marquee-parent>div.marquee-moving-line {
+    height: 100% !important;
+    min-height: 0;
+    max-height: none;
+  }
 
-/* 5. Row 2 — BOTTOM-LINE heading cells (Performance).
+  /* 5. Row 2 — BOTTOM-LINE heading cells (Performance).
       Anchored to BOTTOM of row 2 (align-self:end, per their original
       per-ID breakpoint assignment) so they form the second visual line
       directly under The + Power. */
-#speed #w-node-b790504e-6b18-13a9-ea45-5d0650660516-25e2aed5 {
-  align-self: end !important;
-  height: auto !important;
-  max-height: none;
-  overflow: visible;
-}
+  #speed #w-node-b790504e-6b18-13a9-ea45-5d0650660516-25e2aed5 {
+    align-self: end !important;
+    height: auto !important;
+    max-height: none;
+    overflow: visible;
+  }
 
-#speed #w-node-b790504e-6b18-13a9-ea45-5d0650660516-25e2aed5>.heading-marquee {
-  max-width: none;
-  overflow: visible;
-}
+  #speed #w-node-b790504e-6b18-13a9-ea45-5d0650660516-25e2aed5>.heading-marquee {
+    max-width: none;
+    overflow: visible;
+  }
 
-/* 6. Longbow logo / image cell.
+  /* 6. Longbow logo / image cell.
       Mirrors #philosophy's image cell placement exactly.
       place-self:center keeps the logo centered within its grid area;
       height:min(100%, 20.75rem) restores the .content--logo size cap so the
       aspect-ratio rule cannot blow the logo taller than 332px within its
       uniform row-4 box. */
-#speed #w-node-_74e8d8d9-c7a4-148d-8a6d-3805387e0430-25e2aed5 {
-  place-self: center center !important;
-  justify-self: center !important;
-  align-self: center !important;
-  height: min(100%, 20.75rem) !important;
-  width: auto !important;
+  #speed #w-node-_74e8d8d9-c7a4-148d-8a6d-3805387e0430-25e2aed5 {
+    place-self: center center !important;
+    justify-self: center !important;
+    align-self: center !important;
+    height: min(100%, 20.75rem) !important;
+    width: auto !important;
+  }
 }
+
+/* ==========================================================================
+   Company Profile & Apple Glassmorphic Card (Satoshi Font)
+   ========================================================================== */
+
+.company-profile-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 2rem;
+  align-items: stretch;
+}
+
+@media (min-width: 992px) {
+  .company-profile-layout {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-rows: auto minmax(32rem, 1fr) auto;
+    align-items: stretch;
+  }
+
+  /* Left image column spans columns 1 to 2 */
+  .company-profile-image-col {
+    grid-column: 1 / 3;
+    grid-row: 2;
+    height: 100%;
+    min-height: 32rem;
+  }
+
+  /* Right text column spans columns 3 to 4 (all 4 right grid boxes area) */
+  .company-profile-text-col {
+    grid-column: 3 / 5;
+    grid-row: 2;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+  }
+
+  .line--full {
+    grid-column: 1 / -1;
+  }
+}
+
+/* Apple-style Glassmorphism Card */
+/* Fix sticky marquee overlay intercepting pointer-events & WhatFont inspection */
+.gallery__sticky,
+.marquee-wrapper--info.marquee-wrapper--sticky {
+  pointer-events: none !important;
+}
+
+.gallery__sticky *,
+.marquee-wrapper--info.marquee-wrapper--sticky * {
+  pointer-events: none !important;
+}
+
+.company-profile-section {
+  position: relative;
+  z-index: 25 !important;
+}
+
+.company-profile-card,
+.company-profile-card *,
+.company-profile-badge,
+.company-profile-heading,
+.company-profile-text,
+.scroll-highlight-paragraph,
+.highlight-word,
+.highlight-word.active {
+  font-family: 'Satoshi', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  pointer-events: auto !important;
+}
+
+@media screen and (min-width: 992px) {
+  .company-profile-layout {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-rows: auto 1fr auto;
+    gap: 0;
+    align-items: center;
+  }
+
+  .company-profile-image-col {
+    grid-column: 1 / 3;
+    grid-row: 2;
+    height: 100%;
+  }
+
+  .company-profile-text-col {
+    grid-column: 3 / 5 !important;
+    grid-row: 2;
+    height: 100%;
+    width: 100%;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 1.5rem;
+    perspective: 1200px;
+    transform-style: preserve-3d;
+    position: relative;
+    z-index: 25;
+  }
+}
+
+.company-profile-card {
+  background: #000000 !important;
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.35) !important;
+  border-radius: 2rem;
+  padding: clamp(1.75rem, 3.5vw, 2.75rem);
+  width: 100%;
+  max-width: 35rem;
+  position: relative !important;
+  top: auto !important;
+  left: auto !important;
+  margin: auto !important;
+  overflow: visible;
+  text-align: left;
+  opacity: 1;
+  transform-style: preserve-3d;
+  transform: translateY(55%) translateZ(50px) scale(1.02);
+  box-shadow: 0 45px 90px -15px rgba(0, 0, 0, 0.95), 
+              0 25px 50px -10px rgba(0, 0, 0, 0.85),
+              inset 0 0 5px 1px rgba(255, 255, 255, 0.45),
+              inset 0 1.5px 3px rgba(255, 255, 255, 0.7);
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), 
+              box-shadow 0.5s ease;
+}
+
+.company-profile-card.js--animated {
+  opacity: 1;
+  transform: translateY(55%) translateZ(50px) scale(1.02);
+}
+
+/* Detached 3D floor shadow cast far in the background */
+.company-profile-card::after {
+  content: '';
+  position: absolute;
+  inset: 6%;
+  bottom: -45px;
+  background: rgba(0, 0, 0, 0.95);
+  filter: blur(35px);
+  z-index: -1;
+  border-radius: 2rem;
+  transform: translateZ(-50px) scale(0.92);
+  pointer-events: none;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease;
+}
+
+/* Interactive 3D hover elevation */
+.company-profile-card:hover {
+  transform: translateY(-10px) translateZ(70px) rotateX(3deg) rotateY(-3deg) scale(1.04);
+  box-shadow: 0 65px 120px -20px rgba(0, 0, 0, 0.98), 
+              0 35px 70px -15px rgba(0, 0, 0, 0.9),
+              inset 0 0 8px 1.5px rgba(255, 255, 255, 0.55),
+              inset 0 1.5px 3px rgba(255, 255, 255, 0.8);
+}
+
+.company-profile-card:hover::after {
+  transform: translateZ(-70px) scale(0.88);
+  opacity: 0.9;
+}
+
+/* 4-Side Inner White Gradient overlay strictly restricted to outer 3% perimeter */
+.company-profile-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 2rem;
+  background: 
+    /* 4-Side Radial White Glow - transparent center, 3% outer edge glow */
+    radial-gradient(ellipse at center, rgba(255, 255, 255, 0) 94%, rgba(255, 255, 255, 0.45) 100%),
+    /* Top & Bottom Edge White Gradients - extends only 3% inward */
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0) 3%, rgba(255, 255, 255, 0) 97%, rgba(255, 255, 255, 0.4) 100%),
+    /* Left & Right Edge White Gradients - extends only 3% inward */
+    linear-gradient(to right, rgba(255, 255, 255, 0.45) 0%, rgba(255, 255, 255, 0) 3%, rgba(255, 255, 255, 0) 97%, rgba(255, 255, 255, 0.45) 100%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.company-profile-badge {
+  display: inline-block;
+  font-weight: 700;
+  font-size: 0.72rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: #ffffff !important;
+  margin-bottom: 0.6rem;
+  padding: 0.42rem 1.1rem;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.55) 0%, rgba(160, 160, 170, 0.25) 50%, rgba(20, 20, 25, 0.8) 100%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.5) !important;
+  border-radius: 2rem;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: inset 0 1.5px 2px rgba(255, 255, 255, 0.8),
+              0 8px 20px rgba(0, 0, 0, 0.6) !important;
+  opacity: 0;
+  transform: translateX(100px) translateZ(25px);
+  transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.company-profile-heading {
+  font-weight: 500 !important;
+  font-size: clamp(2.2rem, 3.5vw, 3rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: #ffffff !important;
+  margin-top: 0;
+  margin-bottom: 0.85rem;
+  text-transform: uppercase;
+  text-shadow: 0 4px 15px rgba(0, 0, 0, 0.7);
+  opacity: 0;
+  transform: translateX(140px) translateZ(35px);
+  transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1), transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: 0.05s;
+}
+
+.company-profile-text {
+  font-size: clamp(0.95rem, 1.3vw, 1.15rem) !important;
+  line-height: 1.55;
+  font-weight: 300 !important;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.3) !important;
+}
+
+.company-profile-card.js--animated .company-profile-badge {
+  opacity: 1;
+  transform: translateX(0) translateZ(25px);
+}
+
+.company-profile-card.js--animated .company-profile-heading {
+  opacity: 1;
+  transform: translateX(0) translateZ(35px);
+}
+
+/* Staggered right-side entrance for single continuous paragraph */
+.highlight-word {
+  display: inline-block;
+  color: rgba(255, 255, 255, 0.3) !important;
+  font-weight: 300 !important;
+  opacity: 0;
+  transform: translateX(65px) translateZ(20px);
+  transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), 
+              transform 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+              color 0.25s ease;
+  margin-right: 0.28em;
+  will-change: color, opacity, transform;
+}
+
+.company-profile-card.js--animated .highlight-word {
+  opacity: 1;
+  transform: translateX(0) translateZ(20px);
+}
+
+.highlight-word.active {
+  color: #ffffff !important;
+  font-weight: 300 !important;
+  text-shadow: none !important;
+}
+
+/* Products Portfolio Full-Screen Overlay on Abstract.jpg */
+.products-portfolio-section {
+  position: relative;
+  width: 100%;
+  min-height: 85vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  z-index: 25 !important;
+  padding: 4rem 1.5rem;
+}
+
+.products-portfolio-bg-wrapper {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.products-portfolio-bg-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.products-portfolio-overlay-container {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 52rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  perspective: 1200px;
+  transform-style: preserve-3d;
+}
+
+.products-portfolio-card,
+.products-portfolio-card *,
+.products-portfolio-badge,
+.products-portfolio-heading,
+.products-portfolio-text {
+  font-family: 'Satoshi', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  pointer-events: auto !important;
+}
+
+.products-portfolio-card {
+  background: rgba(255, 255, 255, 0.45) !important;
+  backdrop-filter: blur(30px) saturate(190%);
+  -webkit-backdrop-filter: blur(30px) saturate(190%);
+  border: 1px solid rgba(255, 255, 255, 0.65) !important;
+  border-radius: 2rem;
+  padding: clamp(2.25rem, 4vw, 3.5rem);
+  width: 100%;
+  max-width: 50rem;
+  position: relative;
+  overflow: visible;
+  text-align: left;
+  opacity: 1;
+  transform-style: preserve-3d;
+  transform: translateY(0) translateZ(50px) scale(1.02);
+  box-shadow: 0 45px 90px -15px rgba(0, 0, 0, 0.3), 
+              0 25px 50px -10px rgba(0, 0, 0, 0.2),
+              inset 0 0 8px 1px rgba(255, 255, 255, 0.7),
+              inset 0 1.5px 3px rgba(255, 255, 255, 0.9);
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s ease;
+}
+
+.products-portfolio-card.js--animated {
+  opacity: 1;
+  transform: translateY(0) translateZ(50px) scale(1.02);
+}
+
+/* Detached 3D floor shadow cast far in the background */
+.products-portfolio-card::after {
+  content: '';
+  position: absolute;
+  inset: 6%;
+  bottom: -45px;
+  background: rgba(0, 0, 0, 0.35);
+  filter: blur(35px);
+  z-index: -1;
+  border-radius: 2rem;
+  transform: translateZ(-50px) scale(0.92);
+  pointer-events: none;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease;
+}
+
+/* Interactive 3D hover elevation */
+.products-portfolio-card:hover {
+  transform: translateY(-10px) translateZ(70px) rotateX(3deg) rotateY(-3deg) scale(1.04);
+  box-shadow: 0 65px 120px -20px rgba(0, 0, 0, 0.4), 
+              0 35px 70px -15px rgba(0, 0, 0, 0.3),
+              inset 0 0 10px 2px rgba(255, 255, 255, 0.8),
+              inset 0 1.5px 3px rgba(255, 255, 255, 0.95);
+}
+
+.products-portfolio-card:hover::after {
+  transform: translateZ(-70px) scale(0.88);
+  opacity: 0.9;
+}
+
+/* 3% Inner White Gradient Overlay */
+.products-portfolio-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 2rem;
+  background: 
+    radial-gradient(ellipse at center, rgba(255, 255, 255, 0) 94%, rgba(255, 255, 255, 0.6) 100%),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0) 3%, rgba(255, 255, 255, 0) 97%, rgba(255, 255, 255, 0.6) 100%),
+    linear-gradient(to right, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0) 3%, rgba(255, 255, 255, 0) 97%, rgba(255, 255, 255, 0.6) 100%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.products-portfolio-badge {
+  display: inline-block;
+  font-weight: 700;
+  font-size: 0.72rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: #000000 !important;
+  margin-bottom: 0.6rem;
+  padding: 0.42rem 1.1rem;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.4) 100%) !important;
+  border: 1px solid rgba(0, 0, 0, 0.15) !important;
+  border-radius: 2rem;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: inset 0 1.5px 2px rgba(255, 255, 255, 0.9),
+              0 6px 16px rgba(0, 0, 0, 0.15) !important;
+  opacity: 0;
+  transform: translateX(100px) translateZ(25px);
+  transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.products-portfolio-heading {
+  font-weight: 500 !important;
+  font-size: clamp(2.2rem, 3.5vw, 3rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: #000000 !important;
+  margin-top: 0;
+  margin-bottom: 0.85rem;
+  text-transform: uppercase;
+  text-shadow: 0 2px 10px rgba(255, 255, 255, 0.5);
+  opacity: 0;
+  transform: translateX(140px) translateZ(35px);
+  transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1), transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: 0.05s;
+}
+
+.products-portfolio-text {
+  font-size: clamp(0.9rem, 1.25vw, 1.1rem) !important;
+  line-height: 1.6;
+  font-weight: 400 !important;
+  margin: 0;
+  color: rgba(0, 0, 0, 0.35) !important;
+}
+
+.products-portfolio-card.js--animated .products-portfolio-badge {
+  opacity: 1;
+  transform: translateX(0) translateZ(25px);
+}
+
+.products-portfolio-card.js--animated .products-portfolio-heading {
+  opacity: 1;
+  transform: translateX(0) translateZ(35px);
+}
+
+/* Staggered right-side entrance for portfolio words */
+.portfolio-highlight-word {
+  display: inline-block;
+  color: rgba(0, 0, 0, 0.35) !important;
+  font-weight: 400 !important;
+  opacity: 0;
+  transform: translateX(65px) translateZ(20px);
+  transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), 
+              transform 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+              color 0.25s ease;
+  margin-right: 0.28em;
+  will-change: color, opacity, transform;
+}
+
+.products-portfolio-card.js--animated .portfolio-highlight-word {
+  opacity: 1;
+  transform: translateX(0) translateZ(20px);
+}
+
+.portfolio-highlight-word.active {
+  color: #000000 !important;
+  font-weight: 400 !important;
+  text-shadow: none !important;
+}
+
+/* Values & Leadership Section & 3D Glass Card */
+.values-leadership-section {
+  position: relative;
+  width: 100%;
+  padding: 4rem 1.5rem;
+  z-index: 25 !important;
+}
+
+.values-leadership-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  perspective: 1200px;
+  transform-style: preserve-3d;
+}
+
+.values-leadership-card,
+.values-leadership-card *,
+.values-leadership-badge,
+.values-leadership-heading,
+.values-leadership-text {
+  font-family: 'Satoshi', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  pointer-events: auto !important;
+}
+
+.values-leadership-card {
+  background: rgba(255, 255, 255, 0.45) !important;
+  backdrop-filter: blur(30px) saturate(190%);
+  -webkit-backdrop-filter: blur(30px) saturate(190%);
+  border: 1px solid rgba(255, 255, 255, 0.65) !important;
+  border-radius: 2rem;
+  padding: clamp(2.25rem, 4vw, 3.5rem);
+  width: 100%;
+  max-width: 50rem;
+  position: relative;
+  overflow: visible;
+  text-align: left;
+  opacity: 1;
+  transform-style: preserve-3d;
+  transform: translateY(0) translateZ(50px) scale(1.02);
+  box-shadow: 0 45px 90px -15px rgba(0, 0, 0, 0.25), 
+              0 25px 50px -10px rgba(0, 0, 0, 0.15),
+              inset 0 0 8px 1px rgba(255, 255, 255, 0.75),
+              inset 0 1.5px 3px rgba(255, 255, 255, 0.9);
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s ease;
+}
+
+.values-leadership-card.js--animated {
+  opacity: 1;
+  transform: translateY(0) translateZ(50px) scale(1.02);
+}
+
+/* Detached 3D floor shadow cast far in the background */
+.values-leadership-card::after {
+  content: '';
+  position: absolute;
+  inset: 6%;
+  bottom: -45px;
+  background: rgba(0, 0, 0, 0.35);
+  filter: blur(35px);
+  z-index: -1;
+  border-radius: 2rem;
+  transform: translateZ(-50px) scale(0.92);
+  pointer-events: none;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease;
+}
+
+/* Interactive 3D hover elevation */
+.values-leadership-card:hover {
+  transform: translateY(-10px) translateZ(70px) rotateX(3deg) rotateY(-3deg) scale(1.04);
+  box-shadow: 0 65px 120px -20px rgba(0, 0, 0, 0.3), 
+              0 35px 70px -15px rgba(0, 0, 0, 0.2),
+              inset 0 0 10px 2px rgba(255, 255, 255, 0.95),
+              inset 0 1.5px 3px rgba(255, 255, 255, 1);
+}
+
+.values-leadership-card:hover::after {
+  transform: translateZ(-70px) scale(0.88);
+  opacity: 0.9;
+}
+
+/* 3% Inner White Gradient Overlay */
+.values-leadership-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 2rem;
+  background: 
+    radial-gradient(ellipse at center, rgba(255, 255, 255, 0) 94%, rgba(255, 255, 255, 0.55) 100%),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 3%, rgba(255, 255, 255, 0) 97%, rgba(255, 255, 255, 0.5) 100%),
+    linear-gradient(to right, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0) 3%, rgba(255, 255, 255, 0) 97%, rgba(255, 255, 255, 0.55) 100%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.values-leadership-badge {
+  display: inline-block;
+  font-weight: 700;
+  font-size: 0.72rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: #000000 !important;
+  margin-bottom: 0.6rem;
+  padding: 0.42rem 1.1rem;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0.45) 100%) !important;
+  border: 1px solid rgba(0, 0, 0, 0.15) !important;
+  border-radius: 2rem;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: inset 0 1.5px 2px rgba(255, 255, 255, 0.9),
+              0 8px 20px rgba(0, 0, 0, 0.12) !important;
+  opacity: 0;
+  transform: translateX(100px) translateZ(25px);
+  transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.values-leadership-heading {
+  font-weight: 500 !important;
+  font-size: clamp(2.2rem, 3.5vw, 3rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: #000000 !important;
+  margin-top: 0;
+  margin-bottom: 1.25rem;
+  text-transform: uppercase;
+  text-shadow: none !important;
+  opacity: 0;
+  transform: translateX(140px) translateZ(35px);
+  transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1), transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: 0.05s;
+}
+
+.values-leadership-text {
+  font-size: clamp(0.9rem, 1.25vw, 1.1rem) !important;
+  line-height: 1.6;
+  font-weight: 300 !important;
+  margin: 0;
+  color: rgba(0, 0, 0, 0.35) !important;
+}
+
+.values-leadership-card.js--animated .values-leadership-badge {
+  opacity: 1;
+  transform: translateX(0) translateZ(25px);
+}
+
+.values-leadership-card.js--animated .values-leadership-heading {
+  opacity: 1;
+  transform: translateX(0) translateZ(35px);
+}
+
+/* Staggered right-side entrance for values words */
+.values-highlight-word {
+  display: inline-block;
+  color: rgba(0, 0, 0, 0.35) !important;
+  font-weight: 300 !important;
+  opacity: 0;
+  transform: translateX(65px) translateZ(20px);
+  transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), 
+              transform 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+              color 0.25s ease;
+  margin-right: 0.28em;
+  will-change: color, opacity, transform;
+}
+
+.values-leadership-card.js--animated .values-highlight-word {
+  opacity: 1;
+  transform: translateX(0) translateZ(20px);
+}
+
+.values-highlight-word.active {
+  color: #000000 !important;
+  font-weight: 300 !important;
+  text-shadow: none !important;
+}
+
+.values-highlight-word.bold-word {
+  font-weight: 700 !important;
+  color: rgba(0, 0, 0, 0.45) !important;
+}
+
+.values-highlight-word.bold-word.active {
+  color: #000000 !important;
+  font-weight: 700 !important;
+  text-shadow: none !important;
 }
