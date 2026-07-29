@@ -577,12 +577,26 @@ const initPreloader = (callbackFunction) => {
   });
 
   function initMobileHeaderNav() {
+    let lastToggleTime = 0;
     let lastScrollY = window.scrollY;
 
     const toggleHeaderNav = (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      if (e.stopImmediatePropagation) e.stopImmediatePropagation();
+      const now = Date.now();
+      if (now - lastToggleTime < 300) {
+        if (e) {
+          e.preventDefault();
+          e.stopPropagation();
+          if (e.stopImmediatePropagation) e.stopImmediatePropagation();
+        }
+        return;
+      }
+      lastToggleTime = now;
+
+      if (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        if (e.stopImmediatePropagation) e.stopImmediatePropagation();
+      }
 
       const header = document.querySelector(".header");
       const nav = document.querySelector(".navmenu");
@@ -600,16 +614,27 @@ const initPreloader = (callbackFunction) => {
       }
     };
 
-    const buttons = document.querySelectorAll(".header__button, [data-role='header-button'], .button--ghost");
-    buttons.forEach((btn) => {
-      btn.addEventListener("click", toggleHeaderNav, true);
+    const eventNames = ["pointerdown", "touchstart", "click"];
+    const selectors = [
+      ".header__button",
+      "[data-role='header-button']",
+      ".button--ghost",
+      ".header__button-line"
+    ];
+
+    selectors.forEach((sel) => {
+      document.querySelectorAll(sel).forEach((btn) => {
+        eventNames.forEach((evt) => {
+          btn.addEventListener(evt, toggleHeaderNav, { capture: true, passive: false });
+        });
+      });
     });
 
     document.querySelectorAll(".navmenu a").forEach((link) => {
       link.addEventListener("click", () => {
         const header = document.querySelector(".header");
-        if (header) header.classList.remove("js--open");
         const nav = document.querySelector(".navmenu");
+        if (header) header.classList.remove("js--open");
         if (nav) nav.classList.remove("visible");
       });
     });
@@ -627,6 +652,7 @@ const initPreloader = (callbackFunction) => {
     }, { passive: true });
   }
 })();
+
 
 
 
