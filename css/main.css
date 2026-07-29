@@ -8660,11 +8660,14 @@ figure {
   .products-portfolio-badge,
   .products-portfolio-heading,
   .values-leadership-badge,
-  .values-leadership-heading {
+  .values-leadership-heading,
+  .company-profile-badge,
+  .company-profile-heading {
     transform: none !important;
     max-width: 100% !important;
     box-sizing: border-box !important;
   }
+
 
   /* Clip marquee overflow on mobile screens */
   .marquee-wrapper {
@@ -8698,7 +8701,50 @@ figure {
     padding-inline: 1rem !important;
     box-sizing: border-box !important;
   }
+
+  /* Square aspect ratio for Company Profile Card on mobile view */
+  .company-profile-layout,
+  .company-profile-text-col {
+    width: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding-inline: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  .company-profile-card {
+    width: 100% !important;
+    max-width: 330px !important;
+    aspect-ratio: 1 / 1 !important;
+    height: auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    padding: 1.25rem 1.25rem !important;
+    box-sizing: border-box !important;
+    margin: 0 auto !important;
+    border-radius: 1.5rem !important;
+  }
+
+  .company-profile-heading {
+    font-size: 1.5rem !important;
+    margin-bottom: 0.4rem !important;
+  }
+
+  .company-profile-badge {
+    margin-bottom: 0.35rem !important;
+    font-size: 0.6rem !important;
+    padding: 0.25rem 0.75rem !important;
+  }
+
+  .company-profile-text {
+    font-size: 0.8rem !important;
+    line-height: 1.4 !important;
+  }
 }
+
 
 /* Prevent sections from collapsing to 53dvw and cards from stacking on mobile/tablet */
 @media screen and (max-width: 991px) {
