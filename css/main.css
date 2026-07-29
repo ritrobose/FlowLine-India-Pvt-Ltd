@@ -6,6 +6,7 @@
   font-display: swap;
   font-style: normal;
 }
+
 @font-face {
   font-family: 'Satoshi';
   src: url('/assets/satoshi-regular.woff2') format('woff2');
@@ -13,6 +14,7 @@
   font-display: swap;
   font-style: normal;
 }
+
 @font-face {
   font-family: 'Satoshi';
   src: url('/assets/satoshi-medium.woff2') format('woff2');
@@ -20,6 +22,7 @@
   font-display: swap;
   font-style: normal;
 }
+
 @font-face {
   font-family: 'Satoshi';
   src: url('/assets/satoshi-bold.woff2') format('woff2');
@@ -27,6 +30,7 @@
   font-display: swap;
   font-style: normal;
 }
+
 @font-face {
   font-family: 'Satoshi';
   src: url('/assets/satoshi-black.woff2') format('woff2');
@@ -8111,12 +8115,12 @@ figure {
   opacity: 1;
   transform-style: preserve-3d;
   transform: translateY(55%) translateZ(50px) scale(1.02);
-  box-shadow: 0 45px 90px -15px rgba(0, 0, 0, 0.95), 
-              0 25px 50px -10px rgba(0, 0, 0, 0.85),
-              inset 0 0 5px 1px rgba(255, 255, 255, 0.45),
-              inset 0 1.5px 3px rgba(255, 255, 255, 0.7);
-  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), 
-              box-shadow 0.5s ease;
+  box-shadow: 0 45px 90px -15px rgba(0, 0, 0, 0.95),
+    0 25px 50px -10px rgba(0, 0, 0, 0.85),
+    inset 0 0 5px 1px rgba(255, 255, 255, 0.45),
+    inset 0 1.5px 3px rgba(255, 255, 255, 0.7);
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.5s ease;
 }
 
 .company-profile-card.js--animated {
@@ -8142,10 +8146,10 @@ figure {
 /* Interactive 3D hover elevation */
 .company-profile-card:hover {
   transform: translateY(-10px) translateZ(70px) rotateX(3deg) rotateY(-3deg) scale(1.04);
-  box-shadow: 0 65px 120px -20px rgba(0, 0, 0, 0.98), 
-              0 35px 70px -15px rgba(0, 0, 0, 0.9),
-              inset 0 0 8px 1.5px rgba(255, 255, 255, 0.55),
-              inset 0 1.5px 3px rgba(255, 255, 255, 0.8);
+  box-shadow: 0 65px 120px -20px rgba(0, 0, 0, 0.98),
+    0 35px 70px -15px rgba(0, 0, 0, 0.9),
+    inset 0 0 8px 1.5px rgba(255, 255, 255, 0.55),
+    inset 0 1.5px 3px rgba(255, 255, 255, 0.8);
 }
 
 .company-profile-card:hover::after {
@@ -8159,7 +8163,7 @@ figure {
   position: absolute;
   inset: 0;
   border-radius: 2rem;
-  background: 
+  background:
     /* 4-Side Radial White Glow - transparent center, 3% outer edge glow */
     radial-gradient(ellipse at center, rgba(255, 255, 255, 0) 94%, rgba(255, 255, 255, 0.45) 100%),
     /* Top & Bottom Edge White Gradients - extends only 3% inward */
@@ -8185,7 +8189,7 @@ figure {
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   box-shadow: inset 0 1.5px 2px rgba(255, 255, 255, 0.8),
-              0 8px 20px rgba(0, 0, 0, 0.6) !important;
+    0 8px 20px rgba(0, 0, 0, 0.6) !important;
   opacity: 0;
   transform: translateX(100px) translateZ(25px);
   transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
@@ -8232,9 +8236,9 @@ figure {
   font-weight: 300 !important;
   opacity: 0;
   transform: translateX(65px) translateZ(20px);
-  transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), 
-              transform 0.65s cubic-bezier(0.16, 1, 0.3, 1),
-              color 0.25s ease;
+  transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+    color 0.25s ease;
   margin-right: 0.28em;
   will-change: color, opacity, transform;
 }
@@ -8314,10 +8318,10 @@ figure {
   opacity: 1;
   transform-style: preserve-3d;
   transform: translateY(0) translateZ(50px) scale(1.02);
-  box-shadow: 0 45px 90px -15px rgba(0, 0, 0, 0.3), 
-              0 25px 50px -10px rgba(0, 0, 0, 0.2),
-              inset 0 0 8px 1px rgba(255, 255, 255, 0.7),
-              inset 0 1.5px 3px rgba(255, 255, 255, 0.9);
+  box-shadow: 0 45px 90px -15px rgba(0, 0, 0, 0.3),
+    0 25px 50px -10px rgba(0, 0, 0, 0.2),
+    inset 0 0 8px 1px rgba(255, 255, 255, 0.7),
+    inset 0 1.5px 3px rgba(255, 255, 255, 0.9);
   transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s ease;
 }
 
@@ -8344,10 +8348,10 @@ figure {
 /* Interactive 3D hover elevation */
 .products-portfolio-card:hover {
   transform: translateY(-10px) translateZ(70px) rotateX(3deg) rotateY(-3deg) scale(1.04);
-  box-shadow: 0 65px 120px -20px rgba(0, 0, 0, 0.4), 
-              0 35px 70px -15px rgba(0, 0, 0, 0.3),
-              inset 0 0 10px 2px rgba(255, 255, 255, 0.8),
-              inset 0 1.5px 3px rgba(255, 255, 255, 0.95);
+  box-shadow: 0 65px 120px -20px rgba(0, 0, 0, 0.4),
+    0 35px 70px -15px rgba(0, 0, 0, 0.3),
+    inset 0 0 10px 2px rgba(255, 255, 255, 0.8),
+    inset 0 1.5px 3px rgba(255, 255, 255, 0.95);
 }
 
 .products-portfolio-card:hover::after {
@@ -8361,7 +8365,7 @@ figure {
   position: absolute;
   inset: 0;
   border-radius: 2rem;
-  background: 
+  background:
     radial-gradient(ellipse at center, rgba(255, 255, 255, 0) 94%, rgba(255, 255, 255, 0.6) 100%),
     linear-gradient(to bottom, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0) 3%, rgba(255, 255, 255, 0) 97%, rgba(255, 255, 255, 0.6) 100%),
     linear-gradient(to right, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0) 3%, rgba(255, 255, 255, 0) 97%, rgba(255, 255, 255, 0.6) 100%);
@@ -8384,7 +8388,7 @@ figure {
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   box-shadow: inset 0 1.5px 2px rgba(255, 255, 255, 0.9),
-              0 6px 16px rgba(0, 0, 0, 0.15) !important;
+    0 6px 16px rgba(0, 0, 0, 0.15) !important;
   opacity: 0;
   transform: translateX(100px) translateZ(25px);
   transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
@@ -8431,9 +8435,9 @@ figure {
   font-weight: 400 !important;
   opacity: 0;
   transform: translateX(65px) translateZ(20px);
-  transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), 
-              transform 0.65s cubic-bezier(0.16, 1, 0.3, 1),
-              color 0.25s ease;
+  transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+    color 0.25s ease;
   margin-right: 0.28em;
   will-change: color, opacity, transform;
 }
@@ -8490,10 +8494,10 @@ figure {
   opacity: 1;
   transform-style: preserve-3d;
   transform: translateY(0) translateZ(50px) scale(1.02);
-  box-shadow: 0 45px 90px -15px rgba(0, 0, 0, 0.25), 
-              0 25px 50px -10px rgba(0, 0, 0, 0.15),
-              inset 0 0 8px 1px rgba(255, 255, 255, 0.75),
-              inset 0 1.5px 3px rgba(255, 255, 255, 0.9);
+  box-shadow: 0 45px 90px -15px rgba(0, 0, 0, 0.25),
+    0 25px 50px -10px rgba(0, 0, 0, 0.15),
+    inset 0 0 8px 1px rgba(255, 255, 255, 0.75),
+    inset 0 1.5px 3px rgba(255, 255, 255, 0.9);
   transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s ease;
 }
 
@@ -8520,10 +8524,10 @@ figure {
 /* Interactive 3D hover elevation */
 .values-leadership-card:hover {
   transform: translateY(-10px) translateZ(70px) rotateX(3deg) rotateY(-3deg) scale(1.04);
-  box-shadow: 0 65px 120px -20px rgba(0, 0, 0, 0.3), 
-              0 35px 70px -15px rgba(0, 0, 0, 0.2),
-              inset 0 0 10px 2px rgba(255, 255, 255, 0.95),
-              inset 0 1.5px 3px rgba(255, 255, 255, 1);
+  box-shadow: 0 65px 120px -20px rgba(0, 0, 0, 0.3),
+    0 35px 70px -15px rgba(0, 0, 0, 0.2),
+    inset 0 0 10px 2px rgba(255, 255, 255, 0.95),
+    inset 0 1.5px 3px rgba(255, 255, 255, 1);
 }
 
 .values-leadership-card:hover::after {
@@ -8537,7 +8541,7 @@ figure {
   position: absolute;
   inset: 0;
   border-radius: 2rem;
-  background: 
+  background:
     radial-gradient(ellipse at center, rgba(255, 255, 255, 0) 94%, rgba(255, 255, 255, 0.55) 100%),
     linear-gradient(to bottom, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 3%, rgba(255, 255, 255, 0) 97%, rgba(255, 255, 255, 0.5) 100%),
     linear-gradient(to right, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0) 3%, rgba(255, 255, 255, 0) 97%, rgba(255, 255, 255, 0.55) 100%);
@@ -8560,7 +8564,7 @@ figure {
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   box-shadow: inset 0 1.5px 2px rgba(255, 255, 255, 0.9),
-              0 8px 20px rgba(0, 0, 0, 0.12) !important;
+    0 8px 20px rgba(0, 0, 0, 0.12) !important;
   opacity: 0;
   transform: translateX(100px) translateZ(25px);
   transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
@@ -8607,9 +8611,9 @@ figure {
   font-weight: 300 !important;
   opacity: 0;
   transform: translateX(65px) translateZ(20px);
-  transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), 
-              transform 0.65s cubic-bezier(0.16, 1, 0.3, 1),
-              color 0.25s ease;
+  transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+    color 0.25s ease;
   margin-right: 0.28em;
   will-change: color, opacity, transform;
 }
@@ -8640,13 +8644,19 @@ figure {
    MOBILE LAYOUT & RESPONSIVE OVERFLOW FIXES
    ========================================================================== */
 @media screen and (max-width: 767px) {
-  html, body {
+
+  html,
+  body {
     overflow-x: hidden !important;
     max-width: 100vw !important;
     width: 100vw !important;
   }
 
-  .main, .section, .container, .layout, .marquee-wrapper {
+  .main,
+  .section,
+  .container,
+  .layout,
+  .marquee-wrapper {
     max-width: 100vw !important;
     box-sizing: border-box !important;
   }
@@ -8693,7 +8703,10 @@ figure {
   }
 
   /* Disable card tilt hover transforms on touch screens */
-  .card, .products-portfolio-card, .values-leadership-card, .company-profile-card {
+  .card,
+  .products-portfolio-card,
+  .values-leadership-card,
+  .company-profile-card {
     transform: none !important;
   }
 
@@ -8761,6 +8774,7 @@ figure {
 
 /* Prevent sections from collapsing to 53dvw and cards from stacking on mobile/tablet */
 @media screen and (max-width: 991px) {
+
   .section.section--sm,
   .company-profile-section,
   .products-portfolio-section,

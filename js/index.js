@@ -577,23 +577,32 @@ const initPreloader = (callbackFunction) => {
   });
 
   function initMobileHeaderNav() {
-    const buttons = document.querySelectorAll(".header__button, [data-role='header-button']");
+    let lastScrollY = window.scrollY;
+
+    const toggleHeaderNav = (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      if (e.stopImmediatePropagation) e.stopImmediatePropagation();
+
+      const header = document.querySelector(".header");
+      const nav = document.querySelector(".navmenu");
+      if (!header || !nav) return;
+
+      const isOpen = header.classList.contains("js--open") || nav.classList.contains("visible");
+
+      if (isOpen) {
+        header.classList.remove("js--open");
+        nav.classList.remove("visible");
+      } else {
+        header.classList.add("js--open");
+        nav.classList.add("visible");
+        lastScrollY = window.scrollY;
+      }
+    };
+
+    const buttons = document.querySelectorAll(".header__button, [data-role='header-button'], .button--ghost");
     buttons.forEach((btn) => {
-      btn.addEventListener("click", (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        const header = btn.closest(".header") || document.querySelector(".header");
-        if (!header) return;
-        const isOpened = header.classList.toggle("js--open");
-        const nav = header.querySelector(".navmenu") || document.querySelector(".navmenu");
-        if (nav) {
-          if (isOpened) {
-            nav.classList.add("visible");
-          } else {
-            nav.classList.remove("visible");
-          }
-        }
-      });
+      btn.addEventListener("click", toggleHeaderNav, true);
     });
 
     document.querySelectorAll(".navmenu a").forEach((link) => {
@@ -604,7 +613,21 @@ const initPreloader = (callbackFunction) => {
         if (nav) nav.classList.remove("visible");
       });
     });
+
+    window.addEventListener("scroll", () => {
+      const header = document.querySelector(".header");
+      const nav = document.querySelector(".navmenu");
+      if (!header || !nav) return;
+      if (header.classList.contains("js--open") || nav.classList.contains("visible")) {
+        if (Math.abs(window.scrollY - lastScrollY) > 25) {
+          header.classList.remove("js--open");
+          nav.classList.remove("visible");
+        }
+      }
+    }, { passive: true });
   }
 })();
+
+
 
 
