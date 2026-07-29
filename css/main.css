@@ -8700,6 +8700,27 @@ figure {
   }
 }
 
+/* Prevent sections from collapsing to 53dvw and cards from stacking on mobile/tablet */
+@media screen and (max-width: 991px) {
+  .section.section--sm,
+  .company-profile-section,
+  .products-portfolio-section,
+  .values-leadership-section {
+    height: auto !important;
+    min-height: auto !important;
+    padding-block: 2.5rem !important;
+  }
+
+  .company-profile-card,
+  .company-profile-card.js--animated {
+    transform: translateY(0) !important;
+  }
+
+  .products-portfolio-section {
+    min-height: auto !important;
+  }
+}
+
 @media screen and (max-width: 479px) {
   .heading-mobile {
     font-size: clamp(1.75rem, 8vw, 2.5rem) !important;
