@@ -8737,7 +8737,20 @@ figure {
     margin-bottom: 0.35rem !important;
     font-size: 0.6rem !important;
     padding: 0.25rem 0.75rem !important;
+    align-self: flex-start !important;
+    width: fit-content !important;
+    max-width: fit-content !important;
+    white-space: nowrap !important;
   }
+
+  .products-portfolio-badge,
+  .values-leadership-badge {
+    align-self: flex-start !important;
+    width: fit-content !important;
+    max-width: fit-content !important;
+    white-space: nowrap !important;
+  }
+
 
   .company-profile-text {
     font-size: 0.8rem !important;
