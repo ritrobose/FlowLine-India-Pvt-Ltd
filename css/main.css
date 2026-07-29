@@ -8691,30 +8691,6 @@ figure {
     overflow: hidden !important;
   }
 
-  /* Mobile Header Navigation Drawer */
-  .header__button,
-  .button--ghost,
-  .header__logo {
-    position: relative !important;
-    z-index: 999 !important;
-    pointer-events: auto !important;
-    cursor: pointer !important;
-    touch-action: manipulation !important;
-  }
-
-  .header.js--open [data-role='navmenu'],
-  .header.js--open .navmenu,
-  .navmenu.visible {
-    opacity: 1 !important;
-    height: auto !important;
-    max-height: 85vh !important;
-    overflow-y: auto !important;
-    -webkit-overflow-scrolling: touch !important;
-    display: block !important;
-    pointer-events: auto !important;
-  }
-
-
   /* Disable card tilt hover transforms on touch screens */
   .card,
   .products-portfolio-card,
@@ -8815,4 +8791,29 @@ figure {
   .contact-info-heading {
     font-size: 1.35rem !important;
   }
+}
+
+/* ==========================================================================
+   HEADER NAVIGATION DRAWER (DESKTOP & MOBILE)
+   ========================================================================== */
+.header__button,
+.button--ghost,
+.header__logo {
+  position: relative !important;
+  z-index: 999 !important;
+  pointer-events: auto !important;
+  cursor: pointer !important;
+  touch-action: manipulation !important;
+}
+
+.header.js--open [data-role='navmenu'],
+.header.js--open .navmenu,
+.navmenu.visible {
+  opacity: 1 !important;
+  height: auto !important;
+  max-height: 85vh !important;
+  overflow-y: auto !important;
+  -webkit-overflow-scrolling: touch !important;
+  display: block !important;
+  pointer-events: auto !important;
 }

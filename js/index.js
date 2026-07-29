@@ -1,4 +1,4 @@
-(function() {
+(function () {
   "use strict";
   try {
     if (typeof document != "undefined") {
@@ -35,7 +35,7 @@ const initPreloaderAnimation = (onComplete) => {
       autoAlpha: 1,
       scaleY: 1,
       duration: 0.5,
-      onUpdate: function() {
+      onUpdate: function () {
         if (!flag1 && this.progress() > 0.6) {
           flag1 = true;
           gsapWithCSS.to(".center-sub-square:nth-child(1)", {
@@ -57,7 +57,7 @@ const initPreloaderAnimation = (onComplete) => {
       scaleY: 1,
       transformOrigin: "top center",
       duration: 0.5,
-      onUpdate: function() {
+      onUpdate: function () {
         if (!flag2 && this.progress() > 0.4) {
           flag2 = true;
           gsapWithCSS.to(".center-sub-square:nth-child(2)", {
@@ -79,7 +79,7 @@ const initPreloaderAnimation = (onComplete) => {
       scaleX: 1,
       transformOrigin: "right center",
       duration: 0.5,
-      onUpdate: function() {
+      onUpdate: function () {
         if (!flag3 && this.progress() > 0.5) {
           flag3 = true;
           gsapWithCSS.timeline().to(".center-sub-square:nth-child(3), .center-sub-square:nth-child(4)", {
@@ -123,7 +123,7 @@ const initPreloader = (callbackFunction) => {
   let progressInterval = null;
   if (!preloader) {
     setTimeout(() => {
-      showContent(function() {
+      showContent(function () {
         initOtherFeatures();
       });
     }, 1e3);
@@ -184,7 +184,7 @@ const initPreloader = (callbackFunction) => {
     initPreloaderAnimation(() => {
       handlePageLoad();
     });
-    setTimeout(function() {
+    setTimeout(function () {
       if (mainContent.classList.contains(CLASSES.HIDDEN)) {
         handlePageLoad();
       }
@@ -239,7 +239,7 @@ const initPreloader = (callbackFunction) => {
   function initOtherFeatures() {
     if (callbackFunction) callbackFunction();
   }
-  window.addEventListener("error", function() {
+  window.addEventListener("error", function () {
     setTimeout(hidePreloaderAndShowContent, 1e3);
   });
   return () => {
@@ -340,7 +340,7 @@ const initPreloader = (callbackFunction) => {
   const initVideos = () => {
     document.querySelectorAll("video").forEach((video) => {
       video.load();
-      video.play().catch(() => {});
+      video.play().catch(() => { });
     });
   };
 
@@ -581,6 +581,10 @@ const initPreloader = (callbackFunction) => {
     let lastScrollY = window.scrollY;
 
     const toggleHeaderNav = (e) => {
+      if (e && e.type !== "click" && e.pointerType === "mouse") {
+        return;
+      }
+
       const now = Date.now();
       if (now - lastToggleTime < 300) {
         if (e) {
@@ -591,6 +595,7 @@ const initPreloader = (callbackFunction) => {
         return;
       }
       lastToggleTime = now;
+
 
       if (e) {
         e.preventDefault();
