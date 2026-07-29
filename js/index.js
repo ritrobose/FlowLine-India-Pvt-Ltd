@@ -560,6 +560,12 @@ const initPreloader = (callbackFunction) => {
     updateWordHighlight();
   };
 
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initMobileHeaderNav);
+  } else {
+    initMobileHeaderNav();
+  }
+
   initPreloader(() => {
     initWidgets();
     initFeatures();
@@ -569,4 +575,36 @@ const initPreloader = (callbackFunction) => {
     initProductsPortfolioScrollHighlight();
     initValuesLeadershipScrollHighlight();
   });
+
+  function initMobileHeaderNav() {
+    const buttons = document.querySelectorAll(".header__button, [data-role='header-button']");
+    buttons.forEach((btn) => {
+      btn.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const header = btn.closest(".header") || document.querySelector(".header");
+        if (!header) return;
+        const isOpened = header.classList.toggle("js--open");
+        const nav = header.querySelector(".navmenu") || document.querySelector(".navmenu");
+        if (nav) {
+          if (isOpened) {
+            nav.classList.add("visible");
+          } else {
+            nav.classList.remove("visible");
+          }
+        }
+      });
+    });
+
+    document.querySelectorAll(".navmenu a").forEach((link) => {
+      link.addEventListener("click", () => {
+        const header = document.querySelector(".header");
+        if (header) header.classList.remove("js--open");
+        const nav = document.querySelector(".navmenu");
+        if (nav) nav.classList.remove("visible");
+      });
+    });
+  }
 })();
+
+

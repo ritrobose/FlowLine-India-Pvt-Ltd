@@ -8635,3 +8635,77 @@ figure {
   font-weight: 700 !important;
   text-shadow: none !important;
 }
+
+/* ==========================================================================
+   MOBILE LAYOUT & RESPONSIVE OVERFLOW FIXES
+   ========================================================================== */
+@media screen and (max-width: 767px) {
+  html, body {
+    overflow-x: hidden !important;
+    max-width: 100vw !important;
+    width: 100vw !important;
+  }
+
+  .main, .section, .container, .layout, .marquee-wrapper {
+    max-width: 100vw !important;
+    box-sizing: border-box !important;
+  }
+
+  .header__icon svg {
+    max-width: 100% !important;
+    height: auto !important;
+  }
+
+  /* Prevent translation entrance animations from overflowing viewport on mobile */
+  .products-portfolio-badge,
+  .products-portfolio-heading,
+  .values-leadership-badge,
+  .values-leadership-heading {
+    transform: none !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Clip marquee overflow on mobile screens */
+  .marquee-wrapper {
+    overflow: hidden !important;
+    width: 100% !important;
+    max-width: 100vw !important;
+  }
+
+  .noise {
+    max-width: 100vw !important;
+    overflow: hidden !important;
+  }
+
+  /* Mobile Header Navigation Drawer */
+  .header.js--open [data-role='navmenu'],
+  .header.js--open .navmenu,
+  .navmenu.visible {
+    opacity: 1 !important;
+    height: auto !important;
+    max-height: 85vh !important;
+    overflow-y: auto !important;
+    display: block !important;
+  }
+
+  /* Disable card tilt hover transforms on touch screens */
+  .card, .products-portfolio-card, .values-leadership-card, .company-profile-card {
+    transform: none !important;
+  }
+
+  .card {
+    padding-inline: 1rem !important;
+    box-sizing: border-box !important;
+  }
+}
+
+@media screen and (max-width: 479px) {
+  .heading-mobile {
+    font-size: clamp(1.75rem, 8vw, 2.5rem) !important;
+  }
+
+  .contact-info-heading {
+    font-size: 1.35rem !important;
+  }
+}
