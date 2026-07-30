@@ -693,7 +693,6 @@ const initPreloader = (callbackFunction) => {
     );
     entryObserver.observe(card);
 
-    let lastActiveIndex = -1;
     const updateWordHighlight = () => {
       const wrapper = document.querySelector(".values-leadership-text-wrapper");
       if (!wrapper) return;
@@ -707,8 +706,6 @@ const initPreloader = (callbackFunction) => {
       progress = Math.max(0, Math.min(1, progress));
 
       const activeIndex = Math.floor(progress * allWordSpans.length);
-      if (activeIndex === lastActiveIndex) return;
-      lastActiveIndex = activeIndex;
 
       allWordSpans.forEach((span, index) => {
         if (index <= activeIndex) {
@@ -721,7 +718,7 @@ const initPreloader = (callbackFunction) => {
 
     // 3D Parallax Tilt Card - High-Performance Hardware Accelerated Spring Physics Engine
     const valuesCardWrapper = card.closest(".values-leadership-card-wrapper") || card;
-
+    
     let isHovering = false;
     let targetRotateX = 0;
     let targetRotateY = 0;
