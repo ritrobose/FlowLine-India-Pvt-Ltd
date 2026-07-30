@@ -8101,7 +8101,7 @@ figure {
     grid-template-columns: repeat(4, minmax(0, 1fr));
     grid-template-rows: auto 1fr auto;
     gap: 0;
-    align-items: center;
+    align-items: center !important;
   }
 
   .company-profile-image-col {
@@ -8116,8 +8116,10 @@ figure {
     height: 100%;
     width: 100%;
     display: flex !important;
+    flex-direction: column !important;
     align-items: center !important;
     justify-content: center !important;
+    align-self: center !important;
     padding: 1.5rem;
     perspective: 1200px;
     transform-style: preserve-3d;
@@ -8130,12 +8132,13 @@ figure {
   position: relative;
   width: 100%;
   max-width: calc(35rem + 2.5rem);
-  margin: -1.25rem auto;
+  margin: auto !important;
   padding: 1.25rem;
   /* 5% outer hit-box buffer zone on all 4 sides & corners */
   box-sizing: border-box;
   perspective: 1200px;
   transform-style: preserve-3d;
+  align-self: center !important;
 }
 
 .company-profile-card {
