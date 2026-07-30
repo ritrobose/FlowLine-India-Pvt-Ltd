@@ -394,23 +394,64 @@ const initPreloader = (callbackFunction) => {
       });
     };
 
-    // 3D Parallax Tilt movement on mouse hover - anchored to static parent wrapper container
+    // 3D Parallax Tilt movement on mouse hover - high-performance requestAnimationFrame loop handler
     const companyCardWrapper = card.closest(".company-profile-card-wrapper") || card;
-    companyCardWrapper.addEventListener("mousemove", (e) => {
+    let companyMouseX = 0;
+    let companyMouseY = 0;
+    let companyIsHovering = false;
+    let companyParallaxRafId = null;
+
+    const renderCompanyParallaxCard = () => {
+      companyParallaxRafId = null;
+      if (!companyIsHovering) return;
+
       const rect = companyCardWrapper.getBoundingClientRect();
-      const x = e.clientX - rect.left - rect.width / 2;
-      const y = e.clientY - rect.top - rect.height / 2;
+      if (!rect.width || !rect.height) return;
+
+      const x = companyMouseX - rect.left - rect.width / 2;
+      const y = companyMouseY - rect.top - rect.height / 2;
       const tiltX = (y / (rect.height / 2)) * 10;
       const tiltY = (x / (rect.width / 2)) * 10;
-      card.style.transform = `translateY(40%) translateZ(65px) rotateX(${tiltX.toFixed(2)}deg) rotateY(${tiltY.toFixed(2)}deg) scale(1.03)`;
-    });
+
+      card.style.transform = `translate3d(0px, 40%, 65px) rotateX(${tiltX.toFixed(2)}deg) rotateY(${tiltY.toFixed(2)}deg) scale3d(1.03, 1.03, 1)`;
+    };
+
+    companyCardWrapper.addEventListener("mouseenter", () => {
+      companyIsHovering = true;
+    }, { passive: true });
+
+    companyCardWrapper.addEventListener("mousemove", (e) => {
+      companyMouseX = e.clientX;
+      companyMouseY = e.clientY;
+      companyIsHovering = true;
+
+      if (companyParallaxRafId === null) {
+        companyParallaxRafId = requestAnimationFrame(renderCompanyParallaxCard);
+      }
+    }, { passive: true });
 
     companyCardWrapper.addEventListener("mouseleave", () => {
-      card.style.transform = `translateY(40%) translateZ(50px) rotateX(0deg) rotateY(0deg) scale(1.02)`;
-    });
+      companyIsHovering = false;
+      if (companyParallaxRafId !== null) {
+        cancelAnimationFrame(companyParallaxRafId);
+        companyParallaxRafId = null;
+      }
+      card.style.transform = `translate3d(0px, 40%, 50px) rotateX(0deg) rotateY(0deg) scale3d(1.02, 1.02, 1)`;
+    }, { passive: true });
 
-    window.addEventListener("scroll", updateWordHighlight, { passive: true });
-    window.addEventListener("resize", updateWordHighlight, { passive: true });
+    // Throttled scroll listener using requestAnimationFrame for smooth word highlight updates
+    let companyScrollHighlightRafId = null;
+    const onCompanyScrollHighlight = () => {
+      if (companyScrollHighlightRafId === null) {
+        companyScrollHighlightRafId = requestAnimationFrame(() => {
+          updateWordHighlight();
+          companyScrollHighlightRafId = null;
+        });
+      }
+    };
+
+    window.addEventListener("scroll", onCompanyScrollHighlight, { passive: true });
+    window.addEventListener("resize", onCompanyScrollHighlight, { passive: true });
     updateWordHighlight();
   };
 
@@ -464,23 +505,64 @@ const initPreloader = (callbackFunction) => {
       });
     };
 
-    // 3D Parallax Tilt movement on mouse hover - anchored to static parent wrapper container
+    // 3D Parallax Tilt movement on mouse hover - high-performance requestAnimationFrame loop handler
     const portfolioCardWrapper = card.closest(".products-portfolio-card-wrapper") || card;
-    portfolioCardWrapper.addEventListener("mousemove", (e) => {
+    let portfolioMouseX = 0;
+    let portfolioMouseY = 0;
+    let portfolioIsHovering = false;
+    let portfolioParallaxRafId = null;
+
+    const renderPortfolioParallaxCard = () => {
+      portfolioParallaxRafId = null;
+      if (!portfolioIsHovering) return;
+
       const rect = portfolioCardWrapper.getBoundingClientRect();
-      const x = e.clientX - rect.left - rect.width / 2;
-      const y = e.clientY - rect.top - rect.height / 2;
+      if (!rect.width || !rect.height) return;
+
+      const x = portfolioMouseX - rect.left - rect.width / 2;
+      const y = portfolioMouseY - rect.top - rect.height / 2;
       const tiltX = (y / (rect.height / 2)) * 10;
       const tiltY = (x / (rect.width / 2)) * 10;
-      card.style.transform = `translateY(0) translateZ(65px) rotateX(${tiltX.toFixed(2)}deg) rotateY(${tiltY.toFixed(2)}deg) scale(1.03)`;
-    });
+
+      card.style.transform = `translate3d(0px, 0px, 65px) rotateX(${tiltX.toFixed(2)}deg) rotateY(${tiltY.toFixed(2)}deg) scale3d(1.03, 1.03, 1)`;
+    };
+
+    portfolioCardWrapper.addEventListener("mouseenter", () => {
+      portfolioIsHovering = true;
+    }, { passive: true });
+
+    portfolioCardWrapper.addEventListener("mousemove", (e) => {
+      portfolioMouseX = e.clientX;
+      portfolioMouseY = e.clientY;
+      portfolioIsHovering = true;
+
+      if (portfolioParallaxRafId === null) {
+        portfolioParallaxRafId = requestAnimationFrame(renderPortfolioParallaxCard);
+      }
+    }, { passive: true });
 
     portfolioCardWrapper.addEventListener("mouseleave", () => {
-      card.style.transform = `translateY(0) translateZ(50px) rotateX(0deg) rotateY(0deg) scale(1.02)`;
-    });
+      portfolioIsHovering = false;
+      if (portfolioParallaxRafId !== null) {
+        cancelAnimationFrame(portfolioParallaxRafId);
+        portfolioParallaxRafId = null;
+      }
+      card.style.transform = `translate3d(0px, 0px, 50px) rotateX(0deg) rotateY(0deg) scale3d(1.02, 1.02, 1)`;
+    }, { passive: true });
 
-    window.addEventListener("scroll", updateWordHighlight, { passive: true });
-    window.addEventListener("resize", updateWordHighlight, { passive: true });
+    // Throttled scroll listener using requestAnimationFrame for smooth word highlight updates
+    let portfolioScrollHighlightRafId = null;
+    const onPortfolioScrollHighlight = () => {
+      if (portfolioScrollHighlightRafId === null) {
+        portfolioScrollHighlightRafId = requestAnimationFrame(() => {
+          updateWordHighlight();
+          portfolioScrollHighlightRafId = null;
+        });
+      }
+    };
+
+    window.addEventListener("scroll", onPortfolioScrollHighlight, { passive: true });
+    window.addEventListener("resize", onPortfolioScrollHighlight, { passive: true });
     updateWordHighlight();
   };
 

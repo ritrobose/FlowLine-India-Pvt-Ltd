@@ -8144,8 +8144,9 @@ figure {
 
 .company-profile-card {
   background: #000000 !important;
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  will-change: transform;
   border: 1px solid rgba(255, 255, 255, 0.35) !important;
   border-radius: 2rem;
   padding: clamp(1.75rem, 3.5vw, 2.75rem);
@@ -8159,7 +8160,7 @@ figure {
   text-align: left;
   opacity: 1;
   transform-style: preserve-3d;
-  transform: translateY(40%) translateZ(50px) scale(1.02);
+  transform: translate3d(0, 40%, 50px) scale3d(1.02, 1.02, 1);
   box-shadow: 0 45px 90px -15px rgba(0, 0, 0, 0.95),
     0 25px 50px -10px rgba(0, 0, 0, 0.85),
     inset 0 0 5px 1px rgba(255, 255, 255, 0.45),
@@ -8170,7 +8171,7 @@ figure {
 
 .company-profile-card.js--animated {
   opacity: 1;
-  transform: translateY(40%) translateZ(50px) scale(1.02);
+  transform: translate3d(0, 40%, 50px) scale3d(1.02, 1.02, 1);
 }
 
 /* Detached 3D floor shadow cast far in the background */
@@ -8183,14 +8184,14 @@ figure {
   filter: blur(35px);
   z-index: -1;
   border-radius: 2rem;
-  transform: translateZ(-50px) scale(0.92);
+  transform: translate3d(0, 0, -50px) scale3d(0.92, 0.92, 1);
   pointer-events: none;
   transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease;
 }
 
 /* Interactive 3D hover elevation - anchored to static parent wrapper */
 .company-profile-card-wrapper:hover .company-profile-card {
-  transform: translateY(40%) translateZ(70px) scale(1.04);
+  transform: translate3d(0, 40%, 70px) scale3d(1.04, 1.04, 1);
   box-shadow: 0 65px 120px -20px rgba(0, 0, 0, 0.98),
     0 35px 70px -15px rgba(0, 0, 0, 0.9),
     inset 0 0 8px 1.5px rgba(255, 255, 255, 0.55),
@@ -8198,7 +8199,7 @@ figure {
 }
 
 .company-profile-card-wrapper:hover .company-profile-card::after {
-  transform: translateZ(-70px) scale(0.88);
+  transform: translate3d(0, 0, -70px) scale3d(0.88, 0.88, 1);
   opacity: 0.9;
 }
 
@@ -8231,8 +8232,8 @@ figure {
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.55) 0%, rgba(160, 160, 170, 0.25) 50%, rgba(20, 20, 25, 0.8) 100%) !important;
   border: 1px solid rgba(255, 255, 255, 0.5) !important;
   border-radius: 2rem;
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
   box-shadow: inset 0 1.5px 2.5px rgba(255, 255, 255, 0.95),
     0 12px 28px -4px rgba(0, 0, 0, 0.65),
     0 6px 14px -2px rgba(0, 0, 0, 0.45) !important;
@@ -8362,9 +8363,10 @@ figure {
 }
 
 .products-portfolio-card {
-  background: rgba(255, 255, 255, 0.45) !important;
-  backdrop-filter: blur(30px) saturate(190%);
-  -webkit-backdrop-filter: blur(30px) saturate(190%);
+  background: rgba(255, 255, 255, 0.88) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  will-change: transform;
   border: 1px solid rgba(255, 255, 255, 0.65) !important;
   border-radius: 2rem;
   padding: clamp(2.25rem, 4vw, 3.5rem);
@@ -8375,7 +8377,7 @@ figure {
   text-align: left;
   opacity: 1;
   transform-style: preserve-3d;
-  transform: translateY(0) translateZ(50px) scale(1.02);
+  transform: translate3d(0, 0, 50px) scale3d(1.02, 1.02, 1);
   box-shadow: 0 45px 90px -15px rgba(0, 0, 0, 0.3),
     0 25px 50px -10px rgba(0, 0, 0, 0.2),
     inset 0 0 8px 1px rgba(255, 255, 255, 0.7),
@@ -8385,7 +8387,7 @@ figure {
 
 .products-portfolio-card.js--animated {
   opacity: 1;
-  transform: translateY(0) translateZ(50px) scale(1.02);
+  transform: translate3d(0, 0, 50px) scale3d(1.02, 1.02, 1);
 }
 
 /* Detached 3D floor shadow cast far in the background */
@@ -8398,14 +8400,14 @@ figure {
   filter: blur(35px);
   z-index: -1;
   border-radius: 2rem;
-  transform: translateZ(-50px) scale(0.92);
+  transform: translate3d(0, 0, -50px) scale3d(0.92, 0.92, 1);
   pointer-events: none;
   transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease;
 }
 
 /* Interactive 3D hover elevation - anchored to static parent wrapper */
 .products-portfolio-card-wrapper:hover .products-portfolio-card {
-  transform: translateY(-10px) translateZ(70px) rotateX(3deg) rotateY(-3deg) scale(1.04);
+  transform: translate3d(0, -10px, 70px) rotateX(3deg) rotateY(-3deg) scale3d(1.04, 1.04, 1);
   box-shadow: 0 65px 120px -20px rgba(0, 0, 0, 0.4),
     0 35px 70px -15px rgba(0, 0, 0, 0.3),
     inset 0 0 10px 2px rgba(255, 255, 255, 0.8),
@@ -8413,7 +8415,7 @@ figure {
 }
 
 .products-portfolio-card-wrapper:hover .products-portfolio-card::after {
-  transform: translateZ(-70px) scale(0.88);
+  transform: translate3d(0, 0, -70px) scale3d(0.88, 0.88, 1);
   opacity: 0.9;
 }
 
@@ -8440,11 +8442,11 @@ figure {
   color: #000000 !important;
   margin-bottom: 0.6rem;
   padding: 0.42rem 1.1rem;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.4) 100%) !important;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.92) 0%, rgba(245, 245, 245, 0.85) 100%) !important;
   border: 1px solid rgba(0, 0, 0, 0.15) !important;
   border-radius: 2rem;
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
   box-shadow: inset 0 1.5px 2.5px rgba(255, 255, 255, 0.95),
     0 12px 28px -4px rgba(0, 0, 0, 0.65),
     0 6px 14px -2px rgba(0, 0, 0, 0.45) !important;
@@ -8551,11 +8553,12 @@ figure {
 }
 
 .values-leadership-card {
-  background: rgba(255, 255, 255, 0.45) !important;
-  backdrop-filter: blur(30px) saturate(190%);
-  -webkit-backdrop-filter: blur(30px) saturate(190%);
-  border: 1px solid rgba(255, 255, 255, 0.65) !important;
-  border-radius: 2rem;
+  background: #84888b !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  will-change: transform;
+  border: 1px solid rgba(255, 255, 255, 0.75) !important;
+  border-radius: 2.25rem;
   padding: clamp(2.25rem, 4vw, 3.5rem);
   width: 100%;
   max-width: 50rem;
@@ -8564,17 +8567,19 @@ figure {
   text-align: left;
   opacity: 1;
   transform-style: preserve-3d;
-  transform: translateY(0) translateZ(50px) scale(1.02);
-  box-shadow: 0 45px 90px -15px rgba(0, 0, 0, 0.25),
-    0 25px 50px -10px rgba(0, 0, 0, 0.15),
-    inset 0 0 8px 1px rgba(255, 255, 255, 0.75),
-    inset 0 1.5px 3px rgba(255, 255, 255, 0.9);
+  transform: translate3d(0, 0, 50px) scale3d(1.02, 1.02, 1);
+  box-shadow:
+    inset 0 2.5px 4px 0 rgba(255, 255, 255, 0.9),
+    inset 0 -2.5px 5px 0 rgba(0, 0, 0, 0.2),
+    inset 0 0 25px 4px rgba(255, 255, 255, 0.45),
+    0 35px 70px -15px rgba(0, 0, 0, 0.35),
+    0 15px 35px -8px rgba(0, 0, 0, 0.2);
   transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s ease;
 }
 
 .values-leadership-card.js--animated {
   opacity: 1;
-  transform: translateY(0) translateZ(50px) scale(1.02);
+  transform: translate3d(0, 0, 50px) scale3d(1.02, 1.02, 1);
 }
 
 /* Detached 3D floor shadow cast far in the background */
@@ -8586,36 +8591,38 @@ figure {
   background: rgba(0, 0, 0, 0.35);
   filter: blur(35px);
   z-index: -1;
-  border-radius: 2rem;
-  transform: translateZ(-50px) scale(0.92);
+  border-radius: 2.25rem;
+  transform: translate3d(0, 0, -50px) scale3d(0.92, 0.92, 1);
   pointer-events: none;
   transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease;
 }
 
 /* Interactive 3D hover elevation - anchored to static parent wrapper */
 .values-leadership-card-wrapper:hover .values-leadership-card {
-  transform: translateY(-10px) translateZ(70px) rotateX(3deg) rotateY(-3deg) scale(1.04);
-  box-shadow: 0 65px 120px -20px rgba(0, 0, 0, 0.3),
-    0 35px 70px -15px rgba(0, 0, 0, 0.2),
-    inset 0 0 10px 2px rgba(255, 255, 255, 0.95),
-    inset 0 1.5px 3px rgba(255, 255, 255, 1);
+  transform: translate3d(0, -10px, 70px) rotateX(3deg) rotateY(-3deg) scale3d(1.04, 1.04, 1);
+  box-shadow:
+    inset 0 3px 5px 0 rgba(255, 255, 255, 1),
+    inset 0 -3px 6px 0 rgba(0, 0, 0, 0.25),
+    inset 0 0 35px 6px rgba(255, 255, 255, 0.6),
+    0 55px 100px -18px rgba(0, 0, 0, 0.4),
+    0 25px 50px -12px rgba(0, 0, 0, 0.25);
 }
 
 .values-leadership-card-wrapper:hover .values-leadership-card::after {
-  transform: translateZ(-70px) scale(0.88);
+  transform: translate3d(0, 0, -70px) scale3d(0.88, 0.88, 1);
   opacity: 0.9;
 }
 
-/* 3% Inner White Gradient Overlay */
+/* 3D Beveled Edge Cushion Overlay with Soft Depth */
 .values-leadership-card::before {
   content: '';
   position: absolute;
   inset: 0;
-  border-radius: 2rem;
+  border-radius: 2.25rem;
   background:
-    radial-gradient(ellipse at center, rgba(255, 255, 255, 0) 94%, rgba(255, 255, 255, 0.55) 100%),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 3%, rgba(255, 255, 255, 0) 97%, rgba(255, 255, 255, 0.5) 100%),
-    linear-gradient(to right, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0) 3%, rgba(255, 255, 255, 0) 97%, rgba(255, 255, 255, 0.55) 100%);
+    radial-gradient(ellipse at center, rgba(255, 255, 255, 0) 55%, rgba(255, 255, 255, 0.2) 78%, rgba(255, 255, 255, 0.65) 96%, rgba(255, 255, 255, 0.85) 100%),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.75) 0%, rgba(255, 255, 255, 0.2) 8%, rgba(255, 255, 255, 0) 25%, rgba(0, 0, 0, 0.05) 85%, rgba(0, 0, 0, 0.15) 100%),
+    linear-gradient(to right, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0.15) 8%, rgba(255, 255, 255, 0) 25%, rgba(0, 0, 0, 0.04) 88%, rgba(0, 0, 0, 0.12) 100%);
   pointer-events: none;
   z-index: 0;
 }
@@ -8629,16 +8636,16 @@ figure {
   color: #000000 !important;
   margin-bottom: 0.6rem;
   padding: 0.42rem 1.1rem;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0.45) 100%) !important;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.92) 0%, rgba(245, 245, 245, 0.85) 100%) !important;
   border: 1px solid rgba(0, 0, 0, 0.15) !important;
   border-radius: 2rem;
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
   box-shadow: inset 0 1.5px 2.5px rgba(255, 255, 255, 0.95),
     0 12px 28px -4px rgba(0, 0, 0, 0.65),
     0 6px 14px -2px rgba(0, 0, 0, 0.45) !important;
   opacity: 0;
-  transform: translateX(100px) translateZ(25px);
+  transform: translate3d(100px, 0, 25px);
   transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -8653,7 +8660,7 @@ figure {
   text-transform: uppercase;
   text-shadow: none !important;
   opacity: 0;
-  transform: translateX(140px) translateZ(35px);
+  transform: translate3d(140px, 0, 35px);
   transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1), transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
   transition-delay: 0.05s;
 }
@@ -8668,12 +8675,12 @@ figure {
 
 .values-leadership-card.js--animated .values-leadership-badge {
   opacity: 1;
-  transform: translateX(0) translateZ(25px);
+  transform: translate3d(0, 0, 25px);
 }
 
 .values-leadership-card.js--animated .values-leadership-heading {
   opacity: 1;
-  transform: translateX(0) translateZ(35px);
+  transform: translate3d(0, 0, 35px);
 }
 
 /* Staggered right-side entrance for values words */
@@ -8682,17 +8689,16 @@ figure {
   color: rgba(0, 0, 0, 0.35) !important;
   font-weight: 300 !important;
   opacity: 0;
-  transform: translateX(65px) translateZ(20px);
+  transform: translate3d(65px, 0, 0);
   transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1),
     transform 0.65s cubic-bezier(0.16, 1, 0.3, 1),
     color 0.25s ease;
   margin-right: 0.28em;
-  will-change: color, opacity, transform;
 }
 
 .values-leadership-card.js--animated .values-highlight-word {
   opacity: 1;
-  transform: translateX(0) translateZ(20px);
+  transform: translate3d(0, 0, 0);
 }
 
 .values-highlight-word.active {
