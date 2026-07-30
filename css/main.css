@@ -3435,7 +3435,7 @@ figure {
   background-color: var(--primary-5);
   -webkit-backdrop-filter: blur(6.25rem);
   backdrop-filter: blur(6.25rem);
-  border-radius: 9999px;
+  border-radius: 1.25rem;
   grid-template-columns: 1fr;
   grid-auto-columns: 1fr;
   width: 100%;
@@ -4978,7 +4978,7 @@ figure {
 
   .header {
     background-color: #0000;
-    border-radius: 9999px;
+    border-radius: 1.25rem;
     max-width: none;
     margin-left: 0;
     margin-right: 0;
