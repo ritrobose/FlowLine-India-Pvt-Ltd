@@ -118,7 +118,7 @@ const initPreloader = (callbackFunction) => {
   const mainContent = document.querySelector(SELECTORS.MAIN_CONTENT);
   const preloader = document.querySelector(SELECTORS.PRELOADER);
   const loadingTag = document.querySelector(SELECTORS.LOADING_TAG);
-  const minDisplayTime = 3e3;
+  const minDisplayTime = 300;
   let loadStartTime;
   let cleanupCursor;
   let progressInterval = null;
