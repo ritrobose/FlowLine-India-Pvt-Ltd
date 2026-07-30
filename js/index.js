@@ -395,49 +395,94 @@ const initPreloader = (callbackFunction) => {
       });
     };
 
-    // 3D Parallax Tilt movement on mouse hover - high-performance requestAnimationFrame loop handler
+    // 3D Parallax Tilt Card - High-Performance Hardware Accelerated Spring Physics Engine
     const companyCardWrapper = card.closest(".company-profile-card-wrapper") || card;
-    let companyMouseX = 0;
-    let companyMouseY = 0;
+
     let companyIsHovering = false;
-    let companyParallaxRafId = null;
+    let companyTargetRotateX = 0;
+    let companyTargetRotateY = 0;
+    let companyTargetScale = 1.02;
+    let companyCurrentRotateX = 0;
+    let companyCurrentRotateY = 0;
+    let companyCurrentScale = 1.02;
+    let companyVx = 0;
+    let companyVy = 0;
+    let companyVs = 0;
+    let companySpringRafId = null;
 
-    const renderCompanyParallaxCard = () => {
-      companyParallaxRafId = null;
-      if (!companyIsHovering) return;
+    const updateCompanySpringPhysics = () => {
+      // Spring stiffness & damping constants for ultra-smooth 60fps feel
+      const k = 0.14;   // Spring Stiffness
+      const d = 0.80;   // Damping Coefficient
 
-      const rect = companyCardWrapper.getBoundingClientRect();
-      if (!rect.width || !rect.height) return;
+      // Calculate spring forces
+      const ax = (companyTargetRotateX - companyCurrentRotateX) * k;
+      const ay = (companyTargetRotateY - companyCurrentRotateY) * k;
+      const as = (companyTargetScale - companyCurrentScale) * k;
 
-      const x = companyMouseX - rect.left - rect.width / 2;
-      const y = companyMouseY - rect.top - rect.height / 2;
-      const tiltX = (y / (rect.height / 2)) * 10;
-      const tiltY = (x / (rect.width / 2)) * 10;
+      companyVx = (companyVx + ax) * d;
+      companyVy = (companyVy + ay) * d;
+      companyVs = (companyVs + as) * d;
 
-      card.style.transform = `translate3d(0px, 40%, 65px) rotateX(${tiltX.toFixed(2)}deg) rotateY(${tiltY.toFixed(2)}deg) scale3d(1.03, 1.03, 1)`;
+      companyCurrentRotateX += companyVx;
+      companyCurrentRotateY += companyVy;
+      companyCurrentScale += companyVs;
+
+      // Apply 3D GPU hardware transform with Y-offset 40%
+      card.style.transform = `translate3d(0px, 40%, 50px) rotateX(${companyCurrentRotateX.toFixed(2)}deg) rotateY(${companyCurrentRotateY.toFixed(2)}deg) scale3d(${companyCurrentScale.toFixed(3)}, ${companyCurrentScale.toFixed(3)}, 1)`;
+
+      // Stop loop when spring comes to rest
+      const isAtRest =
+        Math.abs(companyTargetRotateX - companyCurrentRotateX) < 0.01 &&
+        Math.abs(companyTargetRotateY - companyCurrentRotateY) < 0.01 &&
+        Math.abs(companyTargetScale - companyCurrentScale) < 0.001 &&
+        Math.abs(companyVx) < 0.01 &&
+        Math.abs(companyVy) < 0.01 &&
+        Math.abs(companyVs) < 0.001;
+
+      if (!isAtRest || companyIsHovering) {
+        companySpringRafId = requestAnimationFrame(updateCompanySpringPhysics);
+      } else {
+        companySpringRafId = null;
+        card.style.transform = `translate3d(0px, 40%, 50px) rotateX(0deg) rotateY(0deg) scale3d(1.02, 1.02, 1)`;
+      }
+    };
+
+    const startCompanySpringLoop = () => {
+      if (companySpringRafId === null) {
+        companySpringRafId = requestAnimationFrame(updateCompanySpringPhysics);
+      }
     };
 
     companyCardWrapper.addEventListener("mouseenter", () => {
       companyIsHovering = true;
+      companyTargetScale = 1.03;
+      startCompanySpringLoop();
     }, { passive: true });
 
     companyCardWrapper.addEventListener("mousemove", (e) => {
-      companyMouseX = e.clientX;
-      companyMouseY = e.clientY;
       companyIsHovering = true;
+      const rect = companyCardWrapper.getBoundingClientRect();
+      if (!rect.width || !rect.height) return;
 
-      if (companyParallaxRafId === null) {
-        companyParallaxRafId = requestAnimationFrame(renderCompanyParallaxCard);
-      }
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+      const mouseX = e.clientX - centerX;
+      const mouseY = e.clientY - centerY;
+
+      companyTargetRotateX = (-mouseY / (rect.height / 2)) * 10;
+      companyTargetRotateY = (mouseX / (rect.width / 2)) * 10;
+      companyTargetScale = 1.03;
+
+      startCompanySpringLoop();
     }, { passive: true });
 
     companyCardWrapper.addEventListener("mouseleave", () => {
       companyIsHovering = false;
-      if (companyParallaxRafId !== null) {
-        cancelAnimationFrame(companyParallaxRafId);
-        companyParallaxRafId = null;
-      }
-      card.style.transform = `translate3d(0px, 40%, 50px) rotateX(0deg) rotateY(0deg) scale3d(1.02, 1.02, 1)`;
+      companyTargetRotateX = 0;
+      companyTargetRotateY = 0;
+      companyTargetScale = 1.02;
+      startCompanySpringLoop();
     }, { passive: true });
 
     // Throttled scroll listener using requestAnimationFrame for smooth word highlight updates
@@ -506,49 +551,94 @@ const initPreloader = (callbackFunction) => {
       });
     };
 
-    // 3D Parallax Tilt movement on mouse hover - high-performance requestAnimationFrame loop handler
+    // 3D Parallax Tilt Card - High-Performance Hardware Accelerated Spring Physics Engine
     const portfolioCardWrapper = card.closest(".products-portfolio-card-wrapper") || card;
-    let portfolioMouseX = 0;
-    let portfolioMouseY = 0;
+
     let portfolioIsHovering = false;
-    let portfolioParallaxRafId = null;
+    let portfolioTargetRotateX = 0;
+    let portfolioTargetRotateY = 0;
+    let portfolioTargetScale = 1.02;
+    let portfolioCurrentRotateX = 0;
+    let portfolioCurrentRotateY = 0;
+    let portfolioCurrentScale = 1.02;
+    let portfolioVx = 0;
+    let portfolioVy = 0;
+    let portfolioVs = 0;
+    let portfolioSpringRafId = null;
 
-    const renderPortfolioParallaxCard = () => {
-      portfolioParallaxRafId = null;
-      if (!portfolioIsHovering) return;
+    const updatePortfolioSpringPhysics = () => {
+      // Spring stiffness & damping constants for ultra-smooth 60fps feel
+      const k = 0.14;   // Spring Stiffness
+      const d = 0.80;   // Damping Coefficient
 
-      const rect = portfolioCardWrapper.getBoundingClientRect();
-      if (!rect.width || !rect.height) return;
+      // Calculate spring forces
+      const ax = (portfolioTargetRotateX - portfolioCurrentRotateX) * k;
+      const ay = (portfolioTargetRotateY - portfolioCurrentRotateY) * k;
+      const as = (portfolioTargetScale - portfolioCurrentScale) * k;
 
-      const x = portfolioMouseX - rect.left - rect.width / 2;
-      const y = portfolioMouseY - rect.top - rect.height / 2;
-      const tiltX = (y / (rect.height / 2)) * 10;
-      const tiltY = (x / (rect.width / 2)) * 10;
+      portfolioVx = (portfolioVx + ax) * d;
+      portfolioVy = (portfolioVy + ay) * d;
+      portfolioVs = (portfolioVs + as) * d;
 
-      card.style.transform = `translate3d(0px, 0px, 65px) rotateX(${tiltX.toFixed(2)}deg) rotateY(${tiltY.toFixed(2)}deg) scale3d(1.03, 1.03, 1)`;
+      portfolioCurrentRotateX += portfolioVx;
+      portfolioCurrentRotateY += portfolioVy;
+      portfolioCurrentScale += portfolioVs;
+
+      // Apply 3D GPU hardware transform
+      card.style.transform = `translate3d(0px, 0px, 50px) rotateX(${portfolioCurrentRotateX.toFixed(2)}deg) rotateY(${portfolioCurrentRotateY.toFixed(2)}deg) scale3d(${portfolioCurrentScale.toFixed(3)}, ${portfolioCurrentScale.toFixed(3)}, 1)`;
+
+      // Stop loop when spring comes to rest
+      const isAtRest =
+        Math.abs(portfolioTargetRotateX - portfolioCurrentRotateX) < 0.01 &&
+        Math.abs(portfolioTargetRotateY - portfolioCurrentRotateY) < 0.01 &&
+        Math.abs(portfolioTargetScale - portfolioCurrentScale) < 0.001 &&
+        Math.abs(portfolioVx) < 0.01 &&
+        Math.abs(portfolioVy) < 0.01 &&
+        Math.abs(portfolioVs) < 0.001;
+
+      if (!isAtRest || portfolioIsHovering) {
+        portfolioSpringRafId = requestAnimationFrame(updatePortfolioSpringPhysics);
+      } else {
+        portfolioSpringRafId = null;
+        card.style.transform = `translate3d(0px, 0px, 50px) rotateX(0deg) rotateY(0deg) scale3d(1.02, 1.02, 1)`;
+      }
+    };
+
+    const startPortfolioSpringLoop = () => {
+      if (portfolioSpringRafId === null) {
+        portfolioSpringRafId = requestAnimationFrame(updatePortfolioSpringPhysics);
+      }
     };
 
     portfolioCardWrapper.addEventListener("mouseenter", () => {
       portfolioIsHovering = true;
+      portfolioTargetScale = 1.03;
+      startPortfolioSpringLoop();
     }, { passive: true });
 
     portfolioCardWrapper.addEventListener("mousemove", (e) => {
-      portfolioMouseX = e.clientX;
-      portfolioMouseY = e.clientY;
       portfolioIsHovering = true;
+      const rect = portfolioCardWrapper.getBoundingClientRect();
+      if (!rect.width || !rect.height) return;
 
-      if (portfolioParallaxRafId === null) {
-        portfolioParallaxRafId = requestAnimationFrame(renderPortfolioParallaxCard);
-      }
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+      const mouseX = e.clientX - centerX;
+      const mouseY = e.clientY - centerY;
+
+      portfolioTargetRotateX = (-mouseY / (rect.height / 2)) * 10;
+      portfolioTargetRotateY = (mouseX / (rect.width / 2)) * 10;
+      portfolioTargetScale = 1.03;
+
+      startPortfolioSpringLoop();
     }, { passive: true });
 
     portfolioCardWrapper.addEventListener("mouseleave", () => {
       portfolioIsHovering = false;
-      if (portfolioParallaxRafId !== null) {
-        cancelAnimationFrame(portfolioParallaxRafId);
-        portfolioParallaxRafId = null;
-      }
-      card.style.transform = `translate3d(0px, 0px, 50px) rotateX(0deg) rotateY(0deg) scale3d(1.02, 1.02, 1)`;
+      portfolioTargetRotateX = 0;
+      portfolioTargetRotateY = 0;
+      portfolioTargetScale = 1.02;
+      startPortfolioSpringLoop();
     }, { passive: true });
 
     // Throttled scroll listener using requestAnimationFrame for smooth word highlight updates
