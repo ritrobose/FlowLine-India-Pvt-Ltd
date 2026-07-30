@@ -19,5 +19,8 @@
     "#intlayer/dynamic-dictionaries-entry": ".intlayer/main/dynamic_dictionaries.mjs",
     "#intlayer/fetch-dictionaries-entry": ".intlayer/main/fetch_dictionaries.mjs",
     "#intlayer/config/built": ".intlayer/config/configuration.mjs"
+  },
+  "dependencies": {
+    "motion": "^12.43.0"
   }
 }

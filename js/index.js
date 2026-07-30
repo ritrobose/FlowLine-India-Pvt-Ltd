@@ -10,6 +10,7 @@
     console.error("vite-plugin-css-injected-by-js", e);
   }
 })();
+import { animate, spring } from "motion";
 import { g as gsapWithCSS } from "./lib/50Lx19ak.js";
 import { C as CLASSES } from "./lib/DxoHJvy8.js";
 const initPreloaderAnimation = (onComplete) => {
@@ -625,20 +626,95 @@ const initPreloader = (callbackFunction) => {
       });
     };
 
-    // 3D Parallax Tilt movement on mouse hover - anchored to static parent wrapper container
+    // 3D Parallax Tilt Card - High-Performance Hardware Accelerated Spring Physics Engine
     const valuesCardWrapper = card.closest(".values-leadership-card-wrapper") || card;
+    
+    let isHovering = false;
+    let targetRotateX = 0;
+    let targetRotateY = 0;
+    let targetScale = 1.02;
+    let currentRotateX = 0;
+    let currentRotateY = 0;
+    let currentScale = 1.02;
+    let vx = 0;
+    let vy = 0;
+    let vs = 0;
+    let springRafId = null;
+
+    const updateSpringPhysics = () => {
+      // Spring stiffness & damping constants (stiffness: 150, damping: 20 equivalent)
+      const k = 0.14;   // Spring Stiffness
+      const d = 0.80;   // Damping Coefficient
+
+      // Calculate spring forces
+      const ax = (targetRotateX - currentRotateX) * k;
+      const ay = (targetRotateY - currentRotateY) * k;
+      const as = (targetScale - currentScale) * k;
+
+      vx = (vx + ax) * d;
+      vy = (vy + ay) * d;
+      vs = (vs + as) * d;
+
+      currentRotateX += vx;
+      currentRotateY += vy;
+      currentScale += vs;
+
+      // Apply 3D GPU hardware transform
+      card.style.transform = `translate3d(0px, 0px, 50px) rotateX(${currentRotateX.toFixed(2)}deg) rotateY(${currentRotateY.toFixed(2)}deg) scale3d(${currentScale.toFixed(3)}, ${currentScale.toFixed(3)}, 1)`;
+
+      // Stop loop when spring comes to rest
+      const isAtRest =
+        Math.abs(targetRotateX - currentRotateX) < 0.01 &&
+        Math.abs(targetRotateY - currentRotateY) < 0.01 &&
+        Math.abs(targetScale - currentScale) < 0.001 &&
+        Math.abs(vx) < 0.01 &&
+        Math.abs(vy) < 0.01 &&
+        Math.abs(vs) < 0.001;
+
+      if (!isAtRest || isHovering) {
+        springRafId = requestAnimationFrame(updateSpringPhysics);
+      } else {
+        springRafId = null;
+        card.style.transform = `translate3d(0px, 0px, 50px) rotateX(0deg) rotateY(0deg) scale3d(1.02, 1.02, 1)`;
+      }
+    };
+
+    const startSpringLoop = () => {
+      if (springRafId === null) {
+        springRafId = requestAnimationFrame(updateSpringPhysics);
+      }
+    };
+
+    valuesCardWrapper.addEventListener("mouseenter", () => {
+      isHovering = true;
+      targetScale = 1.03;
+      startSpringLoop();
+    }, { passive: true });
+
     valuesCardWrapper.addEventListener("mousemove", (e) => {
+      isHovering = true;
       const rect = valuesCardWrapper.getBoundingClientRect();
-      const x = e.clientX - rect.left - rect.width / 2;
-      const y = e.clientY - rect.top - rect.height / 2;
-      const tiltX = (y / (rect.height / 2)) * 10;
-      const tiltY = (x / (rect.width / 2)) * 10;
-      card.style.transform = `translateY(0) translateZ(65px) rotateX(${tiltX.toFixed(2)}deg) rotateY(${tiltY.toFixed(2)}deg) scale(1.03)`;
-    });
+      if (!rect.width || !rect.height) return;
+
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+      const mouseX = e.clientX - centerX;
+      const mouseY = e.clientY - centerY;
+
+      targetRotateX = (-mouseY / (rect.height / 2)) * 10;
+      targetRotateY = (mouseX / (rect.width / 2)) * 10;
+      targetScale = 1.03;
+
+      startSpringLoop();
+    }, { passive: true });
 
     valuesCardWrapper.addEventListener("mouseleave", () => {
-      card.style.transform = `translateY(0) translateZ(50px) rotateX(0deg) rotateY(0deg) scale(1.02)`;
-    });
+      isHovering = false;
+      targetRotateX = 0;
+      targetRotateY = 0;
+      targetScale = 1.02;
+      startSpringLoop();
+    }, { passive: true });
 
     window.addEventListener("scroll", updateWordHighlight, { passive: true });
     window.addEventListener("resize", updateWordHighlight, { passive: true });
