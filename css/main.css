@@ -8881,4 +8881,17 @@ figure {
   -webkit-overflow-scrolling: touch !important;
   display: block !important;
   pointer-events: auto !important;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+.header.js--open [data-role='navmenu']::-webkit-scrollbar,
+.header.js--open .navmenu::-webkit-scrollbar,
+.navmenu.visible::-webkit-scrollbar,
+.navmenu::-webkit-scrollbar,
+.navmenu-wrapper::-webkit-scrollbar,
+.navmenu-inner::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
 }
