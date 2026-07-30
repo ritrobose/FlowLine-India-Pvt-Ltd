@@ -8097,6 +8097,18 @@ figure {
   }
 }
 
+.company-profile-card-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: calc(35rem + 2.5rem);
+  margin: -1.25rem auto;
+  padding: 1.25rem;
+  /* 5% outer hit-box buffer zone on all 4 sides & corners */
+  box-sizing: border-box;
+  perspective: 1200px;
+  transform-style: preserve-3d;
+}
+
 .company-profile-card {
   background: #000000 !important;
   backdrop-filter: blur(20px) saturate(180%);
@@ -8143,8 +8155,8 @@ figure {
   transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease;
 }
 
-/* Interactive 3D hover elevation */
-.company-profile-card:hover {
+/* Interactive 3D hover elevation - anchored to static parent wrapper */
+.company-profile-card-wrapper:hover .company-profile-card {
   transform: translateY(-10px) translateZ(70px) rotateX(3deg) rotateY(-3deg) scale(1.04);
   box-shadow: 0 65px 120px -20px rgba(0, 0, 0, 0.98),
     0 35px 70px -15px rgba(0, 0, 0, 0.9),
@@ -8152,7 +8164,7 @@ figure {
     inset 0 1.5px 3px rgba(255, 255, 255, 0.8);
 }
 
-.company-profile-card:hover::after {
+.company-profile-card-wrapper:hover .company-profile-card::after {
   transform: translateZ(-70px) scale(0.88);
   opacity: 0.9;
 }
@@ -8303,6 +8315,18 @@ figure {
   pointer-events: auto !important;
 }
 
+.products-portfolio-card-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: calc(50rem + 2.5rem);
+  margin: -1.25rem auto;
+  padding: 1.25rem;
+  /* 5% outer hit-box buffer zone on all 4 sides & corners */
+  box-sizing: border-box;
+  perspective: 1200px;
+  transform-style: preserve-3d;
+}
+
 .products-portfolio-card {
   background: rgba(255, 255, 255, 0.45) !important;
   backdrop-filter: blur(30px) saturate(190%);
@@ -8345,8 +8369,8 @@ figure {
   transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease;
 }
 
-/* Interactive 3D hover elevation */
-.products-portfolio-card:hover {
+/* Interactive 3D hover elevation - anchored to static parent wrapper */
+.products-portfolio-card-wrapper:hover .products-portfolio-card {
   transform: translateY(-10px) translateZ(70px) rotateX(3deg) rotateY(-3deg) scale(1.04);
   box-shadow: 0 65px 120px -20px rgba(0, 0, 0, 0.4),
     0 35px 70px -15px rgba(0, 0, 0, 0.3),
@@ -8354,7 +8378,7 @@ figure {
     inset 0 1.5px 3px rgba(255, 255, 255, 0.95);
 }
 
-.products-portfolio-card:hover::after {
+.products-portfolio-card-wrapper:hover .products-portfolio-card::after {
   transform: translateZ(-70px) scale(0.88);
   opacity: 0.9;
 }
@@ -8479,6 +8503,18 @@ figure {
   pointer-events: auto !important;
 }
 
+.values-leadership-card-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: calc(50rem + 2.5rem);
+  margin: -1.25rem auto;
+  padding: 1.25rem;
+  /* 5% outer hit-box buffer zone on all 4 sides & corners */
+  box-sizing: border-box;
+  perspective: 1200px;
+  transform-style: preserve-3d;
+}
+
 .values-leadership-card {
   background: rgba(255, 255, 255, 0.45) !important;
   backdrop-filter: blur(30px) saturate(190%);
@@ -8521,8 +8557,8 @@ figure {
   transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease;
 }
 
-/* Interactive 3D hover elevation */
-.values-leadership-card:hover {
+/* Interactive 3D hover elevation - anchored to static parent wrapper */
+.values-leadership-card-wrapper:hover .values-leadership-card {
   transform: translateY(-10px) translateZ(70px) rotateX(3deg) rotateY(-3deg) scale(1.04);
   box-shadow: 0 65px 120px -20px rgba(0, 0, 0, 0.3),
     0 35px 70px -15px rgba(0, 0, 0, 0.2),
@@ -8530,7 +8566,7 @@ figure {
     inset 0 1.5px 3px rgba(255, 255, 255, 1);
 }
 
-.values-leadership-card:hover::after {
+.values-leadership-card-wrapper:hover .values-leadership-card::after {
   transform: translateZ(-70px) scale(0.88);
   opacity: 0.9;
 }
