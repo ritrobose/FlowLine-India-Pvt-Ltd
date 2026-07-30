@@ -8158,7 +8158,7 @@ figure {
   text-align: left;
   opacity: 1;
   transform-style: preserve-3d;
-  transform: translateY(0) translateZ(50px) scale(1.02);
+  transform: translateY(40%) translateZ(50px) scale(1.02);
   box-shadow: 0 45px 90px -15px rgba(0, 0, 0, 0.95),
     0 25px 50px -10px rgba(0, 0, 0, 0.85),
     inset 0 0 5px 1px rgba(255, 255, 255, 0.45),
@@ -8169,7 +8169,7 @@ figure {
 
 .company-profile-card.js--animated {
   opacity: 1;
-  transform: translateY(0) translateZ(50px) scale(1.02);
+  transform: translateY(40%) translateZ(50px) scale(1.02);
 }
 
 /* Detached 3D floor shadow cast far in the background */
@@ -8189,7 +8189,7 @@ figure {
 
 /* Interactive 3D hover elevation - anchored to static parent wrapper */
 .company-profile-card-wrapper:hover .company-profile-card {
-  transform: translateY(0) translateZ(70px) scale(1.04);
+  transform: translateY(40%) translateZ(70px) scale(1.04);
   box-shadow: 0 65px 120px -20px rgba(0, 0, 0, 0.98),
     0 35px 70px -15px rgba(0, 0, 0, 0.9),
     inset 0 0 8px 1.5px rgba(255, 255, 255, 0.55),

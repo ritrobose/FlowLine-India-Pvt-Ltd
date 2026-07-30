@@ -402,11 +402,11 @@ const initPreloader = (callbackFunction) => {
       const y = e.clientY - rect.top - rect.height / 2;
       const tiltX = (y / (rect.height / 2)) * 10;
       const tiltY = (x / (rect.width / 2)) * 10;
-      card.style.transform = `translateY(0) translateZ(65px) rotateX(${tiltX.toFixed(2)}deg) rotateY(${tiltY.toFixed(2)}deg) scale(1.03)`;
+      card.style.transform = `translateY(40%) translateZ(65px) rotateX(${tiltX.toFixed(2)}deg) rotateY(${tiltY.toFixed(2)}deg) scale(1.03)`;
     });
 
     companyCardWrapper.addEventListener("mouseleave", () => {
-      card.style.transform = `translateY(0) translateZ(50px) rotateX(0deg) rotateY(0deg) scale(1.02)`;
+      card.style.transform = `translateY(40%) translateZ(50px) rotateX(0deg) rotateY(0deg) scale(1.02)`;
     });
 
     window.addEventListener("scroll", updateWordHighlight, { passive: true });
