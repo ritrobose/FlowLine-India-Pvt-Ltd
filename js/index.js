@@ -721,7 +721,7 @@ const initPreloader = (callbackFunction) => {
 
     // 3D Parallax Tilt Card - High-Performance Hardware Accelerated Spring Physics Engine
     const valuesCardWrapper = card.closest(".values-leadership-card-wrapper") || card;
-    
+
     let isHovering = false;
     let targetRotateX = 0;
     let targetRotateY = 0;
