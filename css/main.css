@@ -3451,6 +3451,25 @@ figure {
   transition: border-radius 0.35s ease, max-width 0.35s ease;
 }
 
+/* Ensure all header hover layers, overlays & pseudo-elements match navbar curve */
+.header::before,
+.header__wrapper,
+.header__wrapper::before,
+[data-widget='header']::before,
+[data-widget='header'] .hover,
+[data-widget='header'] .hover-overlay,
+[data-widget='header'] [data-role='hover'],
+[data-widget='header'] .background-overlay,
+[data-widget='header'] .background {
+  border-radius: inherit !important;
+}
+
+[data-widget='header'] .hover-overlay,
+[data-widget='header'] .hover {
+  background-color: transparent !important;
+  border-radius: inherit !important;
+}
+
 .header.js--open {
   border-radius: 2rem !important;
 }
