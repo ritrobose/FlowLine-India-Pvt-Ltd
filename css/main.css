@@ -3435,7 +3435,7 @@ figure {
   background-color: var(--primary-5);
   -webkit-backdrop-filter: blur(6.25rem);
   backdrop-filter: blur(6.25rem);
-  border-radius: .75rem;
+  border-radius: 9999px;
   grid-template-columns: 1fr;
   grid-auto-columns: 1fr;
   width: 100%;
@@ -3444,9 +3444,14 @@ figure {
   position: fixed;
   top: .625rem;
   left: 50%;
-  overflow: visible;
+  overflow: hidden;
   transform: translate(-50%);
   box-shadow: 0 10px 30px -5px rgba(255, 255, 255, 0.15), 0 20px 40px -10px rgba(0, 0, 0, 0.5);
+  transition: border-radius 0.35s ease, max-width 0.35s ease;
+}
+
+.header.js--open {
+  border-radius: 2rem !important;
 }
 
 .header::after {
@@ -3530,8 +3535,8 @@ figure {
   display: grid;
   position: relative;
   box-sizing: border-box;
-  border-radius: .75rem;
-  overflow: visible;
+  border-radius: inherit;
+  overflow: hidden;
 }
 
 .header__wrapper::before {
@@ -3542,6 +3547,10 @@ figure {
   border-radius: inherit;
   pointer-events: none;
   z-index: 1;
+}
+
+.square.square--header {
+  display: none !important;
 }
 
 @media screen and (max-width: 991px) {
@@ -4969,7 +4978,7 @@ figure {
 
   .header {
     background-color: #0000;
-    border-radius: 0;
+    border-radius: 9999px;
     max-width: none;
     margin-left: 0;
     margin-right: 0;
@@ -4978,7 +4987,7 @@ figure {
     top: 0;
     left: 0;
     right: 0;
-    overflow: visible;
+    overflow: hidden;
     transform: none;
   }
 
