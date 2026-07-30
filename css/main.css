@@ -4859,8 +4859,9 @@ figure {
     grid-row-gap: 2.5rem;
   }
 
-  .tag-wrapper.tag-wrapper--no-mobile {
-    display: none;
+  .tag-wrapper.tag-wrapper--no-mobile,
+  .content.content--no-mobile {
+    display: none !important;
   }
 
   .content {
