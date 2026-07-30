@@ -8232,8 +8232,9 @@ figure {
   border-radius: 2rem;
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  box-shadow: inset 0 1.5px 2px rgba(255, 255, 255, 0.8),
-    0 8px 20px rgba(0, 0, 0, 0.6) !important;
+  box-shadow: inset 0 1.5px 2.5px rgba(255, 255, 255, 0.95),
+    0 12px 28px -4px rgba(0, 0, 0, 0.65),
+    0 6px 14px -2px rgba(0, 0, 0, 0.45) !important;
   opacity: 0;
   transform: translateX(100px) translateZ(25px);
   transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
@@ -8443,8 +8444,9 @@ figure {
   border-radius: 2rem;
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  box-shadow: inset 0 1.5px 2px rgba(255, 255, 255, 0.9),
-    0 6px 16px rgba(0, 0, 0, 0.15) !important;
+  box-shadow: inset 0 1.5px 2.5px rgba(255, 255, 255, 0.95),
+    0 12px 28px -4px rgba(0, 0, 0, 0.65),
+    0 6px 14px -2px rgba(0, 0, 0, 0.45) !important;
   opacity: 0;
   transform: translateX(100px) translateZ(25px);
   transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
@@ -8631,8 +8633,9 @@ figure {
   border-radius: 2rem;
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  box-shadow: inset 0 1.5px 2px rgba(255, 255, 255, 0.9),
-    0 8px 20px rgba(0, 0, 0, 0.12) !important;
+  box-shadow: inset 0 1.5px 2.5px rgba(255, 255, 255, 0.95),
+    0 12px 28px -4px rgba(0, 0, 0, 0.65),
+    0 6px 14px -2px rgba(0, 0, 0, 0.45) !important;
   opacity: 0;
   transform: translateX(100px) translateZ(25px);
   transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
