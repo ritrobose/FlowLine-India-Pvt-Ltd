@@ -693,6 +693,7 @@ const initPreloader = (callbackFunction) => {
     );
     entryObserver.observe(card);
 
+    let lastActiveIndex = -1;
     const updateWordHighlight = () => {
       const wrapper = document.querySelector(".values-leadership-text-wrapper");
       if (!wrapper) return;
@@ -706,6 +707,8 @@ const initPreloader = (callbackFunction) => {
       progress = Math.max(0, Math.min(1, progress));
 
       const activeIndex = Math.floor(progress * allWordSpans.length);
+      if (activeIndex === lastActiveIndex) return;
+      lastActiveIndex = activeIndex;
 
       allWordSpans.forEach((span, index) => {
         if (index <= activeIndex) {

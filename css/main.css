@@ -8390,14 +8390,13 @@ figure {
   transform: translate3d(0, 0, 50px) scale3d(1.02, 1.02, 1);
 }
 
-/* Detached 3D floor shadow cast far in the background */
+/* Zero-GPU-blur detached 3D floor shadow cast in the background */
 .products-portfolio-card::after {
   content: '';
   position: absolute;
   inset: 6%;
   bottom: -45px;
-  background: rgba(0, 0, 0, 0.35);
-  filter: blur(35px);
+  background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.15) 50%, rgba(0, 0, 0, 0) 75%);
   z-index: -1;
   border-radius: 2rem;
   transform: translate3d(0, 0, -50px) scale3d(0.92, 0.92, 1);
@@ -8550,6 +8549,7 @@ figure {
   box-sizing: border-box;
   perspective: 1200px;
   transform-style: preserve-3d;
+  contain: layout paint;
 }
 
 .values-leadership-card {
@@ -8582,14 +8582,13 @@ figure {
   transform: translate3d(0, 0, 50px) scale3d(1.02, 1.02, 1);
 }
 
-/* Detached 3D floor shadow cast far in the background */
+/* Zero-GPU-blur detached 3D floor shadow cast in the background */
 .values-leadership-card::after {
   content: '';
   position: absolute;
   inset: 6%;
   bottom: -45px;
-  background: rgba(0, 0, 0, 0.35);
-  filter: blur(35px);
+  background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.15) 50%, rgba(0, 0, 0, 0) 75%);
   z-index: -1;
   border-radius: 2.25rem;
   transform: translate3d(0, 0, -50px) scale3d(0.92, 0.92, 1);
