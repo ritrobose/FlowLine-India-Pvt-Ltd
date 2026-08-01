@@ -345,6 +345,96 @@ const initPreloader = (callbackFunction) => {
     });
   };
 
+  // Ultra-Smooth WebGL-Quality DOM Tilt Engine (Lerp + rAF + Compositor Optimization)
+  const createLerpTiltCard = (cardElement, wrapperElement, options = {}) => {
+    if (!cardElement || !wrapperElement) return;
+
+    const {
+      maxTilt = 10,
+      easeFactor = 0.08,
+      hoverScale = 1.04,
+      restScale = 1.02,
+      baseTranslate = "translate3d(0px, 0px, 50px)",
+      threshold = 0.001
+    } = options;
+
+    let isHovered = false;
+    let targetNormX = 0;
+    let targetNormY = 0;
+
+    let currentRotateX = 0;
+    let currentRotateY = 0;
+    let currentScale = restScale;
+
+    let rafId = null;
+
+    const render = () => {
+      const targetRotateX = -targetNormY * maxTilt;
+      const targetRotateY = targetNormX * maxTilt;
+      const targetScale = isHovered ? hoverScale : restScale;
+
+      currentRotateX += (targetRotateX - currentRotateX) * easeFactor;
+      currentRotateY += (targetRotateY - currentRotateY) * easeFactor;
+      currentScale += (targetScale - currentScale) * easeFactor;
+
+      const rx = Math.round(currentRotateX * 1000) / 1000;
+      const ry = Math.round(currentRotateY * 1000) / 1000;
+      const s = Math.round(currentScale * 1000) / 1000;
+
+      cardElement.style.transform = `${baseTranslate} rotateX(${rx}deg) rotateY(${ry}deg) scale3d(${s}, ${s}, 1)`;
+
+      const deltaX = Math.abs(targetRotateX - currentRotateX);
+      const deltaY = Math.abs(targetRotateY - currentRotateY);
+      const deltaScale = Math.abs(targetScale - currentScale);
+
+      if (deltaX < threshold && deltaY < threshold && deltaScale < threshold) {
+        currentRotateX = targetRotateX;
+        currentRotateY = targetRotateY;
+        currentScale = targetScale;
+        const finalRx = Math.round(currentRotateX * 1000) / 1000;
+        const finalRy = Math.round(currentRotateY * 1000) / 1000;
+        const finalS = Math.round(currentScale * 1000) / 1000;
+        cardElement.style.transform = `${baseTranslate} rotateX(${finalRx}deg) rotateY(${finalRy}deg) scale3d(${finalS}, ${finalS}, 1)`;
+        rafId = null;
+        return;
+      }
+
+      rafId = requestAnimationFrame(render);
+    };
+
+    const startLoop = () => {
+      if (rafId === null) {
+        rafId = requestAnimationFrame(render);
+      }
+    };
+
+    wrapperElement.addEventListener("mousemove", (e) => {
+      const rect = wrapperElement.getBoundingClientRect();
+      if (!rect.width || !rect.height) return;
+
+      const normX = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
+      const normY = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
+
+      targetNormX = Math.max(-1, Math.min(1, normX));
+      targetNormY = Math.max(-1, Math.min(1, normY));
+      isHovered = true;
+
+      startLoop();
+    }, { passive: true });
+
+    wrapperElement.addEventListener("mouseenter", () => {
+      isHovered = true;
+      startLoop();
+    }, { passive: true });
+
+    wrapperElement.addEventListener("mouseleave", () => {
+      isHovered = false;
+      targetNormX = 0;
+      targetNormY = 0;
+      startLoop();
+    }, { passive: true });
+  };
+
   const initCompanyProfileScrollHighlight = () => {
     const card = document.querySelector(".company-profile-card");
     const paragraph = document.querySelector(".scroll-highlight-paragraph");
@@ -395,95 +485,15 @@ const initPreloader = (callbackFunction) => {
       });
     };
 
-    // 3D Parallax Tilt Card - High-Performance Hardware Accelerated Spring Physics Engine
+    // 3D Parallax Tilt Card - Company Profile Box
     const companyCardWrapper = card.closest(".company-profile-card-wrapper") || card;
-
-    let companyIsHovering = false;
-    let companyTargetRotateX = 0;
-    let companyTargetRotateY = 0;
-    let companyTargetScale = 1.02;
-    let companyCurrentRotateX = 0;
-    let companyCurrentRotateY = 0;
-    let companyCurrentScale = 1.02;
-    let companyVx = 0;
-    let companyVy = 0;
-    let companyVs = 0;
-    let companySpringRafId = null;
-
-    const updateCompanySpringPhysics = () => {
-      // Spring stiffness & damping constants for ultra-smooth 60fps feel
-      const k = 0.14;   // Spring Stiffness
-      const d = 0.80;   // Damping Coefficient
-
-      // Calculate spring forces
-      const ax = (companyTargetRotateX - companyCurrentRotateX) * k;
-      const ay = (companyTargetRotateY - companyCurrentRotateY) * k;
-      const as = (companyTargetScale - companyCurrentScale) * k;
-
-      companyVx = (companyVx + ax) * d;
-      companyVy = (companyVy + ay) * d;
-      companyVs = (companyVs + as) * d;
-
-      companyCurrentRotateX += companyVx;
-      companyCurrentRotateY += companyVy;
-      companyCurrentScale += companyVs;
-
-      // Apply 3D GPU hardware transform with Y-offset 40%
-      card.style.transform = `translate3d(0px, 40%, 50px) rotateX(${companyCurrentRotateX.toFixed(2)}deg) rotateY(${companyCurrentRotateY.toFixed(2)}deg) scale3d(${companyCurrentScale.toFixed(3)}, ${companyCurrentScale.toFixed(3)}, 1)`;
-
-      // Stop loop when spring comes to rest
-      const isAtRest =
-        Math.abs(companyTargetRotateX - companyCurrentRotateX) < 0.01 &&
-        Math.abs(companyTargetRotateY - companyCurrentRotateY) < 0.01 &&
-        Math.abs(companyTargetScale - companyCurrentScale) < 0.001 &&
-        Math.abs(companyVx) < 0.01 &&
-        Math.abs(companyVy) < 0.01 &&
-        Math.abs(companyVs) < 0.001;
-
-      if (!isAtRest || companyIsHovering) {
-        companySpringRafId = requestAnimationFrame(updateCompanySpringPhysics);
-      } else {
-        companySpringRafId = null;
-        card.style.transform = `translate3d(0px, 40%, 50px) rotateX(0deg) rotateY(0deg) scale3d(1.02, 1.02, 1)`;
-      }
-    };
-
-    const startCompanySpringLoop = () => {
-      if (companySpringRafId === null) {
-        companySpringRafId = requestAnimationFrame(updateCompanySpringPhysics);
-      }
-    };
-
-    companyCardWrapper.addEventListener("mouseenter", () => {
-      companyIsHovering = true;
-      companyTargetScale = 1.03;
-      startCompanySpringLoop();
-    }, { passive: true });
-
-    companyCardWrapper.addEventListener("mousemove", (e) => {
-      companyIsHovering = true;
-      const rect = companyCardWrapper.getBoundingClientRect();
-      if (!rect.width || !rect.height) return;
-
-      const centerX = rect.left + rect.width / 2;
-      const centerY = rect.top + rect.height / 2;
-      const mouseX = e.clientX - centerX;
-      const mouseY = e.clientY - centerY;
-
-      companyTargetRotateX = (-mouseY / (rect.height / 2)) * 10;
-      companyTargetRotateY = (mouseX / (rect.width / 2)) * 10;
-      companyTargetScale = 1.03;
-
-      startCompanySpringLoop();
-    }, { passive: true });
-
-    companyCardWrapper.addEventListener("mouseleave", () => {
-      companyIsHovering = false;
-      companyTargetRotateX = 0;
-      companyTargetRotateY = 0;
-      companyTargetScale = 1.02;
-      startCompanySpringLoop();
-    }, { passive: true });
+    createLerpTiltCard(card, companyCardWrapper, {
+      baseTranslate: "translate3d(0px, 40%, 50px)",
+      maxTilt: 10,
+      easeFactor: 0.08,
+      restScale: 1.02,
+      hoverScale: 1.04
+    });
 
     // Throttled scroll listener using requestAnimationFrame for smooth word highlight updates
     let companyScrollHighlightRafId = null;
@@ -551,95 +561,15 @@ const initPreloader = (callbackFunction) => {
       });
     };
 
-    // 3D Parallax Tilt Card - High-Performance Hardware Accelerated Spring Physics Engine
+    // 3D Parallax Tilt Card - Our Solutions Box
     const portfolioCardWrapper = card.closest(".products-portfolio-card-wrapper") || card;
-
-    let portfolioIsHovering = false;
-    let portfolioTargetRotateX = 0;
-    let portfolioTargetRotateY = 0;
-    let portfolioTargetScale = 1.02;
-    let portfolioCurrentRotateX = 0;
-    let portfolioCurrentRotateY = 0;
-    let portfolioCurrentScale = 1.02;
-    let portfolioVx = 0;
-    let portfolioVy = 0;
-    let portfolioVs = 0;
-    let portfolioSpringRafId = null;
-
-    const updatePortfolioSpringPhysics = () => {
-      // Spring stiffness & damping constants for ultra-smooth 60fps feel
-      const k = 0.14;   // Spring Stiffness
-      const d = 0.80;   // Damping Coefficient
-
-      // Calculate spring forces
-      const ax = (portfolioTargetRotateX - portfolioCurrentRotateX) * k;
-      const ay = (portfolioTargetRotateY - portfolioCurrentRotateY) * k;
-      const as = (portfolioTargetScale - portfolioCurrentScale) * k;
-
-      portfolioVx = (portfolioVx + ax) * d;
-      portfolioVy = (portfolioVy + ay) * d;
-      portfolioVs = (portfolioVs + as) * d;
-
-      portfolioCurrentRotateX += portfolioVx;
-      portfolioCurrentRotateY += portfolioVy;
-      portfolioCurrentScale += portfolioVs;
-
-      // Apply 3D GPU hardware transform
-      card.style.transform = `translate3d(0px, 0px, 50px) rotateX(${portfolioCurrentRotateX.toFixed(2)}deg) rotateY(${portfolioCurrentRotateY.toFixed(2)}deg) scale3d(${portfolioCurrentScale.toFixed(3)}, ${portfolioCurrentScale.toFixed(3)}, 1)`;
-
-      // Stop loop when spring comes to rest
-      const isAtRest =
-        Math.abs(portfolioTargetRotateX - portfolioCurrentRotateX) < 0.01 &&
-        Math.abs(portfolioTargetRotateY - portfolioCurrentRotateY) < 0.01 &&
-        Math.abs(portfolioTargetScale - portfolioCurrentScale) < 0.001 &&
-        Math.abs(portfolioVx) < 0.01 &&
-        Math.abs(portfolioVy) < 0.01 &&
-        Math.abs(portfolioVs) < 0.001;
-
-      if (!isAtRest || portfolioIsHovering) {
-        portfolioSpringRafId = requestAnimationFrame(updatePortfolioSpringPhysics);
-      } else {
-        portfolioSpringRafId = null;
-        card.style.transform = `translate3d(0px, 0px, 50px) rotateX(0deg) rotateY(0deg) scale3d(1.02, 1.02, 1)`;
-      }
-    };
-
-    const startPortfolioSpringLoop = () => {
-      if (portfolioSpringRafId === null) {
-        portfolioSpringRafId = requestAnimationFrame(updatePortfolioSpringPhysics);
-      }
-    };
-
-    portfolioCardWrapper.addEventListener("mouseenter", () => {
-      portfolioIsHovering = true;
-      portfolioTargetScale = 1.03;
-      startPortfolioSpringLoop();
-    }, { passive: true });
-
-    portfolioCardWrapper.addEventListener("mousemove", (e) => {
-      portfolioIsHovering = true;
-      const rect = portfolioCardWrapper.getBoundingClientRect();
-      if (!rect.width || !rect.height) return;
-
-      const centerX = rect.left + rect.width / 2;
-      const centerY = rect.top + rect.height / 2;
-      const mouseX = e.clientX - centerX;
-      const mouseY = e.clientY - centerY;
-
-      portfolioTargetRotateX = (-mouseY / (rect.height / 2)) * 10;
-      portfolioTargetRotateY = (mouseX / (rect.width / 2)) * 10;
-      portfolioTargetScale = 1.03;
-
-      startPortfolioSpringLoop();
-    }, { passive: true });
-
-    portfolioCardWrapper.addEventListener("mouseleave", () => {
-      portfolioIsHovering = false;
-      portfolioTargetRotateX = 0;
-      portfolioTargetRotateY = 0;
-      portfolioTargetScale = 1.02;
-      startPortfolioSpringLoop();
-    }, { passive: true });
+    createLerpTiltCard(card, portfolioCardWrapper, {
+      baseTranslate: "translate3d(0px, 0px, 50px)",
+      maxTilt: 10,
+      easeFactor: 0.08,
+      restScale: 1.02,
+      hoverScale: 1.04
+    });
 
     // Throttled scroll listener using requestAnimationFrame for smooth word highlight updates
     let portfolioScrollHighlightRafId = null;
@@ -716,95 +646,15 @@ const initPreloader = (callbackFunction) => {
       });
     };
 
-    // 3D Parallax Tilt Card - High-Performance Hardware Accelerated Spring Physics Engine
+    // 3D Parallax Tilt Card - Trust & Excellence Box
     const valuesCardWrapper = card.closest(".values-leadership-card-wrapper") || card;
-    
-    let isHovering = false;
-    let targetRotateX = 0;
-    let targetRotateY = 0;
-    let targetScale = 1.02;
-    let currentRotateX = 0;
-    let currentRotateY = 0;
-    let currentScale = 1.02;
-    let vx = 0;
-    let vy = 0;
-    let vs = 0;
-    let springRafId = null;
-
-    const updateSpringPhysics = () => {
-      // Spring stiffness & damping constants (stiffness: 150, damping: 20 equivalent)
-      const k = 0.14;   // Spring Stiffness
-      const d = 0.80;   // Damping Coefficient
-
-      // Calculate spring forces
-      const ax = (targetRotateX - currentRotateX) * k;
-      const ay = (targetRotateY - currentRotateY) * k;
-      const as = (targetScale - currentScale) * k;
-
-      vx = (vx + ax) * d;
-      vy = (vy + ay) * d;
-      vs = (vs + as) * d;
-
-      currentRotateX += vx;
-      currentRotateY += vy;
-      currentScale += vs;
-
-      // Apply 3D GPU hardware transform
-      card.style.transform = `translate3d(0px, 0px, 50px) rotateX(${currentRotateX.toFixed(2)}deg) rotateY(${currentRotateY.toFixed(2)}deg) scale3d(${currentScale.toFixed(3)}, ${currentScale.toFixed(3)}, 1)`;
-
-      // Stop loop when spring comes to rest
-      const isAtRest =
-        Math.abs(targetRotateX - currentRotateX) < 0.01 &&
-        Math.abs(targetRotateY - currentRotateY) < 0.01 &&
-        Math.abs(targetScale - currentScale) < 0.001 &&
-        Math.abs(vx) < 0.01 &&
-        Math.abs(vy) < 0.01 &&
-        Math.abs(vs) < 0.001;
-
-      if (!isAtRest || isHovering) {
-        springRafId = requestAnimationFrame(updateSpringPhysics);
-      } else {
-        springRafId = null;
-        card.style.transform = `translate3d(0px, 0px, 50px) rotateX(0deg) rotateY(0deg) scale3d(1.02, 1.02, 1)`;
-      }
-    };
-
-    const startSpringLoop = () => {
-      if (springRafId === null) {
-        springRafId = requestAnimationFrame(updateSpringPhysics);
-      }
-    };
-
-    valuesCardWrapper.addEventListener("mouseenter", () => {
-      isHovering = true;
-      targetScale = 1.03;
-      startSpringLoop();
-    }, { passive: true });
-
-    valuesCardWrapper.addEventListener("mousemove", (e) => {
-      isHovering = true;
-      const rect = valuesCardWrapper.getBoundingClientRect();
-      if (!rect.width || !rect.height) return;
-
-      const centerX = rect.left + rect.width / 2;
-      const centerY = rect.top + rect.height / 2;
-      const mouseX = e.clientX - centerX;
-      const mouseY = e.clientY - centerY;
-
-      targetRotateX = (-mouseY / (rect.height / 2)) * 10;
-      targetRotateY = (mouseX / (rect.width / 2)) * 10;
-      targetScale = 1.03;
-
-      startSpringLoop();
-    }, { passive: true });
-
-    valuesCardWrapper.addEventListener("mouseleave", () => {
-      isHovering = false;
-      targetRotateX = 0;
-      targetRotateY = 0;
-      targetScale = 1.02;
-      startSpringLoop();
-    }, { passive: true });
+    createLerpTiltCard(card, valuesCardWrapper, {
+      baseTranslate: "translate3d(0px, 0px, 50px)",
+      maxTilt: 10,
+      easeFactor: 0.08,
+      restScale: 1.02,
+      hoverScale: 1.04
+    });
 
     window.addEventListener("scroll", updateWordHighlight, { passive: true });
     window.addEventListener("resize", updateWordHighlight, { passive: true });
