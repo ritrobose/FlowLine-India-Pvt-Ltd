@@ -7781,10 +7781,27 @@ body.modal-open {
   }
 }
 
-/* 12 Products Layout Section - Responsive & Flexible Dimensions */
+/* 20 Products Layout Section - Continuous Non-Stretching Layout */
+#products.section {
+  min-height: auto !important;
+  height: auto !important;
+  display: block !important;
+}
+
+#products .container {
+  height: auto !important;
+  min-height: auto !important;
+}
+
 .layout.layout--catalog {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  display: grid !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  grid-template-rows: none !important;
+  grid-auto-rows: auto !important;
+  flex: none !important;
+  height: auto !important;
+  min-height: auto !important;
+  row-gap: 0px !important;
   width: 100%;
   max-width: 100%;
 }
