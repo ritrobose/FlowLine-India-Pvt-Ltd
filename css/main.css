@@ -8934,7 +8934,7 @@ body.modal-open {
 }
 
 /* Global Security & Anti-Inspection Rules */
-html, body, img, video, a, div, span, p, h1, h2, h3, h4, h5, h6, section, article {
+*, *::before, *::after {
   -webkit-user-select: none !important;
   -moz-user-select: none !important;
   -ms-user-select: none !important;
