@@ -7421,6 +7421,11 @@ figure {
 /* ==========================================================================
    Glassmorphism Product Detail Modal Overlay (Flowline India)
    ========================================================================== */
+body.modal-open {
+  overflow: hidden !important;
+  touch-action: none;
+}
+
 .product-modal {
   position: fixed;
   top: 0;
@@ -7435,6 +7440,8 @@ figure {
   visibility: hidden;
   pointer-events: none;
   transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  overscroll-behavior: contain;
+  touch-action: none;
 }
 
 .product-modal.is-active {
@@ -7472,6 +7479,7 @@ figure {
   flex-direction: column;
   transform: scale(0.92) translateY(20px);
   transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  overscroll-behavior: contain;
 }
 
 .product-modal.is-active .product-modal__container {
@@ -7575,6 +7583,9 @@ figure {
   flex-direction: column;
   gap: 22px;
   overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
   color: #ffffff;
   background: rgba(255, 255, 255, 0.02);
   scrollbar-width: thin;

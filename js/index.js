@@ -304,36 +304,129 @@ const initPreloader = (callbackFunction) => {
     }
   };
   const initProductModal = () => {
-    const modal = document.getElementById("product-modal-axial");
-    if (!modal) return;
+    const openTriggers = document.querySelectorAll("[data-open-modal]");
+    if (!openTriggers.length) return;
 
-    const openTriggers = document.querySelectorAll('[data-open-modal="axial-flow-fan"]');
-    const closeTriggers = modal.querySelectorAll("[data-close-modal]");
+    let savedScrollY = 0;
 
-    const openModal = (e) => {
-      if (e) e.preventDefault();
-      modal.classList.add("is-active");
-      modal.setAttribute("aria-hidden", "false");
+    const lockBodyScroll = () => {
+      savedScrollY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop || 0;
+      document.body.classList.add("modal-open");
       document.body.style.overflow = "hidden";
+      if (window.lenis && typeof window.lenis.stop === "function") {
+        window.lenis.stop();
+      }
     };
 
-    const closeModal = () => {
-      modal.classList.remove("is-active");
-      modal.setAttribute("aria-hidden", "true");
+    const unlockBodyScroll = () => {
+      if (document.querySelectorAll(".product-modal.is-active").length > 0) return;
+      document.body.classList.remove("modal-open");
       document.body.style.overflow = "";
+
+      // Restore exact scroll position
+      window.scrollTo(0, savedScrollY);
+
+      if (window.lenis) {
+        if (typeof window.lenis.start === "function") {
+          window.lenis.start();
+        }
+        if (typeof window.lenis.scrollTo === "function") {
+          window.lenis.scrollTo(savedScrollY, { immediate: true });
+        }
+      }
     };
 
     openTriggers.forEach((trigger) => {
-      trigger.addEventListener("click", openModal);
+      trigger.addEventListener("click", (e) => {
+        if (e) {
+          e.preventDefault();
+          e.stopPropagation();
+        }
+        const modalKey = trigger.getAttribute("data-open-modal");
+        let modal = document.getElementById(`product-modal-${modalKey}`);
+        if (!modal && modalKey === "axial-flow-fan") {
+          modal = document.getElementById("product-modal-axial");
+        }
+        if (!modal && modalKey === "inline-flow-fan") {
+          modal = document.getElementById("product-modal-inline");
+        }
+        if (!modal && (modalKey === "centrifugal-fan" || modalKey === "belt-driven-centrifugal-fan")) {
+          modal = document.getElementById("product-modal-centrifugal");
+        }
+        if (!modal && (modalKey === "didw-backward-curved-fan" || modalKey === "didw")) {
+          modal = document.getElementById("product-modal-didw");
+        }
+        if (!modal && (modalKey === "sisw-forward-fan" || modalKey === "sisw")) {
+          modal = document.getElementById("product-modal-sisw-forward-fan");
+        }
+        if (!modal && (modalKey === "didw-direct-driven-fan" || modalKey === "ddm")) {
+          modal = document.getElementById("product-modal-didw-direct-driven-fan");
+        }
+        if (!modal && (modalKey === "direct-drive-fan" || modalKey === "dd")) {
+          modal = document.getElementById("product-modal-direct-drive-fan");
+        }
+        if (!modal && (modalKey === "aerofoil-blades-centrifugal-fan" || modalKey === "rml" || modalKey === "rlm")) {
+          modal = document.getElementById("product-modal-aerofoil-blades-centrifugal-fan");
+        }
+        if (!modal) {
+          modal = document.getElementById(modalKey);
+        }
+        if (modal) {
+          modal.classList.add("is-active");
+          modal.setAttribute("aria-hidden", "false");
+          lockBodyScroll();
+        }
+      });
     });
 
-    closeTriggers.forEach((trigger) => {
-      trigger.addEventListener("click", closeModal);
+    const allModals = document.querySelectorAll(".product-modal");
+    allModals.forEach((modal) => {
+      const closeTriggers = modal.querySelectorAll("[data-close-modal]");
+      const closeModal = (e) => {
+        if (e) {
+          e.preventDefault();
+          e.stopPropagation();
+        }
+        modal.classList.remove("is-active");
+        modal.setAttribute("aria-hidden", "true");
+        unlockBodyScroll();
+      };
+      closeTriggers.forEach((trigger) => {
+        trigger.addEventListener("click", closeModal);
+      });
+
+      modal.addEventListener("wheel", (e) => {
+        const scrollable = e.target.closest(".product-modal__content");
+        if (!scrollable) {
+          e.preventDefault();
+          return;
+        }
+        const scrollTop = scrollable.scrollTop;
+        const scrollHeight = scrollable.scrollHeight;
+        const height = scrollable.clientHeight;
+        const delta = e.deltaY;
+
+        if ((delta < 0 && scrollTop <= 0) || (delta > 0 && scrollTop + height >= scrollHeight - 1)) {
+          e.preventDefault();
+        }
+        e.stopPropagation();
+      }, { passive: false });
+
+      modal.addEventListener("touchmove", (e) => {
+        const scrollable = e.target.closest(".product-modal__content");
+        if (!scrollable) {
+          e.preventDefault();
+        }
+      }, { passive: false });
     });
 
     document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape" && modal.classList.contains("is-active")) {
-        closeModal();
+      if (e.key === "Escape") {
+        document.querySelectorAll(".product-modal.is-active").forEach((modal) => {
+          modal.classList.remove("is-active");
+          modal.setAttribute("aria-hidden", "true");
+        });
+        unlockBodyScroll();
       }
     });
   };
