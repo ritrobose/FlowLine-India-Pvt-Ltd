@@ -6,12 +6,23 @@
 <head>
 	<script>
 		(function() {
-			function block(e) { if (e) { if (e.preventDefault) e.preventDefault(); if (e.stopPropagation) e.stopPropagation(); } return false; }
-			['contextmenu', 'dragstart', 'selectstart', 'copy', 'cut'].forEach(function(evt) {
-				window.addEventListener(evt, block, true);
-				document.addEventListener(evt, block, true);
+			function blockRC(e) {
+				if (e && (e.type === 'contextmenu' || e.button === 2 || e.which === 3)) {
+					if (e.preventDefault) e.preventDefault();
+					if (e.stopPropagation) e.stopPropagation();
+					if (e.stopImmediatePropagation) e.stopImmediatePropagation();
+					return false;
+				}
+				if (e && (e.type === 'dragstart' || e.type === 'selectstart')) {
+					if (e.preventDefault) e.preventDefault();
+					return false;
+				}
+			}
+			['contextmenu', 'mousedown', 'mouseup', 'auxclick', 'dragstart', 'selectstart'].forEach(function(evt) {
+				window.addEventListener(evt, blockRC, true);
+				document.addEventListener(evt, blockRC, true);
 			});
-			window.oncontextmenu = document.oncontextmenu = block;
+			window.oncontextmenu = document.oncontextmenu = blockRC;
 		})();
 	</script>
 	<script src="/js/security-guard.js"></script>

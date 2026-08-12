@@ -1,71 +1,67 @@
 /**
- * FlowLine Fail-Safe Security & Right-Click Prevention Guard
+ * FlowLine Fail-Safe Anti-Right-Click & Security Guard Source
  */
 (function () {
   'use strict';
 
-  function block(e) {
-    if (e) {
+  function blockRightClick(e) {
+    if (!e) return false;
+    if (e.type === 'contextmenu' || e.button === 2 || e.which === 3) {
       if (typeof e.preventDefault === 'function') e.preventDefault();
       if (typeof e.stopPropagation === 'function') e.stopPropagation();
       if (typeof e.stopImmediatePropagation === 'function') e.stopImmediatePropagation();
+      return false;
     }
-    return false;
+    if (e.type === 'dragstart' || e.type === 'selectstart') {
+      if (typeof e.preventDefault === 'function') e.preventDefault();
+      return false;
+    }
   }
 
-  // 1. Immediately bind contextmenu prevention to all event targets
-  var events = ['contextmenu', 'dragstart', 'selectstart', 'copy', 'cut'];
+  // Bind right-click & mouse event traps across capturing phase
+  var events = ['contextmenu', 'mousedown', 'mouseup', 'auxclick', 'dragstart', 'selectstart', 'copy', 'cut'];
   for (var i = 0; i < events.length; i++) {
-    window.addEventListener(events[i], block, true);
-    document.addEventListener(events[i], block, true);
+    window.addEventListener(events[i], blockRightClick, true);
+    document.addEventListener(events[i], blockRightClick, true);
     if (document.documentElement) {
-      document.documentElement.addEventListener(events[i], block, true);
+      document.documentElement.addEventListener(events[i], blockRightClick, true);
     }
   }
 
-  // Direct property overwrites
-  window.oncontextmenu = block;
-  document.oncontextmenu = block;
+  // Direct property bindings
+  window.oncontextmenu = blockRightClick;
+  document.oncontextmenu = blockRightClick;
 
   document.addEventListener('DOMContentLoaded', function () {
     if (document.body) {
-      document.body.oncontextmenu = block;
-      document.body.addEventListener('contextmenu', block, true);
+      document.body.oncontextmenu = blockRightClick;
+      document.body.addEventListener('contextmenu', blockRightClick, true);
+      document.body.addEventListener('mousedown', blockRightClick, true);
+      document.body.addEventListener('auxclick', blockRightClick, true);
     }
   });
 
-  // 2. Keyboard shortcut prevention
+  // Keyboard shortcut prevention
   window.addEventListener('keydown', function (e) {
     var isCmdOrCtrl = e.ctrlKey || e.metaKey;
     var key = e.key ? e.key.toLowerCase() : '';
     var keyCode = e.keyCode || e.which;
 
     if (e.key === 'F12' || keyCode === 123) {
-      return block(e);
+      if (e.preventDefault) e.preventDefault();
+      return false;
     }
     if (isCmdOrCtrl && e.shiftKey && (key === 'i' || key === 'j' || key === 'c' || key === 'k' || keyCode === 73 || keyCode === 74 || keyCode === 67 || keyCode === 75)) {
-      return block(e);
+      if (e.preventDefault) e.preventDefault();
+      return false;
     }
     if (isCmdOrCtrl && (key === 'u' || key === 's' || key === 'p' || keyCode === 85 || keyCode === 83 || keyCode === 80)) {
-      return block(e);
+      if (e.preventDefault) e.preventDefault();
+      return false;
     }
   }, true);
 
-  // 3. DevTools Detector & Debugger Loop
-  try {
-    setInterval(function () {
-      var startTime = performance.now();
-      debugger;
-      var endTime = performance.now();
-      if (endTime - startTime > 100) {
-        try {
-          eval('debugger;');
-        } catch (err) {}
-      }
-    }, 300);
-  } catch (err) {}
-
-  // 4. Disable Console Logging
+  // Disable Console Output
   if (typeof window.console !== 'undefined') {
     var noop = function () {};
     var methods = ['log', 'debug', 'info', 'warn', 'error', 'table', 'trace', 'dir'];
