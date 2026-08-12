@@ -369,6 +369,9 @@ const initPreloader = (callbackFunction) => {
           modal = document.getElementById("product-modal-aerofoil-blades-centrifugal-fan");
         }
         if (!modal) {
+          modal = document.getElementById(`product-modal-${modalKey}`) || document.getElementById(modalKey);
+        }
+        if (!modal) {
           modal = document.getElementById(modalKey);
         }
         if (modal) {
