@@ -2,9 +2,9 @@ const fs = require('fs');
 const path = require('path');
 const JavaScriptObfuscator = require('javascript-obfuscator');
 
-const filesToObfuscate = [
-  'js/security-guard.js',
-  'js/index.js'
+const filesToProcess = [
+  { src: 'js/security-guard.src.js', dest: 'js/security-guard.js' },
+  { src: 'js/index.js', dest: 'js/index.js' }
 ];
 
 const obfuscationOptions = {
@@ -33,16 +33,17 @@ const obfuscationOptions = {
 
 console.log('🔒 Starting code obfuscation and security bundling...');
 
-filesToObfuscate.forEach((filePath) => {
-  const absolutePath = path.join(__dirname, '..', filePath);
-  if (fs.existsSync(absolutePath)) {
-    console.log(`  -> Obfuscating: ${filePath}`);
-    const sourceCode = fs.readFileSync(absolutePath, 'utf8');
+filesToProcess.forEach(({ src, dest }) => {
+  const srcPath = path.join(__dirname, '..', src);
+  const destPath = path.join(__dirname, '..', dest);
+  if (fs.existsSync(srcPath)) {
+    console.log(`  -> Obfuscating: ${src} -> ${dest}`);
+    const sourceCode = fs.readFileSync(srcPath, 'utf8');
     const obfuscatedResult = JavaScriptObfuscator.obfuscate(sourceCode, obfuscationOptions);
-    fs.writeFileSync(absolutePath, obfuscatedResult.getObfuscatedCode(), 'utf8');
-    console.log(`  ✓ Successfully obfuscated (Source maps disabled): ${filePath}`);
+    fs.writeFileSync(destPath, obfuscatedResult.getObfuscatedCode(), 'utf8');
+    console.log(`  ✓ Successfully obfuscated (Source maps disabled): ${dest}`);
   } else {
-    console.warn(`  ! File not found: ${filePath}`);
+    console.warn(`  ! File not found: ${src}`);
   }
 });
 
