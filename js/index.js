@@ -266,7 +266,7 @@ const initPreloader = (callbackFunction) => {
 };
 
 function initMapModal() {
-  const iframeSrc = "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d8327.437581581064!2d77.14080761378813!3d28.65204636708097!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d031cc9796f57%3A0xd2a0138943e0fc40!2sFlowline%20India%20Pvt%20Ltd!5e0!3m2!1sen!2sin!4v1786704125193!5m2!1sen!2sin";
+  const iframeSrc = "https://maps.google.com/maps?q=Flowline+India+Pvt+Ltd,+Industrial+Area,+3/24,+Block+3,+Kirti+Nagar,+New+Delhi,+110015&t=&z=15&ie=UTF8&iwloc=&output=embed";
   const exactDestination = "Flowline India Pvt Ltd, Industrial Area, 3/24, Block 3, Kirti Nagar, New Delhi, 110015";
   const encodedDestination = encodeURIComponent(exactDestination);
 
