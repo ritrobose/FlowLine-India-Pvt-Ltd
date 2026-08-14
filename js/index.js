@@ -353,7 +353,7 @@ function initMapModal() {
             </a>
           </div>
           <div class="map-modal__body">
-            <iframe src="${iframeSrc}" width="100%" height="420" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+            <iframe src="${iframeSrc}" width="100%" height="420" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
           </div>
         </div>
       `;
