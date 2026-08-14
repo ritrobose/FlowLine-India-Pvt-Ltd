@@ -353,11 +353,18 @@ function initMapModal() {
             </a>
           </div>
           <div class="map-modal__body">
-            <iframe src="${iframeSrc}" width="100%" height="420" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            <iframe id="map-modal-iframe" src="${iframeSrc}" width="100%" height="420" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
           </div>
         </div>
       `;
       document.body.appendChild(modal);
+
+      const mapIframeEl = modal.querySelector("#map-modal-iframe");
+      if (mapIframeEl) {
+        mapIframeEl.addEventListener("error", () => {
+          mapIframeEl.src = "https://www.openstreetmap.org/export/embed.html?bbox=77.130808%2C28.647046%2C77.150808%2C28.657046&layer=mapnik&marker=28.652046%2C77.140808";
+        });
+      }
 
       const closeBtn = modal.querySelector(".map-modal__close");
       const overlay = modal.querySelector(".map-modal__overlay");
