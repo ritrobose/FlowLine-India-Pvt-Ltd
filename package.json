@@ -4,8 +4,8 @@
   "description": "Website for Flowline India Private Limited",
   "main": "index.html",
   "scripts": {
-    "dev": "live-server --port=5175 --no-browser",
-    "start": "live-server --port=5175 --no-browser",
+    "dev": "live-server --host=0.0.0.0 --port=5175 --no-browser",
+    "start": "live-server --host=0.0.0.0 --port=5175 --no-browser",
     "build": "node scripts/obfuscate.js"
   },
   "devDependencies": {
