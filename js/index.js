@@ -122,15 +122,19 @@ const initPreloader = (callbackFunction) => {
   let loadStartTime;
   let cleanupCursor;
   let progressInterval = null;
-  if (!preloader) {
-    setTimeout(() => {
-      showContent(function () {
-        initOtherFeatures();
-      });
-    }, 1e3);
+  if (mainContent) {
+    mainContent.classList.add(CLASSES.HIDDEN);
+    mainContent.classList.add(CLASSES.LOADING);
   }
-  mainContent.classList.add(CLASSES.HIDDEN);
-  mainContent.classList.add(CLASSES.LOADING);
+  if (!preloader) {
+    if (mainContent) {
+      mainContent.classList.remove(CLASSES.HIDDEN);
+      mainContent.classList.remove(CLASSES.LOADING);
+    }
+    document.body.classList.remove(CLASSES.LOCKED);
+    if (callbackFunction) callbackFunction();
+    return;
+  }
   function initLoadingCursor() {
     if (!loadingTag) return;
     document.body.style.cursor = "none";
@@ -186,10 +190,10 @@ const initPreloader = (callbackFunction) => {
       handlePageLoad();
     });
     setTimeout(function () {
-      if (mainContent.classList.contains(CLASSES.HIDDEN)) {
+      if (!mainContent || mainContent.classList.contains(CLASSES.HIDDEN)) {
         handlePageLoad();
       }
-    }, 5e3);
+    }, 3e3);
   }
   startPreloader();
   function handlePageLoad() {
@@ -208,13 +212,21 @@ const initPreloader = (callbackFunction) => {
     });
   }
   function hidePreloaderAnimation(callback) {
-    gsapWithCSS.to(preloader, {
-      autoAlpha: 0,
-      // scale: 0.8,
-      duration: 0.3,
-      ease: "power2.inOut",
-      onComplete: callback
-    });
+    if (preloader) {
+      gsapWithCSS.to(preloader, {
+        autoAlpha: 0,
+        duration: 0.3,
+        ease: "power2.inOut",
+        onComplete: function () {
+          preloader.classList.add(CLASSES.HIDDEN);
+          preloader.style.display = "none";
+          preloader.style.pointerEvents = "none";
+          if (callback) callback();
+        }
+      });
+    } else if (callback) {
+      callback();
+    }
   }
   function showContent(callback) {
     if (progressInterval) {
@@ -233,8 +245,10 @@ const initPreloader = (callbackFunction) => {
       });
     }
     if (callback) callback();
-    mainContent.classList.remove(CLASSES.HIDDEN);
-    mainContent.classList.remove(CLASSES.LOADING);
+    if (mainContent) {
+      mainContent.classList.remove(CLASSES.HIDDEN);
+      mainContent.classList.remove(CLASSES.LOADING);
+    }
     document.body.classList.remove(CLASSES.LOCKED);
   }
   function initOtherFeatures() {
@@ -250,6 +264,368 @@ const initPreloader = (callbackFunction) => {
     }
   };
 };
+
+function initMapModal() {
+  const iframeSrc = "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d8327.437581581064!2d77.14080761378813!3d28.65204636708097!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d031cc9796f57%3A0xd2a0138943e0fc40!2sFlowline%20India%20Pvt%20Ltd!5e0!3m2!1sen!2sin!4v1786704125193!5m2!1sen!2sin";
+  const exactDestination = "Flowline India Pvt Ltd, Industrial Area, 3/24, Block 3, Kirti Nagar, New Delhi, 110015";
+  const encodedDestination = encodeURIComponent(exactDestination);
+
+  const POPULAR_LOCATIONS = [
+    "Agra, Uttar Pradesh",
+    "Ahmedabad, Gujarat",
+    "Amritsar, Punjab",
+    "Anand Vihar, New Delhi",
+    "Bangalore / Bengaluru, Karnataka",
+    "Bhopal, Madhya Pradesh",
+    "Chandigarh, Punjab & Haryana",
+    "Chennai, Tamil Nadu",
+    "Connaught Place, New Delhi",
+    "Dehradun, Uttarakhand",
+    "Delhi Cantt, New Delhi",
+    "Dwarka, New Delhi",
+    "Faridabad, Haryana",
+    "Ghaziabad, Uttar Pradesh",
+    "Greater Noida, Uttar Pradesh",
+    "Gurugram / Gurgaon, Haryana",
+    "Guwahati, Assam",
+    "Hyderabad, Telangana",
+    "IGIA Airport (DEL), New Delhi",
+    "Indirapuram, Ghaziabad",
+    "Indore, Madhya Pradesh",
+    "Jaipur, Rajasthan",
+    "Janakpuri, New Delhi",
+    "Kanpur, Uttar Pradesh",
+    "Karol Bagh, New Delhi",
+    "Kirti Nagar Metro Station, New Delhi",
+    "Kochi, Kerala",
+    "Kolkata, West Bengal",
+    "Lucknow, Uttar Pradesh",
+    "Ludhiana, Punjab",
+    "Meerut, Uttar Pradesh",
+    "Mumbai, Maharashtra",
+    "Nagpur, Maharashtra",
+    "New Delhi Railway Station, New Delhi",
+    "Noida, Uttar Pradesh",
+    "Patna, Bihar",
+    "Pune, Maharashtra",
+    "Rajouri Garden, New Delhi",
+    "Rohini, New Delhi",
+    "Surat, Gujarat",
+    "Varanasi, Uttar Pradesh",
+    "Vasant Kunj, New Delhi"
+  ].sort((a, b) => a.localeCompare(b));
+
+  function getOrCreateModal() {
+    let modal = document.getElementById("map-modal");
+    if (!modal) {
+      modal = document.createElement("div");
+      modal.id = "map-modal";
+      modal.className = "map-modal";
+      modal.setAttribute("aria-hidden", "true");
+      modal.innerHTML = `
+        <div class="map-modal__overlay"></div>
+        <div class="map-modal__container">
+          <button class="map-modal__close" aria-label="Close map">&times;</button>
+          <div class="map-modal__header">
+            <span class="map-modal__tag">.LOCATION &amp; DIRECTIONS</span>
+            <h3 class="map-modal__title">Flowline India Pvt Ltd</h3>
+            <p class="map-modal__subtitle">Industrial Area, 3/24, Block 3, Kirti Nagar, New Delhi, 110015</p>
+          </div>
+          <div class="map-modal__directions-bar">
+            <div class="map-modal__input-wrapper">
+              <svg class="map-modal__input-icon" viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+              <input type="text" id="map-origin-input" class="map-modal__input" placeholder="Type your location or select from dropdown..." autocomplete="off" />
+              <div id="map-autocomplete-dropdown" class="map-modal__autocomplete-dropdown" style="display: none;">
+                <div class="autocomplete-item autocomplete-item--gps" id="map-gps-btn">
+                  <svg class="autocomplete-item__icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm8.94 3A8.994 8.994 0 0013 3.06V1h-2v2.06A8.994 8.994 0 003.06 11H1v2h2.06A8.994 8.994 0 0011 20.94V23h2v-2.06A8.994 8.994 0 0020.94 13H23v-2h-2.06zM12 19c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z"/></svg>
+                  <span id="map-gps-text">📍 Use My Current Location (GPS)</span>
+                </div>
+                <div id="map-suggestions-container"></div>
+              </div>
+            </div>
+            <button id="map-directions-btn" class="map-modal__btn map-modal__btn--primary" type="button">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M22.43 10.59l-9.01-9.01c-.75-.75-1.97-.75-2.72 0l-9.01 9.01c-.75.75-.75 1.97 0 2.72l9.01 9.01c.75.75 1.97.75 2.72 0l9.01-9.01c.75-.75.75-1.97 0-2.72zM12 18.5L5.5 12 12 5.5l6.5 6.5-6.5 6.5z"/><path d="M13 8v3h-3v2h3v3l4-4z"/></svg>
+              Get Directions
+            </button>
+            <a id="map-fullscreen-btn" href="https://www.google.com/maps/dir/?api=1&destination=${encodedDestination}" target="_blank" rel="noopener noreferrer" class="map-modal__btn map-modal__btn--secondary">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/></svg>
+              Google Maps
+            </a>
+          </div>
+          <div class="map-modal__body">
+            <iframe src="${iframeSrc}" width="100%" height="420" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+          </div>
+        </div>
+      `;
+      document.body.appendChild(modal);
+
+      const closeBtn = modal.querySelector(".map-modal__close");
+      const overlay = modal.querySelector(".map-modal__overlay");
+      const originInput = modal.querySelector("#map-origin-input");
+      const directionsBtn = modal.querySelector("#map-directions-btn");
+      const dropdown = modal.querySelector("#map-autocomplete-dropdown");
+      const gpsBtn = modal.querySelector("#map-gps-btn");
+      const gpsText = modal.querySelector("#map-gps-text");
+      const suggestionsContainer = modal.querySelector("#map-suggestions-container");
+
+      let currentGpsLocation = null;
+
+      function openModal() {
+        modal.classList.add("is-open");
+        modal.setAttribute("aria-hidden", "false");
+        document.body.style.overflow = "hidden";
+        document.body.classList.add("js--locked");
+      }
+
+      function closeModal() {
+        modal.classList.remove("is-open");
+        modal.setAttribute("aria-hidden", "true");
+        document.body.style.overflow = "";
+        document.body.classList.remove("js--locked");
+        hideDropdown();
+      }
+
+      function showDropdown() {
+        dropdown.style.display = "block";
+      }
+
+      function hideDropdown() {
+        dropdown.style.display = "none";
+      }
+
+      let debounceTimer = null;
+
+      function renderSuggestions(filterText = "") {
+        const query = filterText.trim();
+
+        if (!query) {
+          const initialList = POPULAR_LOCATIONS.slice().sort((a, b) => a.localeCompare(b));
+          suggestionsContainer.innerHTML = initialList.map(loc => `
+            <div class="autocomplete-item" data-value="${loc}">
+              <svg class="autocomplete-item__icon" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+              <span>${loc}</span>
+            </div>
+          `).join("");
+          return;
+        }
+
+        const localMatches = POPULAR_LOCATIONS.filter(loc => loc.toLowerCase().includes(query.toLowerCase())).sort((a, b) => a.localeCompare(b));
+        if (localMatches.length > 0) {
+          suggestionsContainer.innerHTML = localMatches.map(loc => `
+            <div class="autocomplete-item" data-value="${loc}">
+              <svg class="autocomplete-item__icon" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+              <span>${loc}</span>
+            </div>
+          `).join("");
+        } else {
+          suggestionsContainer.innerHTML = `<div class="autocomplete-no-match">Searching live places for "${query}"...</div>`;
+        }
+
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(() => {
+          fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=25&addressdetails=1`, {
+            headers: { "Accept-Language": "en" }
+          })
+            .then(res => res.json())
+            .then(data => {
+              if (data && data.length > 0) {
+                const placeNames = data.map(item => item.display_name).sort((a, b) => a.localeCompare(b));
+                suggestionsContainer.innerHTML = placeNames.map(loc => `
+                  <div class="autocomplete-item" data-value="${loc}">
+                    <svg class="autocomplete-item__icon" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+                    <span>${loc}</span>
+                  </div>
+                `).join("");
+              } else if (localMatches.length === 0) {
+                suggestionsContainer.innerHTML = `<div class="autocomplete-no-match">Press Enter or click Get Directions to search in Google Maps</div>`;
+              }
+            })
+            .catch(() => {});
+        }, 300);
+      }
+
+      const mapIframe = modal.querySelector(".map-modal__body iframe");
+
+      function updateEmbeddedMapRoute(originAddress) {
+        if (!originAddress) {
+          mapIframe.src = iframeSrc;
+          return;
+        }
+
+        const destAddress = "Flowline India Pvt Ltd, Industrial Area, 3/24, Block 3, Kirti Nagar, New Delhi, 110015";
+        const routeEmbedUrl = `https://maps.google.com/maps?saddr=${encodeURIComponent(originAddress)}&daddr=${encodeURIComponent(destAddress)}&output=embed`;
+        
+        mapIframe.src = routeEmbedUrl;
+
+        let routeTag = modal.querySelector("#map-route-status");
+        if (!routeTag) {
+          routeTag = document.createElement("div");
+          routeTag.id = "map-route-status";
+          routeTag.className = "map-modal__route-status";
+          const bodyContainer = modal.querySelector(".map-modal__body");
+          bodyContainer.parentNode.insertBefore(routeTag, bodyContainer);
+        }
+
+        const displayLabel = originAddress.length > 45 ? originAddress.substring(0, 45) + "..." : originAddress;
+        routeTag.innerHTML = `
+          <span class="route-status__icon">🛣️</span>
+          <span class="route-status__text">Route from <strong>${displayLabel}</strong> to <strong>Flowline India Pvt Ltd</strong></span>
+          <button class="route-status__reset" type="button" title="Reset map to default pin">Reset Map &times;</button>
+        `;
+
+        const resetBtn = routeTag.querySelector(".route-status__reset");
+        resetBtn.addEventListener("click", () => {
+          mapIframe.src = iframeSrc;
+          routeTag.remove();
+          originInput.value = "";
+          currentGpsLocation = null;
+        });
+      }
+
+      function selectLocation(val) {
+        originInput.value = val;
+        hideDropdown();
+        updateEmbeddedMapRoute(val);
+      }
+
+      // GPS Location Button
+      gpsBtn.addEventListener("click", () => {
+        if ("geolocation" in navigator) {
+          gpsText.textContent = "📍 Detecting your GPS location...";
+          navigator.geolocation.getCurrentPosition(
+            (pos) => {
+              const lat = pos.coords.latitude;
+              const lng = pos.coords.longitude;
+              currentGpsLocation = `${lat},${lng}`;
+              const label = `Current Location (${lat.toFixed(4)}, ${lng.toFixed(4)})`;
+              originInput.value = label;
+              gpsText.textContent = "📍 Use My Current Location (GPS)";
+              hideDropdown();
+              updateEmbeddedMapRoute(currentGpsLocation);
+            },
+            (err) => {
+              gpsText.textContent = "⚠️ GPS Permission Denied / Unavailable";
+              setTimeout(() => {
+                gpsText.textContent = "📍 Use My Current Location (GPS)";
+              }, 3000);
+            },
+            { enableHighAccuracy: true, timeout: 10000 }
+          );
+        } else {
+          gpsText.textContent = "⚠️ Geolocation not supported by browser";
+        }
+      });
+
+      // Suggestion Item Click
+      suggestionsContainer.addEventListener("click", (e) => {
+        const item = e.target.closest(".autocomplete-item");
+        if (item) {
+          const loc = item.getAttribute("data-value");
+          if (loc) {
+            currentGpsLocation = null;
+            selectLocation(loc);
+          }
+        }
+      });
+
+      // Input Focus & Keyup
+      originInput.addEventListener("focus", () => {
+        renderSuggestions(originInput.value);
+        showDropdown();
+      });
+
+      originInput.addEventListener("input", () => {
+        currentGpsLocation = null;
+        renderSuggestions(originInput.value);
+        showDropdown();
+      });
+
+      // Close dropdown on click outside
+      document.addEventListener("click", (e) => {
+        if (!e.target.closest(".map-modal__input-wrapper")) {
+          hideDropdown();
+        }
+      });
+
+      function launchDirections() {
+        const val = currentGpsLocation || originInput.value.trim();
+        if (val) {
+          updateEmbeddedMapRoute(val);
+        }
+
+        let googleMapsDirUrl;
+        if (currentGpsLocation) {
+          googleMapsDirUrl = `https://www.google.com/maps/dir/?api=1&origin=${currentGpsLocation}&destination=${encodedDestination}`;
+        } else {
+          const userOrigin = originInput.value.trim();
+          if (userOrigin) {
+            googleMapsDirUrl = `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(userOrigin)}&destination=${encodedDestination}`;
+          } else {
+            googleMapsDirUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodedDestination}`;
+          }
+        }
+        window.open(googleMapsDirUrl, "_blank", "noopener,noreferrer");
+      }
+
+      closeBtn.addEventListener("click", closeModal);
+      overlay.addEventListener("click", closeModal);
+      directionsBtn.addEventListener("click", launchDirections);
+      originInput.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+          e.preventDefault();
+          hideDropdown();
+          launchDirections();
+        }
+      });
+
+      // Isolate wheel / touch scroll inside map modal
+      modal.addEventListener("wheel", (e) => {
+        e.stopPropagation();
+      }, { passive: true });
+
+      window.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && modal.classList.contains("is-open")) {
+          closeModal();
+        }
+      });
+
+      modal._open = openModal;
+    }
+    return modal;
+  }
+
+  document.addEventListener("click", (e) => {
+    const target = e.target.closest(".contact-location-box, a[href='#location']");
+    if (target) {
+      const isMobile = window.innerWidth <= 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+      if (isMobile) {
+        const currentHref = target.getAttribute("href");
+        if (!currentHref || currentHref === "#location" || currentHref === "javascript:void(0)") {
+          e.preventDefault();
+          window.open("https://www.google.com/maps/search/?api=1&query=Flowline+India+Pvt+Ltd,+Industrial+Area,+3/24,+Block+3,+Kirti+Nagar,+New+Delhi,+110015", "_blank", "noopener,noreferrer");
+        }
+        return;
+      }
+      e.preventDefault();
+      e.stopPropagation();
+      const modal = getOrCreateModal();
+      if (modal._open) {
+        modal._open();
+      } else {
+        modal.classList.add("is-open");
+        modal.setAttribute("aria-hidden", "false");
+        document.body.style.overflow = "hidden";
+        document.body.classList.add("js--locked");
+      }
+    }
+  });
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", initMapModal);
+} else {
+  initMapModal();
+}
 (() => {
   let ModuleType;
   ((ModuleType2) => {

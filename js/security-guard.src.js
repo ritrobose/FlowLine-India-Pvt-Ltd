@@ -37,17 +37,11 @@
   window.oncontextmenu = handleMouse;
   document.oncontextmenu = handleMouse;
 
-  // 3. Attach handler to ALL existing and future DOM elements
+  // 3. Attach handler to body when ready
   function attachAll() {
     if (document.body) {
       document.body.oncontextmenu = handleMouse;
     }
-    try {
-      var all = document.getElementsByTagName('*');
-      for (var k = 0; k < all.length; k++) {
-        all[k].oncontextmenu = handleMouse;
-      }
-    } catch (err) {}
   }
 
   if (document.readyState === 'loading') {
@@ -55,20 +49,6 @@
   } else {
     attachAll();
   }
-
-  try {
-    var observer = new MutationObserver(function (mutations) {
-      mutations.forEach(function (m) {
-        for (var n = 0; n < m.addedNodes.length; n++) {
-          var node = m.addedNodes[n];
-          if (node.nodeType === 1) {
-            node.oncontextmenu = handleMouse;
-          }
-        }
-      });
-    });
-    observer.observe(document.documentElement, { childList: true, subtree: true });
-  } catch (err) {}
 
   // 4. Keyboard shortcuts prevention
   window.addEventListener('keydown', function (e) {
