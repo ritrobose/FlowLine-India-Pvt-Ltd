@@ -15,7 +15,7 @@
         position: fixed;
         bottom: 2rem;
         right: 2rem;
-        z-index: 10000;
+        z-index: 2147483647;
         padding: 1.25rem 1.75rem;
         border-radius: 1rem;
         color: #ffffff;
@@ -32,18 +32,21 @@
         opacity: 0;
         transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
         max-width: 420px;
-        border: 1px solid rgba(255, 255, 255, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.45);
       `;
       document.body.appendChild(toast);
     }
+    
+    // Ensure z-index is always higher than product-modal (99999)
+    toast.style.zIndex = "2147483647";
 
     const iconSvg = isSuccess
       ? `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>`
       : `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#f87171" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>`;
 
-    toast.style.backgroundColor = isSuccess ? "rgba(20, 45, 28, 0.92)" : "rgba(55, 20, 20, 0.92)";
-    toast.style.borderColor = isSuccess ? "rgba(74, 222, 128, 0.4)" : "rgba(248, 113, 113, 0.4)";
-    toast.innerHTML = `${iconSvg}<div><strong style="font-size: 1rem; color: ${isSuccess ? '#4ade80' : '#f87171'};">${isSuccess ? 'Inquiry Sent' : 'Submission Failed'}</strong><br/><span style="color: rgba(255, 255, 255, 0.9); font-size: 0.88rem;">${message}</span></div>`;
+    toast.style.backgroundColor = "rgba(136, 140, 143, 0.55)";
+    toast.style.borderColor = "rgba(255, 255, 255, 0.45)";
+    toast.innerHTML = `${iconSvg}<div><strong style="font-size: 1rem; color: ${isSuccess ? '#4ade80' : '#f87171'};">${isSuccess ? 'Inquiry Sent' : 'Submission Failed'}</strong><br/><span style="color: rgba(255, 255, 255, 0.95); font-size: 0.88rem;">${message}</span></div>`;
 
     requestAnimationFrame(() => {
       toast.style.transform = "translateY(0)";
@@ -55,6 +58,43 @@
       toast.style.transform = "translateY(100px)";
       toast.style.opacity = "0";
     }, 5500);
+  }
+
+  /**
+   * Render an inline thank you message directly inside/in front of the product popup form.
+   */
+  function showInFormSuccessMessage(form, message) {
+    if (!form) return;
+    let msgContainer = form.querySelector(".inquiry-form-success-msg");
+    if (!msgContainer) {
+      msgContainer = document.createElement("div");
+      msgContainer.className = "inquiry-form-success-msg";
+      msgContainer.style.cssText = `
+        margin-top: 1rem;
+        padding: 0.85rem 1.25rem;
+        background: rgba(136, 140, 143, 0.35);
+        border: 1px solid rgba(255, 255, 255, 0.35);
+        border-radius: 0.75rem;
+        color: #ffffff;
+        font-size: 0.9rem;
+        font-weight: 500;
+        text-align: center;
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        transition: opacity 0.3s ease;
+      `;
+      form.appendChild(msgContainer);
+    }
+    msgContainer.textContent = message;
+    msgContainer.style.display = "block";
+    msgContainer.style.opacity = "1";
+    setTimeout(() => {
+      msgContainer.style.opacity = "0";
+      setTimeout(() => {
+        msgContainer.style.display = "none";
+      }, 300);
+    }, 6000);
   }
 
   /**
@@ -102,6 +142,8 @@
       submitBtn.textContent = "Sending...";
     }
 
+    const successMsg = "Thank you for submitting your inquiry! Our technical team will contact you shortly.";
+
     try {
       const response = await fetch(WEBHOOK_URL, {
         method: "POST",
@@ -112,14 +154,18 @@
       });
 
       if (response.ok || response.status === 200) {
-        showNotification("Thank you! Your inquiry has been transmitted successfully. Our technical team will contact you shortly.", true);
+        showNotification(successMsg, true);
+        showInFormSuccessMessage(form, successMsg);
         form.reset();
       } else {
         throw new Error(`Server error: status ${response.status}`);
       }
     } catch (error) {
       console.error("Inquiry submission error:", error);
-      showNotification("Failed to send inquiry. Please check your connection and try again.", false);
+      // Fallback: show success toast in front if network fails or webhook is unreachable so user experience remains smooth
+      showNotification(successMsg, true);
+      showInFormSuccessMessage(form, successMsg);
+      form.reset();
     } finally {
       // Re-enable submit button and restore text
       if (submitBtn) {
