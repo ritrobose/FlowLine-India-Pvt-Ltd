@@ -1,11 +1,64 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
   <style>
-    @media (prefers-color-scheme: light) {
-      .fan { filter: invert(1) brightness(0); }
+    :root {
+      --bg: #0d0d11;
+      --sphere-1: #ffffff;
+      --sphere-2: #64748b;
+      --shadow: rgba(0, 0, 0, 0.7);
+      --accent: #38bdf8;
+      --surface: #1e293b;
+      --line: #475569;
+      --particle: #e0f2fe;
     }
-    @media (prefers-color-scheme: dark) {
-      .fan { filter: invert(0); }
+    @media (prefers-color-scheme: light) {
+      :root {
+        --bg: #ffffff;
+        --sphere-1: #0f172a;
+        --sphere-2: #475569;
+        --shadow: rgba(0, 0, 0, 0.2);
+        --accent: #0284c7;
+        --surface: #f1f5f9;
+        --line: #cbd5e1;
+        --particle: #0369a1;
+      }
     }
   </style>
-  <image class="fan" href="/New%20Assets/_Images/_Random/Logo.webp" width="1024" height="1024"/>
+
+  <defs>
+    <radialGradient id="sphereGrad" cx="35%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="var(--sphere-1)"/>
+      <stop offset="60%" stop-color="var(--sphere-2)"/>
+      <stop offset="100%" stop-color="var(--bg)"/>
+    </radialGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="1" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="64" height="64" fill="var(--bg)"/>
+
+  <!-- Cracked Reflective Surface Base -->
+  <path d="M8 50 L56 50 L50 56 L14 56 Z" fill="var(--surface)" opacity="0.8"/>
+  <path d="M12 50 L24 54 M32 50 L38 55 M46 50 L42 53" stroke="var(--line)" stroke-width="1.2" stroke-linecap="round"/>
+
+  <!-- Levitation Shadow (detached underneath) -->
+  <ellipse cx="32" cy="48" rx="12" ry="2.5" fill="var(--shadow)"/>
+
+  <!-- Antigravity Energy Aura Rings -->
+  <ellipse cx="32" cy="27" rx="17" ry="5.5" fill="none" stroke="var(--accent)" stroke-width="1.2" opacity="0.6" filter="url(#glow)" transform="rotate(-10 32 27)"/>
+  <ellipse cx="32" cy="27" rx="14" ry="4" fill="none" stroke="var(--accent)" stroke-width="1.5" opacity="0.9" transform="rotate(-10 32 27)"/>
+
+  <!-- Floating Sphere -->
+  <circle cx="32" cy="25" r="11" fill="url(#sphereGrad)"/>
+  <circle cx="32" cy="25" r="11" fill="none" stroke="var(--accent)" stroke-width="0.8" opacity="0.7"/>
+
+  <!-- Upward Drifting Particles / Floating Fragments -->
+  <circle cx="20" cy="19" r="1.3" fill="var(--particle)"/>
+  <circle cx="44" cy="17" r="1.6" fill="var(--accent)"/>
+  <circle cx="26" cy="10" r="1.1" fill="var(--particle)"/>
+  <circle cx="37" cy="9" r="1.3" fill="var(--particle)"/>
+  <polygon points="16,34 18,31 17,35" fill="var(--accent)"/>
+  <polygon points="46,35 48,32 47,36" fill="var(--particle)"/>
 </svg>
