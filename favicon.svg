@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+  <style>
+    @media (prefers-color-scheme: light) {
+      .fan { filter: invert(1) brightness(0); }
+    }
+    @media (prefers-color-scheme: dark) {
+      .fan { filter: invert(0); }
+    }
+  </style>
+  <image class="fan" href="/New%20Assets/_Images/_Random/Logo.webp" width="1024" height="1024"/>
+</svg>
