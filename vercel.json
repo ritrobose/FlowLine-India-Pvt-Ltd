@@ -2,7 +2,19 @@
   "framework": null,
   "cleanUrls": true,
   "outputDirectory": ".",
+  "redirects": [
+    {
+      "source": "/favicon.webp",
+      "destination": "/favicon-48x48.png",
+      "permanent": true
+    }
+  ],
   "routes": [
+    {
+      "src": "/favicon.webp",
+      "dest": "/favicon-48x48.png",
+      "status": 301
+    },
     {
       "src": "/(.*)\\.map$",
       "status": 404
