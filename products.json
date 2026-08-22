@@ -1,0 +1,228 @@
+{
+  "site": "Flowline India Private Limited",
+  "website": "https://www.flowlineindia.com",
+  "last_updated": "2026-08-22T14:50:00.918Z",
+  "total_products": 20,
+  "products": [
+    {
+      "id": "product-modal-axial",
+      "product_name": "Axial Fan",
+      "title": "AXIAL FAN",
+      "series_subtitle": "FlowLine Industrial Vane Axial Series",
+      "image_url": "https://www.flowlineindia.com/New%20Assets/Axial%20Flow%20Fan/AxialFlowFan_clean.png",
+      "image_relative_path": "/New%20Assets/Axial%20Flow%20Fan/AxialFlowFan_clean.png",
+      "button_id": "btn-submit-axial-fan",
+      "button_name": "submit_axial_fan",
+      "catalog_url": "https://www.flowlineindia.com/#axial"
+    },
+    {
+      "id": "product-modal-inline",
+      "product_name": "Circular Inline Fan",
+      "title": "CIRCULAR INLINE FAN",
+      "series_subtitle": "FlowLine Industrial Mixed Flow Duct Series",
+      "image_url": "https://www.flowlineindia.com/New%20Assets/InLine%20Fan/InLineFan_clean.png",
+      "image_relative_path": "/New%20Assets/InLine%20Fan/InLineFan_clean.png",
+      "button_id": "btn-submit-inline-fan",
+      "button_name": "submit_inline_fan",
+      "catalog_url": "https://www.flowlineindia.com/#inline"
+    },
+    {
+      "id": "product-modal-centrifugal",
+      "product_name": "Belt Driven Centrifugal Fan",
+      "title": "BELT DRIVEN CENTRIFUGAL FAN",
+      "series_subtitle": "FlowLine Double Inlet Double Width (DIDW) Series ADH / AT",
+      "image_url": "https://www.flowlineindia.com/New%20Assets/Centrifugal%20Fan/Centrifugal%20Fan1.webp",
+      "image_relative_path": "/New%20Assets/Centrifugal%20Fan/Centrifugal%20Fan1.webp",
+      "button_id": "btn-submit-centrifugal-fan",
+      "button_name": "submit_centrifugal_fan",
+      "catalog_url": "https://www.flowlineindia.com/#centrifugal"
+    },
+    {
+      "id": "product-modal-didw",
+      "product_name": "DIDW Backward Curved Fan",
+      "title": "DIDW BACKWARD CURVED FAN",
+      "series_subtitle": "FlowLine Double Inlet Double Width Series RDH / RDA",
+      "image_url": "https://www.flowlineindia.com/New%20Assets/DIDW%20Backward%20Curved%20Fan/DIDW.webp",
+      "image_relative_path": "/New%20Assets/DIDW%20Backward%20Curved%20Fan/DIDW.webp",
+      "button_id": "btn-submit-didw-backward-fan",
+      "button_name": "submit_didw_backward_fan",
+      "catalog_url": "https://www.flowlineindia.com/#didw"
+    },
+    {
+      "id": "product-modal-sisw-forward-fan",
+      "product_name": "SISW Forward Fan",
+      "title": "SISW FORWARD FANS",
+      "series_subtitle": "FlowLine Single Inlet Single Width Series ASH / RSH / RER",
+      "image_url": "https://www.flowlineindia.com/New%20Assets/SISW/SISW.webp",
+      "image_relative_path": "/New%20Assets/SISW/SISW.webp",
+      "button_id": "btn-submit-sisw-forward-fan",
+      "button_name": "submit_sisw_forward_fan",
+      "catalog_url": "https://www.flowlineindia.com/#sisw-forward-fan"
+    },
+    {
+      "id": "product-modal-didw-direct-driven-fan",
+      "product_name": "DIDW Direct Driven Forward Curved Fan",
+      "title": "DIDW DIRECT DRIVEN FORWARD CURVED FAN",
+      "series_subtitle": "FlowLine Direct Driven Double Inlet Double Width Series DDM / DDMB / DDMP / DD / TZA",
+      "image_url": "https://www.flowlineindia.com/New%20Assets/DDM/DDM.webp",
+      "image_relative_path": "/New%20Assets/DDM/DDM.webp",
+      "button_id": "btn-submit-didw-direct-driven-fan",
+      "button_name": "submit_didw_direct_driven_fan",
+      "catalog_url": "https://www.flowlineindia.com/#didw-direct-driven-fan"
+    },
+    {
+      "id": "product-modal-direct-drive-fan",
+      "product_name": "Direct Drive Fan",
+      "title": "DIRECT DRIVE FANS",
+      "series_subtitle": "FlowLine Centrifugal Direct Drive Fan Series DD (Nicotra)",
+      "image_url": "https://www.flowlineindia.com/New%20Assets/DD/DD.webp",
+      "image_relative_path": "/New%20Assets/DD/DD.webp",
+      "button_id": "btn-submit-direct-drive-fan",
+      "button_name": "submit_direct_drive_fan",
+      "catalog_url": "https://www.flowlineindia.com/#direct-drive-fan"
+    },
+    {
+      "id": "product-modal-aerofoil-blades-centrifugal-fan",
+      "product_name": "Aerofoil Blades Centrifugal Fan",
+      "title": "AEROFOIL BLADES CENTRIFUGAL FAN",
+      "series_subtitle": "FlowLine Plug-Fan Centrifugal Series RLM-EVO",
+      "image_url": "https://www.flowlineindia.com/New%20Assets/RML/RML.webp",
+      "image_relative_path": "/New%20Assets/RML/RML.webp",
+      "button_id": "btn-submit-aerofoil-centrifugal-fan",
+      "button_name": "submit_aerofoil_centrifugal_fan",
+      "catalog_url": "https://www.flowlineindia.com/#aerofoil-blades-centrifugal-fan"
+    },
+    {
+      "id": "product-modal-roof-top-extractor-fan",
+      "product_name": "Direct Driven Centrifugal Fan",
+      "title": "DIRECT DRIVEN CENTRIFUGAL FAN",
+      "series_subtitle": "FlowLine Direct Driven Double Inlet Double Width Series RDH-D-RZM / RDY",
+      "image_url": "https://www.flowlineindia.com/New%20Assets/RDY/RDY.webp",
+      "image_relative_path": "/New%20Assets/RDY/RDY.webp",
+      "button_id": "btn-submit-direct-driven-centrifugal-fan",
+      "button_name": "submit_direct_driven_centrifugal_fan",
+      "catalog_url": "https://www.flowlineindia.com/#roof-top-extractor-fan"
+    },
+    {
+      "id": "product-modal-tunnel-jet-fan",
+      "product_name": "Coupling Driven Fan",
+      "title": "COUPLING DRIVEN FAN",
+      "series_subtitle": "FlowLine Coupling Driven Centrifugal Fan Series RSH-D / P4K",
+      "image_url": "https://www.flowlineindia.com/New%20Assets/RSH-D/RSH-D.webp",
+      "image_relative_path": "/New%20Assets/RSH-D/RSH-D.webp",
+      "button_id": "btn-submit-coupling-driven-fan",
+      "button_name": "submit_coupling_driven_fan",
+      "catalog_url": "https://www.flowlineindia.com/#tunnel-jet-fan"
+    },
+    {
+      "id": "product-modal-acoustic-cabinet-fan",
+      "product_name": "Plug Fan",
+      "title": "PLUG FAN",
+      "series_subtitle": "FlowLine Direct Driven Plug Fan Series RLE-E3 / PFP",
+      "image_url": "https://www.flowlineindia.com/New%20Assets/PFP/PFP.webp",
+      "image_relative_path": "/New%20Assets/PFP/PFP.webp",
+      "button_id": "btn-submit-plug-fan",
+      "button_name": "submit_plug_fan",
+      "catalog_url": "https://www.flowlineindia.com/#acoustic-cabinet-fan"
+    },
+    {
+      "id": "product-modal-smoke-spill-fan",
+      "product_name": "Smoke Spill Fan",
+      "title": "DIDW DIRECT DRIVEN FORWARD CURVED FAN",
+      "series_subtitle": "FlowLine Direct Driven Double Inlet Double Width Series DDM / DDMB / DDMP / DD / TZA",
+      "image_url": "https://www.flowlineindia.com/New%20Assets/DDMP/DDMP.webp",
+      "image_relative_path": "/New%20Assets/DDMP/DDMP.webp",
+      "button_id": "btn-submit-smoke-spill-fan",
+      "button_name": "submit_smoke_spill_fan",
+      "catalog_url": "https://www.flowlineindia.com/#smoke-spill-fan"
+    },
+    {
+      "id": "product-modal-utility-blower",
+      "product_name": "Single Inlet Belt Driven Fan",
+      "title": "SINGLE INLET BELT DRIVEN FAN",
+      "series_subtitle": "FlowLine Single Inlet Belt Driven Series RER / RSH-T",
+      "image_url": "https://www.flowlineindia.com/New%20Assets/RSH-T/RSH-T.webp",
+      "image_relative_path": "/New%20Assets/RSH-T/RSH-T.webp",
+      "button_id": "btn-submit-single-inlet-belt-fan",
+      "button_name": "submit_single_inlet_belt_fan",
+      "catalog_url": "https://www.flowlineindia.com/#utility-blower"
+    },
+    {
+      "id": "product-modal-mixed-flow-fan",
+      "product_name": "Axial Smoke Extract Impulse Jetfan",
+      "title": "AXIAL SMOKE EXTRACT IMPULSE JETFAN",
+      "series_subtitle": "FlowLine Axial Smoke Extract Impulse Jetfan Series AGM 02/12",
+      "image_url": "https://www.flowlineindia.com/New%20Assets/AGM/AGM.webp",
+      "image_relative_path": "/New%20Assets/AGM/AGM.webp",
+      "button_id": "btn-submit-impulse-jetfan",
+      "button_name": "submit_impulse_jetfan",
+      "catalog_url": "https://www.flowlineindia.com/#mixed-flow-fan"
+    },
+    {
+      "id": "product-modal-man-cooler",
+      "product_name": "High Pressure Axial Flow Fan",
+      "title": "HIGH PRESSURE AXIAL FLOW FAN",
+      "series_subtitle": "FlowLine High Pressure Duct Mounted Axial Series ADT / ADTA / ADTA-F",
+      "image_url": "https://www.flowlineindia.com/New%20Assets/ADTA-F/ADTA-F.webp",
+      "image_relative_path": "/New%20Assets/ADTA-F/ADTA-F.webp",
+      "button_id": "btn-submit-high-pressure-axial-fan",
+      "button_name": "submit_high_pressure_axial_fan",
+      "catalog_url": "https://www.flowlineindia.com/#man-cooler"
+    },
+    {
+      "id": "product-modal-frp-chemical-blower",
+      "product_name": "Direct Drive Cabinet Fan",
+      "title": "DIRECT DRIVE CABINET FAN",
+      "series_subtitle": "FlowLine Direct Drive Cabinet Series CD / CDK / CDA / CDKA / CKI",
+      "image_url": "https://www.flowlineindia.com/New%20Assets/CDK/CDK.webp",
+      "image_relative_path": "/New%20Assets/CDK/CDK.webp",
+      "button_id": "btn-submit-direct-drive-cabinet-fan",
+      "button_name": "submit_direct_drive_cabinet_fan",
+      "catalog_url": "https://www.flowlineindia.com/#frp-chemical-blower"
+    },
+    {
+      "id": "product-modal-bifurcated-fan",
+      "product_name": "High Temp Bifurcated Axial Fan",
+      "title": "HIGH TEMP BIFURCATED AXIAL FAN",
+      "series_subtitle": "FlowLine High-Temperature Isolated Motor Series BAX",
+      "image_url": "https://www.flowlineindia.com/New%20Assets/Axial%20Flow%20Fan/AxialFlowFan.webp",
+      "image_relative_path": "/New%20Assets/Axial%20Flow%20Fan/AxialFlowFan.webp",
+      "button_id": "btn-submit-bifurcated-axial-fan",
+      "button_name": "submit_bifurcated_axial_fan",
+      "catalog_url": "https://www.flowlineindia.com/#bifurcated-fan"
+    },
+    {
+      "id": "product-modal-ec-plug-fan",
+      "product_name": "EC Smart Energy Plug Fan",
+      "title": "EC SMART ENERGY PLUG FAN",
+      "series_subtitle": "FlowLine Electronically Commutated Direct Drive Series ESP",
+      "image_url": "https://www.flowlineindia.com/New%20Assets/RML/RML.webp",
+      "image_relative_path": "/New%20Assets/RML/RML.webp",
+      "button_id": "btn-submit-ec-plug-fan",
+      "button_name": "submit_ec_plug_fan",
+      "catalog_url": "https://www.flowlineindia.com/#ec-plug-fan"
+    },
+    {
+      "id": "product-modal-kitchen-exhaust-fan",
+      "product_name": "Heavy Duty Kitchen Exhaust Fan",
+      "title": "HEAVY DUTY KITCHEN EXHAUST FAN",
+      "series_subtitle": "FlowLine Commercial Kitchen Grease Extraction Series KEF",
+      "image_url": "https://www.flowlineindia.com/New%20Assets/DDM/DDM.webp",
+      "image_relative_path": "/New%20Assets/DDM/DDM.webp",
+      "button_id": "btn-submit-kitchen-exhaust-fan",
+      "button_name": "submit_kitchen_exhaust_fan",
+      "catalog_url": "https://www.flowlineindia.com/#kitchen-exhaust-fan"
+    },
+    {
+      "id": "product-modal-hvls-fan",
+      "product_name": "High Volume Low Speed HVLS Fan",
+      "title": "HIGH VOLUME LOW SPEED HVLS FAN",
+      "series_subtitle": "FlowLine Industrial PMSM Gearless HVLS Series",
+      "image_url": "https://www.flowlineindia.com/New%20Assets/DD/DD.webp",
+      "image_relative_path": "/New%20Assets/DD/DD.webp",
+      "button_id": "btn-submit-hvls-fan",
+      "button_name": "submit_hvls_fan",
+      "catalog_url": "https://www.flowlineindia.com/#hvls-fan"
+    }
+  ]
+}

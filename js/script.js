@@ -136,15 +136,28 @@
       }
     });
 
+    // Extract Product Image from parent modal
+    let productImgUrl = "";
+    const modalEl = form.closest(".product-modal");
+    if (modalEl) {
+      const imgEl = modalEl.querySelector(".product-modal__image") || modalEl.querySelector("img");
+      if (imgEl && imgEl.src) {
+        productImgUrl = imgEl.src;
+      }
+    }
+
     const buttonIdVal = submitBtn ? (submitBtn.id || submitBtn.getAttribute("name") || "") : "";
 
-    // Form payload matching exact required schema
+    // Form payload matching exact required schema for Make.com
     const payload = {
       name: nameVal,
       phone: phoneVal,
       email: emailVal,
       product_name: productNameVal,
-      button_id: buttonIdVal
+      product_image: productImgUrl,
+      button_id: buttonIdVal,
+      page_url: window.location.href,
+      submitted_at: new Date().toISOString()
     };
 
     // Temporarily disable submit button & change text to "Sending..."
