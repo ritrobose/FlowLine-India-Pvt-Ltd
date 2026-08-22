@@ -108,18 +108,26 @@
     const submitBtn = form.querySelector('button[type="submit"]') || form.querySelector(".glass-submit-btn");
     const originalBtnText = submitBtn ? submitBtn.textContent : "Send Inquiry";
 
-    // Extract Name, Phone, and Email values
+    // Extract Name, Phone, Email, and Product Name values
     const inputs = Array.from(form.querySelectorAll("input"));
     let nameVal = "";
     let phoneVal = "";
     let emailVal = "";
+    let productNameVal = "";
+
+    const hiddenProductInput = form.querySelector('input[name="product_name"]');
+    if (hiddenProductInput) {
+      productNameVal = hiddenProductInput.value.trim();
+    }
 
     inputs.forEach((input) => {
       const type = (input.type || "").toLowerCase();
       const placeholder = (input.placeholder || "").toLowerCase();
       const name = (input.name || "").toLowerCase();
 
-      if (type === "email" || name.includes("email") || placeholder.includes("email")) {
+      if (type === "hidden" && name === "product_name") {
+        productNameVal = input.value.trim();
+      } else if (type === "email" || name.includes("email") || placeholder.includes("email")) {
         emailVal = input.value.trim();
       } else if (type === "tel" || name.includes("phone") || name.includes("tel") || placeholder.includes("phone")) {
         phoneVal = input.value.trim();
@@ -128,11 +136,15 @@
       }
     });
 
+    const buttonIdVal = submitBtn ? (submitBtn.id || submitBtn.getAttribute("name") || "") : "";
+
     // Form payload matching exact required schema
     const payload = {
       name: nameVal,
       phone: phoneVal,
-      email: emailVal
+      email: emailVal,
+      product_name: productNameVal,
+      button_id: buttonIdVal
     };
 
     // Temporarily disable submit button & change text to "Sending..."
