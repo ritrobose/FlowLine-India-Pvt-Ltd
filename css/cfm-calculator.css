@@ -1,0 +1,484 @@
+/* Flowline Interactive CFM Airflow Calculator Styles - Compact Single Screen Fit */
+.section--cfm-calculator {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  min-height: 100vh;
+  min-height: 100dvh;
+  background-color: #070707;
+  padding: clamp(16px, 2.5vh, 28px) 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  z-index: 23;
+  font-family: 'Satoshi', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: #ffffff;
+  box-sizing: border-box;
+}
+
+@media (max-height: 720px) {
+  .section--cfm-calculator {
+    height: auto;
+    min-height: 100vh;
+    padding: 30px 0;
+    overflow-y: auto;
+  }
+}
+
+.cfm-container {
+  width: 100%;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 20px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  max-height: 94vh;
+}
+
+/* Header */
+.cfm-header {
+  text-align: center;
+  max-width: 780px;
+  margin: 0 auto clamp(10px, 1.6vh, 18px) auto;
+}
+
+.cfm-title {
+  font-size: clamp(1.4rem, 2.4vw, 2.05rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  margin: 0 0 4px 0;
+  color: #ffffff;
+}
+
+.cfm-title span {
+  background: linear-gradient(135deg, #00e5ff 0%, #ffffff 70%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.cfm-subtitle {
+  font-size: clamp(12px, 1.2vh, 13.5px);
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.4;
+  margin: 0;
+}
+
+/* Presets Bar */
+.cfm-presets-wrapper {
+  margin-bottom: clamp(10px, 1.5vh, 18px);
+}
+
+.cfm-presets-label {
+  font-family: 'Geist Mono', monospace;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.45);
+  margin-bottom: 6px;
+  display: block;
+}
+
+.cfm-presets-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+}
+
+@media (max-width: 860px) {
+  .cfm-presets-grid {
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  }
+}
+
+.cfm-preset-btn {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 8px;
+  padding: 8px 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+  color: #ffffff;
+  text-align: left;
+}
+
+.cfm-preset-btn:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(0, 229, 255, 0.4);
+}
+
+.cfm-preset-btn.active {
+  background: rgba(0, 229, 255, 0.1);
+  border-color: #00e5ff;
+  box-shadow: 0 0 14px rgba(0, 229, 255, 0.15);
+}
+
+.cfm-preset-icon {
+  font-size: 16px;
+  line-height: 1;
+}
+
+.cfm-preset-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.cfm-preset-name {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #ffffff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cfm-preset-ach {
+  font-family: 'Geist Mono', monospace;
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.cfm-preset-btn.active .cfm-preset-ach {
+  color: #00e5ff;
+}
+
+/* Calculator Grid */
+.cfm-calculator-grid {
+  display: grid;
+  grid-template-columns: 1.12fr 0.88fr;
+  gap: 16px;
+  margin-bottom: clamp(10px, 1.6vh, 18px);
+}
+
+@media (max-width: 991px) {
+  .cfm-calculator-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+}
+
+/* Glass Card */
+.cfm-card {
+  background: rgba(16, 16, 16, 0.7);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  padding: clamp(14px, 2vh, 22px);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.35);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Input Controls */
+.cfm-control-group {
+  margin-bottom: clamp(10px, 1.4vh, 16px);
+}
+
+.cfm-control-group:last-of-type {
+  margin-bottom: 0;
+}
+
+.cfm-control-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.cfm-control-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.88);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.cfm-control-val-badge {
+  font-family: 'Geist Mono', monospace;
+  font-size: 12px;
+  font-weight: 600;
+  color: #00e5ff;
+  background: rgba(0, 229, 255, 0.08);
+  border: 1px solid rgba(0, 229, 255, 0.2);
+  padding: 2px 8px;
+  border-radius: 5px;
+}
+
+/* Custom Range Slider */
+.cfm-slider-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.cfm-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.12);
+  outline: none;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.cfm-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 2.5px solid #00e5ff;
+  box-shadow: 0 0 10px rgba(0, 229, 255, 0.5);
+  cursor: grab;
+  transition: transform 0.15s ease;
+}
+
+.cfm-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+  background: #00e5ff;
+}
+
+.cfm-slider::-webkit-slider-thumb:active {
+  cursor: grabbing;
+  transform: scale(1.2);
+}
+
+.cfm-slider::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 2.5px solid #00e5ff;
+  box-shadow: 0 0 10px rgba(0, 229, 255, 0.5);
+  cursor: grab;
+}
+
+.cfm-slider-scale {
+  display: flex;
+  justify-content: space-between;
+  font-family: 'Geist Mono', monospace;
+  font-size: 9.5px;
+  color: rgba(255, 255, 255, 0.35);
+  margin-top: 4px;
+}
+
+/* Volume summary pill */
+.cfm-volume-pill {
+  margin-top: clamp(8px, 1.2vh, 14px);
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px dashed rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11.5px;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.cfm-volume-pill strong {
+  color: rgba(255, 255, 255, 0.95);
+  font-family: 'Geist Mono', monospace;
+}
+
+/* Output Card */
+.cfm-output-card {
+  background: linear-gradient(145deg, rgba(22, 22, 22, 0.85) 0%, rgba(10, 10, 10, 0.95) 100%);
+  border: 1px solid rgba(0, 229, 255, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.cfm-output-header {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding-bottom: 8px;
+  margin-bottom: 12px;
+}
+
+.cfm-output-tag {
+  font-family: 'Geist Mono', monospace;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.cfm-output-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 2px 0 0 0;
+}
+
+/* Big Metric Readout */
+.cfm-meter-box {
+  text-align: center;
+  padding: clamp(10px, 1.4vh, 16px) 12px;
+  background: rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  margin-bottom: clamp(10px, 1.2vh, 14px);
+}
+
+.cfm-meter-label {
+  font-family: 'Geist Mono', monospace;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 4px;
+}
+
+.cfm-meter-value {
+  font-size: clamp(1.8rem, 3.2vw, 2.6rem);
+  font-weight: 900;
+  font-family: 'Geist Mono', monospace;
+  color: #00e5ff;
+  text-shadow: 0 0 16px rgba(0, 229, 255, 0.35);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.cfm-meter-unit {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.cfm-meter-alt {
+  font-family: 'Geist Mono', monospace;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.45);
+  margin-top: 4px;
+}
+
+/* Fan Match Recommendation */
+.cfm-recommendation {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  padding: 10px 14px;
+  margin-bottom: clamp(10px, 1.2vh, 14px);
+}
+
+.cfm-rec-label {
+  font-family: 'Geist Mono', monospace;
+  font-size: 9.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #00e5ff;
+  margin-bottom: 2px;
+}
+
+.cfm-rec-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 2px;
+}
+
+.cfm-rec-desc {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.55);
+  line-height: 1.35;
+  margin: 0;
+}
+
+/* Inquiry Button */
+.cfm-action-btn {
+  width: 100%;
+  background: #00e5ff;
+  color: #000000;
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  box-sizing: border-box;
+}
+
+.cfm-action-btn:hover {
+  background: #ffffff;
+  box-shadow: 0 0 20px rgba(0, 229, 255, 0.4);
+  transform: translateY(-1px);
+}
+
+/* Bottom Engineering Quote Card */
+.cfm-guarantee-card {
+  width: 100%;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-left: 3.5px solid #00e5ff;
+  border-radius: 12px;
+  padding: clamp(10px, 1.4vh, 16px) clamp(14px, 2vw, 22px);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  box-sizing: border-box;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+}
+
+@media (max-width: 767px) {
+  .cfm-guarantee-card {
+    flex-direction: column;
+    padding: 12px 14px;
+    gap: 10px;
+  }
+}
+
+.cfm-guarantee-icon {
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  background: rgba(0, 229, 255, 0.1);
+  border: 1px solid rgba(0, 229, 255, 0.25);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #00e5ff;
+}
+
+.cfm-guarantee-icon svg {
+  width: 18px;
+  height: 18px;
+}
+
+.cfm-guarantee-text {
+  font-family: 'Satoshi', sans-serif;
+  font-size: clamp(11.5px, 1.15vw, 13px);
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.88);
+  margin: 0;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
+.cfm-guarantee-text strong {
+  color: #ffffff;
+  font-weight: 700;
+}

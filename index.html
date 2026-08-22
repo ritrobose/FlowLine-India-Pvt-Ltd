@@ -73,6 +73,8 @@
 	</script>
 	<meta content="Webflow" name="generator" />
 	<link href="/css/main.css" rel="stylesheet" type="text/css" />
+	<link href="/css/cantor-circle.css" rel="stylesheet" type="text/css" />
+	<link href="/css/cfm-calculator.css" rel="stylesheet" type="text/css" />
 	<script type="importmap">
 	{
 		"imports": {
@@ -1441,6 +1443,184 @@
 								<div class="horizontal-line-full-width"></div>
 							</div>
 						</div>
+					</div>
+				</div>
+			</section>
+			<section class="section section--cantor" id="cantor-circle-section">
+				<div class="cantor-badge-tag">
+					<span class="badge-dot"></span>
+					<span class="badge-text">Interactive Physics Engine</span>
+				</div>
+				<div class="strings-viewport">
+					<div id="strings-wrap">
+						<canvas id="strings-canvas"></canvas>
+					</div>
+				</div>
+			</section>
+			<section class="section section--cfm-calculator" id="cfm-calculator-section">
+				<div class="cfm-container">
+					<!-- Header -->
+					<div class="cfm-header">
+						<h2 class="cfm-title">Instant <span>CFM Airflow</span> Calculator</h2>
+						<p class="cfm-subtitle">
+							Estimate your facility's exact cubic airflow requirement in real-time with application presets or custom dimensions.
+						</p>
+					</div>
+
+					<!-- Presets -->
+					<div class="cfm-presets-wrapper">
+						<span class="cfm-presets-label">// Quick Application Presets</span>
+						<div class="cfm-presets-grid">
+							<button type="button" class="cfm-preset-btn active" data-preset="warehouse">
+								<span class="cfm-preset-icon">🏭</span>
+								<div class="cfm-preset-info">
+									<span class="cfm-preset-name">Warehouse / Factory</span>
+									<span class="cfm-preset-ach">8 Air Changes/Hr</span>
+								</div>
+							</button>
+							<button type="button" class="cfm-preset-btn" data-preset="kitchen">
+								<span class="cfm-preset-icon">👨‍🍳</span>
+								<div class="cfm-preset-info">
+									<span class="cfm-preset-name">Commercial Kitchen</span>
+									<span class="cfm-preset-ach">25 Air Changes/Hr</span>
+								</div>
+							</button>
+							<button type="button" class="cfm-preset-btn" data-preset="office">
+								<span class="cfm-preset-icon">🏢</span>
+								<div class="cfm-preset-info">
+									<span class="cfm-preset-name">Office / Commercial</span>
+									<span class="cfm-preset-ach">5 Air Changes/Hr</span>
+								</div>
+							</button>
+							<button type="button" class="cfm-preset-btn" data-preset="parking">
+								<span class="cfm-preset-icon">🚗</span>
+								<div class="cfm-preset-info">
+									<span class="cfm-preset-name">Basement / Parking</span>
+									<span class="cfm-preset-ach">6 Air Changes/Hr</span>
+								</div>
+							</button>
+							<button type="button" class="cfm-preset-btn" data-preset="gym">
+								<span class="cfm-preset-icon">🏋️</span>
+								<div class="cfm-preset-info">
+									<span class="cfm-preset-name">Gym / Sports Arena</span>
+									<span class="cfm-preset-ach">10 Air Changes/Hr</span>
+								</div>
+							</button>
+						</div>
+					</div>
+
+					<!-- Calculator Grid -->
+					<div class="cfm-calculator-grid">
+						<!-- Input Controls Card -->
+						<div class="cfm-card cfm-input-card">
+							<div>
+								<!-- Floor Area Slider -->
+								<div class="cfm-control-group">
+									<div class="cfm-control-header">
+										<label class="cfm-control-title" for="cfm-area-slider">
+											<span>📐 Floor Area</span>
+										</label>
+										<span id="cfm-area-display" class="cfm-control-val-badge">5,000 sq.ft (465 m²)</span>
+									</div>
+									<div class="cfm-slider-wrapper">
+										<input type="range" id="cfm-area-slider" class="cfm-slider" min="200" max="30000" step="100" value="5000" />
+										<div class="cfm-slider-scale">
+											<span>200 sq.ft</span>
+											<span>15,000 sq.ft</span>
+											<span>30,000+ sq.ft</span>
+										</div>
+									</div>
+								</div>
+
+								<!-- Ceiling Height Slider -->
+								<div class="cfm-control-group">
+									<div class="cfm-control-header">
+										<label class="cfm-control-title" for="cfm-height-slider">
+											<span>📏 Ceiling Height</span>
+										</label>
+										<span id="cfm-height-display" class="cfm-control-val-badge">20 ft (6.1 m)</span>
+									</div>
+									<div class="cfm-slider-wrapper">
+										<input type="range" id="cfm-height-slider" class="cfm-slider" min="8" max="40" step="1" value="20" />
+										<div class="cfm-slider-scale">
+											<span>8 ft (Standard)</span>
+											<span>24 ft (Medium)</span>
+											<span>40 ft (High-Bay)</span>
+										</div>
+									</div>
+								</div>
+
+								<!-- Air Changes Rate (ACH) Slider -->
+								<div class="cfm-control-group">
+									<div class="cfm-control-header">
+										<label class="cfm-control-title" for="cfm-ach-slider">
+											<span>🔄 Air Changes / Hour (ACH)</span>
+										</label>
+										<span id="cfm-ach-display" class="cfm-control-val-badge">8 ACH</span>
+									</div>
+									<div class="cfm-slider-wrapper">
+										<input type="range" id="cfm-ach-slider" class="cfm-slider" min="2" max="35" step="1" value="8" />
+										<div class="cfm-slider-scale">
+											<span>2 (Low)</span>
+											<span>15 (Medium Exhaust)</span>
+											<span>35 (Heavy Industrial)</span>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<!-- Volume Pill -->
+							<div class="cfm-volume-pill">
+								<span>Total Room Volume:</span>
+								<strong id="cfm-volume-display">100,000 cu.ft (2,830 m³)</strong>
+							</div>
+						</div>
+
+						<!-- Output Results Card -->
+						<div class="cfm-card cfm-output-card">
+							<div class="cfm-output-header">
+								<div class="cfm-output-tag">// Real-Time Calculation</div>
+								<h3 class="cfm-output-title">Airflow Requirement</h3>
+							</div>
+
+							<!-- Big Counter Display -->
+							<div class="cfm-meter-box">
+								<div class="cfm-meter-label">Calculated Ventilation Capacity</div>
+								<div class="cfm-meter-value" id="cfm-counter-value">13,333</div>
+								<div class="cfm-meter-unit">CFM (Cubic Feet / Minute)</div>
+								<div class="cfm-meter-alt">≈ <span id="cfm-m3h-value">22,653</span> m³/h</div>
+							</div>
+
+							<!-- Smart Fan Recommendation -->
+							<div class="cfm-recommendation">
+								<div class="cfm-rec-label">⭐ Recommended Flowline Fan System</div>
+								<div class="cfm-rec-title" id="cfm-rec-title">Flowline Heavy-Duty Industrial Axial Flow Fan Series</div>
+								<p class="cfm-rec-desc" id="cfm-rec-desc">
+									Engineered cast aluminum aerofoil adjustable blades delivering massive volumetric air displacement with high IE3 efficiency.
+								</p>
+							</div>
+
+							<!-- Inquire Button -->
+							<a id="cfm-inquire-btn" href="mailto:Info@flowlineindia.com" class="cfm-action-btn">
+								<span>Inquire with this Airflow Calculation</span>
+								<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+									<path d="M5 12h14M12 5l7 7-7 7"/>
+								</svg>
+							</a>
+						</div>
+					</div>
+
+					<!-- Bottom Guarantee Statement (Satoshi Font) -->
+					<div class="cfm-guarantee-card">
+						<div class="cfm-guarantee-icon">
+							<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+								<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+								<path d="m9 12 2 2 4-4"/>
+							</svg>
+						</div>
+						<p class="cfm-guarantee-text">
+							At Flowline India, our experts perform precise Manual J Load, CFM, Duct Sizing, and Psychrometric calculations before offering advice. We analyze your space's exact thermal and airflow needs to guarantee optimal comfort and efficiency. You get a perfectly tailored HVAC solution backed by pure engineering, not guesswork.
+						</p>
 					</div>
 				</div>
 			</section>
@@ -4094,6 +4274,18 @@
 	<script src="/js/webflow.js" type="text/javascript"></script>
 	<script src="/js/index.js" type="module"></script>
 	<script src="/js/script.js" type="text/javascript"></script>
+	<script type="module">
+		import { initStringCircle } from '/js/string-circle.js';
+		import { initCfmCalculator } from '/js/cfm-calculator.js';
+		document.addEventListener('DOMContentLoaded', () => {
+			initStringCircle({
+				backgroundColor: '#080808',
+				color: '#FFFFFF',
+				pulseColor: '0, 229, 255'
+			});
+			initCfmCalculator();
+		});
+	</script>
 </body>
 
 </html>
