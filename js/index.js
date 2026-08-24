@@ -919,6 +919,9 @@ if (document.readyState === "loading") {
     const headingAnchor = document.getElementById("cp-heading-anchor");
     const descContainer = document.getElementById("cp-description-container");
     const descParagraph = document.getElementById("cp-description-paragraph");
+    const solHeadingAnchor = document.getElementById("sol-heading-anchor");
+    const solDescContainer = document.getElementById("sol-description-container");
+    const solDescParagraph = document.getElementById("sol-description-paragraph");
     const video = section ? section.querySelector(".cp-bg-video") : null;
     if (!section || !headingAnchor || !descContainer || !descParagraph) return;
 
@@ -982,32 +985,79 @@ if (document.readyState === "loading") {
       window.addEventListener("wheel", onUserInteraction, { passive: true });
     }
 
-    // Split description into word spans and assign pulse glow exclusively to 'Backed by over two decades of engineering excellence'
-    const rawText = descParagraph.textContent.trim();
-    const words = rawText.split(/\s+/);
-    const phraseKeywords = ["backed", "by", "over", "two", "decades", "of", "engineering", "excellence"];
-    let phraseStartIndex = -1;
-    for (let i = 0; i <= words.length - phraseKeywords.length; i++) {
-      const match = phraseKeywords.every((kw, kIdx) => {
-        const clean = words[i + kIdx].toLowerCase().replace(/[^a-z0-9]/g, "");
+    // --- Act 1: Split Company Profile description into word spans ---
+    const cpRawText = descParagraph.textContent.trim();
+    const cpWords = cpRawText.split(/\s+/);
+    const cpPhraseKeywords = ["backed", "by", "over", "two", "decades", "of", "engineering", "excellence"];
+    let cpPhraseStartIndex = -1;
+    for (let i = 0; i <= cpWords.length - cpPhraseKeywords.length; i++) {
+      const match = cpPhraseKeywords.every((kw, kIdx) => {
+        const clean = cpWords[i + kIdx].toLowerCase().replace(/[^a-z0-9]/g, "");
         return clean === kw;
       });
       if (match) {
-        phraseStartIndex = i;
+        cpPhraseStartIndex = i;
         break;
       }
     }
-    const phraseEndIndex = phraseStartIndex !== -1 ? phraseStartIndex + phraseKeywords.length - 1 : -1;
+    const cpPhraseEndIndex = cpPhraseStartIndex !== -1 ? cpPhraseStartIndex + cpPhraseKeywords.length - 1 : -1;
 
-    descParagraph.innerHTML = words
+    descParagraph.innerHTML = cpWords
       .map((w, idx) => {
-        const isPulse = phraseStartIndex !== -1 && idx >= phraseStartIndex && idx <= phraseEndIndex;
+        const isPulse = cpPhraseStartIndex !== -1 && idx >= cpPhraseStartIndex && idx <= cpPhraseEndIndex;
         return `<span class="cp-desc-word${isPulse ? " is-pulse-glow" : ""}" data-word-idx="${idx}">${w}</span>`;
       })
       .join(" ");
 
-    const wordSpans = descParagraph.querySelectorAll(".cp-desc-word");
-    const totalWords = wordSpans.length;
+    const cpWordSpans = descParagraph.querySelectorAll(".cp-desc-word");
+    const cpTotalWords = cpWordSpans.length;
+
+    // --- Act 2: Split Solutions editorial blocks into word spans ---
+    let solWordSpans = [];
+    let solTotalWords = 0;
+    if (solDescContainer) {
+      let globalIdx = 0;
+      const elementsToSplit = solDescContainer.querySelectorAll(".sol-block-title, .sol-paragraph");
+      elementsToSplit.forEach((el) => {
+        const text = el.textContent.trim();
+        const words = text.split(/\s+/);
+        const isTitle = el.classList.contains("sol-block-title");
+        el.innerHTML = words
+          .map((w) => {
+            const idx = globalIdx++;
+            return `<span class="cp-desc-word${isTitle ? " is-pulse-glow" : ""}" data-word-idx="${idx}">${w}</span>`;
+          })
+          .join(" ");
+      });
+
+      solWordSpans = solDescContainer.querySelectorAll(".cp-desc-word");
+      solTotalWords = solWordSpans.length;
+    }
+
+    const solBlock1 = document.getElementById("sol-block-1");
+    const solBlock2 = document.getElementById("sol-block-2");
+    const solBlock3 = document.getElementById("sol-block-3");
+
+    // --- Interactive Mouse Cursor Physics Tilt for Solutions Text ---
+    let targetTiltX = 0;
+    let targetTiltY = 0;
+    let currentTiltX = 0;
+    let currentTiltY = 0;
+
+    const onMouseMove = (e) => {
+      const w = window.innerWidth || 1920;
+      const h = window.innerHeight || 1080;
+      targetTiltX = ((e.clientX / w) - 0.5) * 2; // -1 to +1
+      targetTiltY = ((e.clientY / h) - 0.5) * 2; // -1 to +1
+    };
+
+    const onMouseLeave = () => {
+      targetTiltX = 0;
+      targetTiltY = 0;
+    };
+
+    window.addEventListener("mousemove", onMouseMove, { passive: true });
+    document.addEventListener("mouseleave", onMouseLeave, { passive: true });
 
     const clamp = (val, min, max) => Math.max(min, Math.min(max, val));
     const smoothstep = (min, max, val) => {
@@ -1031,94 +1081,259 @@ if (document.readyState === "loading") {
         video.play().catch(() => { });
       }
 
-      // Phase 1: 0.00 -> 0.08 (Hero Title Fades in at Center)
-      // Phase 2: 0.08 -> 0.22 (~2 wheel scrolls dwell period in center)
-      // Phase 3: 0.22 -> 0.38 (Hero Title slides up to upper position and scales by 0.90)
-      // Phase 4: 0.38 -> 0.54 (DELIBERATE 2-SCROLL DELAY: Title is docked, video loops, description NOT yet visible)
-      // Phase 5: 0.54 -> 0.62 (Description fades in smoothly at center)
-      // Phase 6: 0.62 -> 0.90 (Description words light up progressively with user scroll)
-      // Phase 7: 0.90 -> 1.00 (Graceful exit transition)
+      // =========================================================================
+      // MULTI-ACT TIMELINE MAP (Total Track 1200vh):
+      // ACT 1: Company Profile (0.00 -> 0.35)
+      // INTERMISSION 1: 3 Wheel Scrolls Clean Space (0.35 -> 0.40)
+      // ACT 2: Our Solutions:
+      //   - 0.40 -> 0.44: Title fades in
+      //   - 0.44 -> 0.50: Title dwells in center
+      //   - 0.50 -> 0.56: Title slides up to top dock (-31vh, scale 0.90)
+      //   - 0.56 -> 0.61: 2-scroll delay (clean video view)
+      //   - 0.61 -> 0.67: Sub-section 1 enters from LEFT (-100vw -> 0)
+      //   - 0.67 -> 0.73: Sub-section 2 enters from RIGHT (+100vw -> 0)
+      //   - 0.73 -> 0.79: Sub-section 3 enters from LEFT (-100vw -> 0)
+      //   - 0.79 -> 0.87: 3 FULL WHEEL SCROLLS DWELL (all 3 subsections resting & organized)
+      //   - 0.87 -> 0.93: ALL 3 SUBSECTIONS EXIT TO OPPOSITE SIDES (1 & 3 -> RIGHT, 2 -> LEFT, Title -> LEFT)
+      //   - 0.93 -> 1.00: HOLD EMPTY SECTION FOR 3 WHEEL SCROLLS (clean background video)
+      // =========================================================================
 
-      let titleOpacity = 0;
-      let titleSlideProgress = 0; // 0 = center, 1 = upper position
-      let descOpacity = 0;
-      let readProgress = 0;
+      // --- ACT 1 CALCULATIONS ---
+      let cpTitleOpacity = 0;
+      let cpTitleSlideProgress = 0;
+      let cpDescOpacity = 0;
+      let cpReadProgress = 0;
+      let cpExitProgress = 0;
 
       if (progress < 0.01) {
-        titleOpacity = 0;
-        titleSlideProgress = 0;
-        descOpacity = 0;
-      } else if (progress >= 0.01 && progress < 0.08) {
-        // Slow smooth fade in
-        titleOpacity = smoothstep(0.01, 0.08, progress);
-        titleSlideProgress = 0;
-        descOpacity = 0;
-      } else if (progress >= 0.08 && progress < 0.22) {
-        // Dwell in center
-        titleOpacity = 1;
-        titleSlideProgress = 0;
-        descOpacity = 0;
-      } else if (progress >= 0.22 && progress < 0.38) {
-        // Slide up and scale down 10%
-        titleOpacity = 1;
-        titleSlideProgress = smoothstep(0.22, 0.38, progress);
-        descOpacity = 0;
-      } else if (progress >= 0.38 && progress < 0.54) {
-        // 2-SCROLL DELAY: Docked at top, clean video view, description completely hidden
-        titleOpacity = 1;
-        titleSlideProgress = 1;
-        descOpacity = 0;
-        readProgress = 0;
-      } else if (progress >= 0.54 && progress < 0.62) {
-        // Description smoothly fades in
-        titleOpacity = 1;
-        titleSlideProgress = 1;
-        descOpacity = smoothstep(0.54, 0.62, progress);
-        readProgress = 0;
-      } else if (progress >= 0.62 && progress < 0.90) {
-        // Description fully visible, words light up with scroll scrub
-        titleOpacity = 1;
-        titleSlideProgress = 1;
-        descOpacity = 1;
-        readProgress = smoothstep(0.62, 0.88, progress);
+        cpTitleOpacity = 0;
+      } else if (progress >= 0.01 && progress < 0.04) {
+        cpTitleOpacity = smoothstep(0.01, 0.04, progress);
+      } else if (progress >= 0.04 && progress < 0.10) {
+        cpTitleOpacity = 1;
+        cpTitleSlideProgress = 0;
+      } else if (progress >= 0.10 && progress < 0.16) {
+        cpTitleOpacity = 1;
+        cpTitleSlideProgress = smoothstep(0.10, 0.16, progress);
+      } else if (progress >= 0.16 && progress < 0.21) {
+        cpTitleOpacity = 1;
+        cpTitleSlideProgress = 1;
+        cpDescOpacity = 0;
+      } else if (progress >= 0.21 && progress < 0.25) {
+        cpTitleOpacity = 1;
+        cpTitleSlideProgress = 1;
+        cpDescOpacity = smoothstep(0.21, 0.25, progress);
+      } else if (progress >= 0.25 && progress < 0.31) {
+        cpTitleOpacity = 1;
+        cpTitleSlideProgress = 1;
+        cpDescOpacity = 1;
+        cpReadProgress = smoothstep(0.25, 0.31, progress);
+      } else if (progress >= 0.31 && progress < 0.35) {
+        cpTitleOpacity = 1;
+        cpTitleSlideProgress = 1;
+        cpDescOpacity = 1;
+        cpReadProgress = 1;
+      } else if (progress >= 0.35 && progress < 0.39) {
+        cpTitleOpacity = 1;
+        cpTitleSlideProgress = 1;
+        cpDescOpacity = 1;
+        cpReadProgress = 1;
+        cpExitProgress = smoothstep(0.35, 0.39, progress);
       } else {
-        // Graceful exit
-        const exit = smoothstep(0.90, 0.98, progress);
-        titleOpacity = 1 - exit;
-        titleSlideProgress = 1;
-        descOpacity = 1 - exit;
-        readProgress = 1;
+        cpTitleOpacity = 0;
+        cpTitleSlideProgress = 1;
+        cpDescOpacity = 0;
+        cpExitProgress = 1;
       }
 
-      // Heading transform calculation: slides up to the upper-center zone and gets only 10% shorter (1.0 -> 0.90)
-      const targetTopVh = window.innerWidth <= 767 ? -24 : -25;
-      const currentYVh = targetTopVh * titleSlideProgress;
-      const targetScale = 0.90; // Exactly 10% shorter as requested
-      const currentScale = 1 - (1 - targetScale) * titleSlideProgress;
+      // --- ACT 2 CALCULATIONS ---
+      let solTitleOpacity = 0;
+      let solTitleSlideProgress = 0;
+      let solExitProgress = 0;
 
-      headingAnchor.style.opacity = titleOpacity.toFixed(3);
-      headingAnchor.style.transform = `translate3d(-50%, calc(-50% + ${currentYVh.toFixed(2)}vh), 0) scale(${currentScale.toFixed(3)})`;
+      // Subsection 1: Enters from Left (-100vw -> 0), Exits to Right (0 -> +120vw)
+      let b1X = 0;
+      let b1Opacity = 0;
 
-      if (titleSlideProgress > 0.5) {
-        headingAnchor.classList.add("is-docked");
+      // Subsection 2: Enters from Right (+100vw -> 0), Exits to Left (0 -> -120vw)
+      let b2X = 0;
+      let b2Opacity = 0;
+
+      // Subsection 3: Enters from Left (-100vw -> 0), Exits to Right (0 -> +120vw)
+      let b3X = 0;
+      let b3Opacity = 0;
+
+      if (progress < 0.40) {
+        solTitleOpacity = 0;
+        b1X = -100;
+        b2X = 100;
+        b3X = -100;
+      } else if (progress >= 0.40 && progress < 0.44) {
+        solTitleOpacity = smoothstep(0.40, 0.44, progress);
+        solTitleSlideProgress = 0;
+        b1X = -100;
+        b2X = 100;
+        b3X = -100;
+      } else if (progress >= 0.44 && progress < 0.50) {
+        solTitleOpacity = 1;
+        solTitleSlideProgress = 0;
+        b1X = -100;
+        b2X = 100;
+        b3X = -100;
+      } else if (progress >= 0.50 && progress < 0.56) {
+        solTitleOpacity = 1;
+        solTitleSlideProgress = smoothstep(0.50, 0.56, progress);
+        b1X = -100;
+        b2X = 100;
+        b3X = -100;
+      } else if (progress >= 0.56 && progress < 0.61) {
+        solTitleOpacity = 1;
+        solTitleSlideProgress = 1;
+        b1X = -100;
+        b2X = 100;
+        b3X = -100;
+      } else if (progress >= 0.61 && progress < 0.67) {
+        // Block 1 enters from Left
+        solTitleOpacity = 1;
+        solTitleSlideProgress = 1;
+        const in1 = smoothstep(0.61, 0.67, progress);
+        b1X = -100 * (1 - in1);
+        b1Opacity = in1;
+        b2X = 100;
+        b3X = -100;
+      } else if (progress >= 0.67 && progress < 0.73) {
+        // Block 1 is resting, Block 2 enters from Right
+        solTitleOpacity = 1;
+        solTitleSlideProgress = 1;
+        b1X = 0;
+        b1Opacity = 1;
+        const in2 = smoothstep(0.67, 0.73, progress);
+        b2X = 100 * (1 - in2);
+        b2Opacity = in2;
+        b3X = -100;
+      } else if (progress >= 0.73 && progress < 0.79) {
+        // Block 1 & 2 resting, Block 3 enters from Left
+        solTitleOpacity = 1;
+        solTitleSlideProgress = 1;
+        b1X = 0;
+        b1Opacity = 1;
+        b2X = 0;
+        b2Opacity = 1;
+        const in3 = smoothstep(0.73, 0.79, progress);
+        b3X = -100 * (1 - in3);
+        b3Opacity = in3;
+      } else if (progress >= 0.79 && progress < 0.87) {
+        // 3 FULL WHEEL SCROLLS DWELL: All 3 blocks resting on screen together
+        solTitleOpacity = 1;
+        solTitleSlideProgress = 1;
+        b1X = 0;
+        b1Opacity = 1;
+        b2X = 0;
+        b2Opacity = 1;
+        b3X = 0;
+        b3Opacity = 1;
+      } else if (progress >= 0.87 && progress < 0.93) {
+        // ALL 3 BLOCKS EXIT TO OPPOSITE SIDES
+        solTitleOpacity = 1;
+        solTitleSlideProgress = 1;
+        solExitProgress = smoothstep(0.87, 0.93, progress);
+
+        // Block 1 (came from Left) exits to RIGHT
+        b1X = 120 * solExitProgress;
+        b1Opacity = 1 - solExitProgress;
+
+        // Block 2 (came from Right) exits to LEFT
+        b2X = -120 * solExitProgress;
+        b2Opacity = 1 - solExitProgress;
+
+        // Block 3 (came from Left) exits to RIGHT
+        b3X = 120 * solExitProgress;
+        b3Opacity = 1 - solExitProgress;
       } else {
-        headingAnchor.classList.remove("is-docked");
+        // 0.93 -> 1.00: HOLD EMPTY SECTION FOR 3 WHEEL SCROLLS
+        solTitleOpacity = 0;
+        solTitleSlideProgress = 1;
+        solExitProgress = 1;
+        b1Opacity = 0;
+        b2Opacity = 0;
+        b3Opacity = 0;
+        b1X = 120;
+        b2X = -120;
+        b3X = 120;
       }
 
-      // Description container styling
-      descContainer.style.opacity = descOpacity.toFixed(3);
-      descContainer.style.pointerEvents = descOpacity > 0.5 ? "auto" : "none";
+      // --- APPLY ACT 1 TRANSFORMS ---
+      const cpTargetTopVh = window.innerWidth <= 767 ? -24 : -25;
+      const cpCurrentYVh = cpTargetTopVh * cpTitleSlideProgress;
+      const targetScale = 0.90;
+      const cpCurrentScale = 1 - (1 - targetScale) * cpTitleSlideProgress;
+      const cpTitleExitX = -120 * cpExitProgress;
 
-      // Word illumination based on user scroll
-      if (descOpacity > 0.01) {
-        const activeWordCount = Math.ceil(readProgress * totalWords);
-        wordSpans.forEach((span, idx) => {
-          if (idx < activeWordCount) {
+      headingAnchor.style.opacity = (cpTitleOpacity * (1 - cpExitProgress)).toFixed(3);
+      headingAnchor.style.transform = `translate3d(calc(-50% + ${cpTitleExitX.toFixed(2)}vw), calc(-50% + ${cpCurrentYVh.toFixed(2)}vh), 0) scale(${cpCurrentScale.toFixed(3)})`;
+
+      const cpDescExitX = 120 * cpExitProgress;
+      descContainer.style.opacity = (cpDescOpacity * (1 - cpExitProgress)).toFixed(3);
+      descContainer.style.transform = `translate3d(calc(-50% + ${cpDescExitX.toFixed(2)}vw), -50%, 0)`;
+      descContainer.style.pointerEvents = (cpDescOpacity > 0.5 && cpExitProgress < 0.5) ? "auto" : "none";
+
+      if (cpDescOpacity > 0.01 && cpExitProgress < 1) {
+        const activeCount = Math.ceil(cpReadProgress * cpTotalWords);
+        cpWordSpans.forEach((span, idx) => {
+          if (idx < activeCount) {
             span.classList.add("is-lit");
           } else {
             span.classList.remove("is-lit");
           }
         });
+      }
+
+      // --- APPLY ACT 2 TRANSFORMS & 3D CURSOR TILT ---
+      if (solHeadingAnchor && solDescContainer) {
+        // High dock at -31vh ensures ZERO overlap with subsections below
+        const solTargetTopVh = window.innerWidth <= 767 ? -26 : -31;
+        const solCurrentYVh = solTargetTopVh * solTitleSlideProgress;
+        const solCurrentScale = 1 - (1 - targetScale) * solTitleSlideProgress;
+        const solTitleExitX = -120 * solExitProgress;
+
+        solHeadingAnchor.style.opacity = (solTitleOpacity * (1 - solExitProgress)).toFixed(3);
+        solHeadingAnchor.style.transform = `translate3d(calc(-50% + ${solTitleExitX.toFixed(2)}vw), calc(-50% + ${solCurrentYVh.toFixed(2)}vh), 0) scale(${solCurrentScale.toFixed(3)})`;
+
+        // Smooth Lerp cursor physics
+        currentTiltX += (targetTiltX - currentTiltX) * 0.08;
+        currentTiltY += (targetTiltY - currentTiltY) * 0.08;
+
+        const tiltPxX = currentTiltX * 16;
+        const tiltPxY = currentTiltY * 12;
+        const tiltRotX = -currentTiltY * 3;
+        const tiltRotY = currentTiltX * 4;
+
+        // Container is active while any block is visible
+        const containerOpacity = Math.max(b1Opacity, b2Opacity, b3Opacity);
+        solDescContainer.style.opacity = containerOpacity.toFixed(3);
+        solDescContainer.style.transform = `translate3d(calc(-50% + ${tiltPxX.toFixed(2)}px), calc(-50% + ${tiltPxY.toFixed(2)}px), 0) rotateX(${tiltRotX.toFixed(2)}deg) rotateY(${tiltRotY.toFixed(2)}deg)`;
+        solDescContainer.style.pointerEvents = containerOpacity > 0.5 ? "auto" : "none";
+
+        // Apply individual block translations & opacities
+        if (solBlock1) {
+          solBlock1.style.opacity = b1Opacity.toFixed(3);
+          solBlock1.style.transform = `translate3d(${b1X.toFixed(2)}vw, 0, 0)`;
+        }
+        if (solBlock2) {
+          solBlock2.style.opacity = b2Opacity.toFixed(3);
+          solBlock2.style.transform = `translate3d(${b2X.toFixed(2)}vw, 0, 0)`;
+        }
+        if (solBlock3) {
+          solBlock3.style.opacity = b3Opacity.toFixed(3);
+          solBlock3.style.transform = `translate3d(${b3X.toFixed(2)}vw, 0, 0)`;
+        }
+
+        // Word illumination on visible blocks
+        if (solWordSpans.length > 0) {
+          solWordSpans.forEach((span) => {
+            span.classList.add("is-lit");
+          });
+        }
       }
     };
 
