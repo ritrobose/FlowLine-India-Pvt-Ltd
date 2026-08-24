@@ -914,80 +914,226 @@ if (document.readyState === "loading") {
     }, { passive: true });
   };
 
-  const initCompanyProfileScrollHighlight = () => {
-    const card = document.querySelector(".company-profile-card");
-    const paragraph = document.querySelector(".scroll-highlight-paragraph");
-    if (!paragraph || !card) return;
+  const initCompanyProfileStickyVideo = () => {
+    const section = document.querySelector(".company-profile-sticky-section");
+    const headingAnchor = document.getElementById("cp-heading-anchor");
+    const descContainer = document.getElementById("cp-description-container");
+    const descParagraph = document.getElementById("cp-description-paragraph");
+    const video = section ? section.querySelector(".cp-bg-video") : null;
+    if (!section || !headingAnchor || !descContainer || !descParagraph) return;
 
-    const rawText = paragraph.textContent.trim();
+    if (video) {
+      video.muted = true;
+      video.defaultMuted = true;
+      video.playsInline = true;
+      video.loop = true;
+      video.setAttribute("muted", "");
+      video.setAttribute("playsinline", "");
+      video.setAttribute("webkit-playsinline", "");
+
+      let isPlayPending = false;
+
+      const safePlay = () => {
+        if (video.paused && !isPlayPending) {
+          isPlayPending = true;
+          const p = video.play();
+          if (p !== undefined) {
+            p.then(() => {
+              isPlayPending = false;
+            }).catch(() => {
+              isPlayPending = false;
+            });
+          } else {
+            isPlayPending = false;
+          }
+        }
+      };
+
+      // Native loop restart fallback
+      video.addEventListener("ended", () => {
+        video.currentTime = 0;
+        safePlay();
+      });
+
+      video.addEventListener("pause", () => {
+        setTimeout(safePlay, 50);
+      });
+
+      video.addEventListener("stalled", () => {
+        safePlay();
+      });
+
+      video.addEventListener("waiting", () => {
+        safePlay();
+      });
+
+      video.addEventListener("canplay", () => {
+        safePlay();
+      });
+
+      safePlay();
+
+      const onUserInteraction = () => {
+        safePlay();
+      };
+      window.addEventListener("scroll", onUserInteraction, { passive: true });
+      window.addEventListener("click", onUserInteraction, { passive: true });
+      window.addEventListener("touchstart", onUserInteraction, { passive: true });
+      window.addEventListener("wheel", onUserInteraction, { passive: true });
+    }
+
+    // Split description into word spans and assign pulse glow exclusively to 'Backed by over two decades of engineering excellence'
+    const rawText = descParagraph.textContent.trim();
     const words = rawText.split(/\s+/);
+    const phraseKeywords = ["backed", "by", "over", "two", "decades", "of", "engineering", "excellence"];
+    let phraseStartIndex = -1;
+    for (let i = 0; i <= words.length - phraseKeywords.length; i++) {
+      const match = phraseKeywords.every((kw, kIdx) => {
+        const clean = words[i + kIdx].toLowerCase().replace(/[^a-z0-9]/g, "");
+        return clean === kw;
+      });
+      if (match) {
+        phraseStartIndex = i;
+        break;
+      }
+    }
+    const phraseEndIndex = phraseStartIndex !== -1 ? phraseStartIndex + phraseKeywords.length - 1 : -1;
 
-    paragraph.innerHTML = words
-      .map((word, wordIdx) => {
-        const delay = (0.15 + wordIdx * 0.022).toFixed(2);
-        return `<span class="highlight-word" style="font-family: 'Satoshi', sans-serif !important; transition-delay: ${delay}s;">${word}</span>`;
+    descParagraph.innerHTML = words
+      .map((w, idx) => {
+        const isPulse = phraseStartIndex !== -1 && idx >= phraseStartIndex && idx <= phraseEndIndex;
+        return `<span class="cp-desc-word${isPulse ? " is-pulse-glow" : ""}" data-word-idx="${idx}">${w}</span>`;
       })
       .join(" ");
 
-    const wordSpans = paragraph.querySelectorAll(".highlight-word");
+    const wordSpans = descParagraph.querySelectorAll(".cp-desc-word");
+    const totalWords = wordSpans.length;
 
-    const entryObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            card.classList.add("js--animated");
-          }
-        });
-      },
-      { threshold: 0.65, rootMargin: "0px 0px -40px 0px" }
-    );
-    entryObserver.observe(card);
-
-    const updateWordHighlight = () => {
-      const rect = paragraph.getBoundingClientRect();
-      const windowHeight = window.innerHeight || document.documentElement.clientHeight;
-
-      const startPoint = windowHeight * 0.85;
-      const endPoint = windowHeight * 0.35;
-
-      let progress = (startPoint - rect.top) / (startPoint - endPoint);
-      progress = Math.max(0, Math.min(1, progress));
-
-      const activeIndex = Math.floor(progress * wordSpans.length);
-
-      wordSpans.forEach((span, index) => {
-        if (index <= activeIndex) {
-          span.classList.add("active");
-        } else {
-          span.classList.remove("active");
-        }
-      });
+    const clamp = (val, min, max) => Math.max(min, Math.min(max, val));
+    const smoothstep = (min, max, val) => {
+      const x = clamp((val - min) / (max - min), 0, 1);
+      return x * x * (3 - 2 * x);
     };
 
-    // 3D Parallax Tilt Card - Company Profile Box
-    const companyCardWrapper = card.closest(".company-profile-card-wrapper") || card;
-    createLerpTiltCard(card, companyCardWrapper, {
-      baseTranslate: "translate3d(0px, 40%, 50px)",
-      maxTilt: 10,
-      easeFactor: 0.08,
-      restScale: 1.02,
-      hoverScale: 1.04
-    });
+    let rafId = null;
 
-    // Throttled scroll listener using requestAnimationFrame for smooth word highlight updates
-    let companyScrollHighlightRafId = null;
-    const onCompanyScrollHighlight = () => {
-      if (companyScrollHighlightRafId === null) {
-        companyScrollHighlightRafId = requestAnimationFrame(() => {
-          updateWordHighlight();
-          companyScrollHighlightRafId = null;
+    const render = () => {
+      const rect = section.getBoundingClientRect();
+      const windowHeight = window.innerHeight || document.documentElement.clientHeight;
+      const totalScrollable = section.offsetHeight - windowHeight;
+
+      if (totalScrollable <= 0) return;
+
+      // Progress normalized from 0.0 (top touches top) to 1.0 (bottom reaches bottom)
+      const progress = clamp(-rect.top / totalScrollable, 0, 1);
+
+      if (video && video.paused && progress > 0 && progress < 1) {
+        video.play().catch(() => { });
+      }
+
+      // Phase 1: 0.00 -> 0.08 (Hero Title Fades in at Center)
+      // Phase 2: 0.08 -> 0.22 (~2 wheel scrolls dwell period in center)
+      // Phase 3: 0.22 -> 0.38 (Hero Title slides up to upper position and scales by 0.90)
+      // Phase 4: 0.38 -> 0.54 (DELIBERATE 2-SCROLL DELAY: Title is docked, video loops, description NOT yet visible)
+      // Phase 5: 0.54 -> 0.62 (Description fades in smoothly at center)
+      // Phase 6: 0.62 -> 0.90 (Description words light up progressively with user scroll)
+      // Phase 7: 0.90 -> 1.00 (Graceful exit transition)
+
+      let titleOpacity = 0;
+      let titleSlideProgress = 0; // 0 = center, 1 = upper position
+      let descOpacity = 0;
+      let readProgress = 0;
+
+      if (progress < 0.01) {
+        titleOpacity = 0;
+        titleSlideProgress = 0;
+        descOpacity = 0;
+      } else if (progress >= 0.01 && progress < 0.08) {
+        // Slow smooth fade in
+        titleOpacity = smoothstep(0.01, 0.08, progress);
+        titleSlideProgress = 0;
+        descOpacity = 0;
+      } else if (progress >= 0.08 && progress < 0.22) {
+        // Dwell in center
+        titleOpacity = 1;
+        titleSlideProgress = 0;
+        descOpacity = 0;
+      } else if (progress >= 0.22 && progress < 0.38) {
+        // Slide up and scale down 10%
+        titleOpacity = 1;
+        titleSlideProgress = smoothstep(0.22, 0.38, progress);
+        descOpacity = 0;
+      } else if (progress >= 0.38 && progress < 0.54) {
+        // 2-SCROLL DELAY: Docked at top, clean video view, description completely hidden
+        titleOpacity = 1;
+        titleSlideProgress = 1;
+        descOpacity = 0;
+        readProgress = 0;
+      } else if (progress >= 0.54 && progress < 0.62) {
+        // Description smoothly fades in
+        titleOpacity = 1;
+        titleSlideProgress = 1;
+        descOpacity = smoothstep(0.54, 0.62, progress);
+        readProgress = 0;
+      } else if (progress >= 0.62 && progress < 0.90) {
+        // Description fully visible, words light up with scroll scrub
+        titleOpacity = 1;
+        titleSlideProgress = 1;
+        descOpacity = 1;
+        readProgress = smoothstep(0.62, 0.88, progress);
+      } else {
+        // Graceful exit
+        const exit = smoothstep(0.90, 0.98, progress);
+        titleOpacity = 1 - exit;
+        titleSlideProgress = 1;
+        descOpacity = 1 - exit;
+        readProgress = 1;
+      }
+
+      // Heading transform calculation: slides up to the upper-center zone and gets only 10% shorter (1.0 -> 0.90)
+      const targetTopVh = window.innerWidth <= 767 ? -24 : -25;
+      const currentYVh = targetTopVh * titleSlideProgress;
+      const targetScale = 0.90; // Exactly 10% shorter as requested
+      const currentScale = 1 - (1 - targetScale) * titleSlideProgress;
+
+      headingAnchor.style.opacity = titleOpacity.toFixed(3);
+      headingAnchor.style.transform = `translate3d(-50%, calc(-50% + ${currentYVh.toFixed(2)}vh), 0) scale(${currentScale.toFixed(3)})`;
+
+      if (titleSlideProgress > 0.5) {
+        headingAnchor.classList.add("is-docked");
+      } else {
+        headingAnchor.classList.remove("is-docked");
+      }
+
+      // Description container styling
+      descContainer.style.opacity = descOpacity.toFixed(3);
+      descContainer.style.pointerEvents = descOpacity > 0.5 ? "auto" : "none";
+
+      // Word illumination based on user scroll
+      if (descOpacity > 0.01) {
+        const activeWordCount = Math.ceil(readProgress * totalWords);
+        wordSpans.forEach((span, idx) => {
+          if (idx < activeWordCount) {
+            span.classList.add("is-lit");
+          } else {
+            span.classList.remove("is-lit");
+          }
         });
       }
     };
 
-    window.addEventListener("scroll", onCompanyScrollHighlight, { passive: true });
-    window.addEventListener("resize", onCompanyScrollHighlight, { passive: true });
-    updateWordHighlight();
+    const onScroll = () => {
+      if (rafId === null) {
+        rafId = requestAnimationFrame(() => {
+          render();
+          rafId = null;
+        });
+      }
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll, { passive: true });
+    render();
   };
 
   const initProductsPortfolioScrollHighlight = () => {
@@ -1151,7 +1297,7 @@ if (document.readyState === "loading") {
     initFeatures();
     initProductModal();
     initVideos();
-    initCompanyProfileScrollHighlight();
+    initCompanyProfileStickyVideo();
     initProductsPortfolioScrollHighlight();
     initValuesLeadershipScrollHighlight();
   });

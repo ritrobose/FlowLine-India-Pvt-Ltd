@@ -87,6 +87,7 @@
 	<link rel="preload" href="/assets/Satoshi-Bold.woff2" as="font" type="font/woff2" crossorigin />
 	<link rel="preload" href="/assets/Satoshi-Light.woff2" as="font" type="font/woff2" crossorigin />
 	<link rel="preload" href="/assets/NexaPro_Bold.woff2" as="font" type="font/woff2" crossorigin />
+	<link rel="preload" href="/assets/TT%20Ramillas%20ExtraLight.woff2" as="font" type="font/woff2" crossorigin />
 	<link href="https://fonts.googleapis.com" rel="preconnect" />
 	<link href="https://fonts.gstatic.com" rel="preconnect" crossorigin />
 	<link
@@ -1622,59 +1623,32 @@
 					</div>
 				</div>
 			</section>
-			<section class="section section--sm company-profile-section">
-				<div class="container">
-					<div class="layout company-profile-layout">
-						<div id="w-node-eb035cea-6270-2907-8894-88a6b3629304-25e2aed5" class="line line--full">
-							<div class="horizontal-line">
-								<div class="square"></div>
-								<div class="square square--25"></div>
-								<div class="square square--50"></div>
-								<div class="square square--75"></div>
-								<div class="square square--100"></div>
-								<div class="horizontal-line-full-width"></div>
-							</div>
+			<!-- Sticky Video Background Section: Company Profile -->
+			<section class="section company-profile-sticky-section" id="company-profile-section">
+				<div class="cp-sticky-track">
+					<div class="cp-sticky-viewport">
+						<!-- Looping Background Video -->
+						<div class="cp-video-container">
+							<video class="cp-bg-video" id="cp-bg-video" autoplay loop muted playsinline webkit-playsinline preload="auto" src="/New%20Assets/Video/CPBG.mp4">
+								<source src="/New%20Assets/Video/CPBG.mp4" type="video/mp4" />
+							</video>
+							<div class="cp-video-overlay"></div>
 						</div>
-						<div id="w-node-_42d954ef-08eb-23ef-a982-e1761d68b993-25e2aed5"
-							class="content content--sm company-profile-image-col">
-							<div data-widget="image-parallax" id="w-node-_42d954ef-08eb-23ef-a982-e1761d68b994-25e2aed5"
-								class="background background--auto-brightness">
-								<img src="/New%20Assets/_Images/_Random/Clean.webp" loading="lazy" width="1920"
-									height="1080" alt="Flowline Industrial Ventilation" data-role="image"
-									class="background__image" />
+
+						<!-- Stage Container holding both Title & Paragraph -->
+						<div class="cp-stage-container">
+							<!-- Heading that starts centered and slides up under header -->
+							<div class="cp-heading-anchor" id="cp-heading-anchor">
+								<h2 class="cp-hero-text" id="cp-hero-text">
+									<span class="cp-word">COMPANY</span><span class="cp-word-spacer">&nbsp;</span><span class="cp-word">PROFILE</span>
+								</h2>
 							</div>
-						</div>
-						<div class="content company-profile-text-col">
-							<div class="company-profile-card-wrapper">
-								<div class="company-profile-card"
-									style="color: #ffffff !important; font-family: 'Satoshi', sans-serif !important;">
-									<span class="company-profile-badge"
-										style="font-family: 'Satoshi', sans-serif !important;">EST. 2001</span>
-									<h2 class="company-profile-heading"
-										style="font-family: 'Satoshi', sans-serif !important; font-weight: 500 !important;">
-										Company Profile</h2>
-									<p class="company-profile-text scroll-highlight-paragraph"
-										style="font-family: 'Satoshi', sans-serif !important; font-weight: 300 !important;">
-										Since 2001, Flowline India Pvt. Ltd. has been at the forefront of delivering
-										innovative, high-performance industrial ventilation and air movement solutions.
-										With
-										over two decades of engineering excellence, we have earned the trust of
-										industries
-										across India by manufacturing products that combine reliability, efficiency, and
-										long-term performance.
-									</p>
+
+							<!-- Center Description Reveal Container -->
+							<div class="cp-description-container" id="cp-description-container">
+								<div class="cp-description-inner">
+									<p class="cp-description-paragraph" id="cp-description-paragraph">Since 2001, Flowline India has pioneered high-performance industrial ventilation and precision air movement. Backed by over two decades of engineering excellence, we deliver unmatched reliability, energy efficiency, and enduring quality to industries across India.</p>
 								</div>
-							</div>
-						</div>
-						<div id="w-node-_1c30359f-cda9-ff9c-cfe4-f0879e3f1523-25e2aed5"
-							class="line line--no-tablet line--full">
-							<div class="horizontal-line">
-								<div class="square"></div>
-								<div class="square square--25"></div>
-								<div class="square square--50"></div>
-								<div class="square square--75"></div>
-								<div class="square square--100"></div>
-								<div class="horizontal-line-full-width"></div>
 							</div>
 						</div>
 					</div>
