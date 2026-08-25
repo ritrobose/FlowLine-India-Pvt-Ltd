@@ -4,50 +4,48 @@
   const WEBHOOK_URL = "https://hook.eu1.make.com/jpyvygbbubx3t5wtc1ijcwjol4snw2ca";
 
   /**
-   * Copy text to clipboard synchronously within the user interaction gesture.
+   * Copy text to clipboard using modern Clipboard API and fallback DOM selection.
    */
   function copyTextToClipboard(text) {
     if (!text) return false;
 
-    let successful = false;
+    // 1. Primary Modern Clipboard API
+    if (navigator.clipboard && typeof navigator.clipboard.writeText === "function") {
+      navigator.clipboard.writeText(text).catch((err) => {
+        console.warn("navigator.clipboard.writeText error:", err);
+      });
+    }
 
-    // Primary: Synchronous document.execCommand copy (works across all browsers, HTTP/HTTPS, and mobile)
+    // 2. Synchronous execCommand Fallback (positioned in viewport so focus/select works)
     try {
       const textArea = document.createElement("textarea");
       textArea.value = text;
       textArea.style.position = "fixed";
-      textArea.style.top = "0";
-      textArea.style.left = "-999999px";
-      textArea.style.width = "2em";
-      textArea.style.height = "2em";
+      textArea.style.top = "50%";
+      textArea.style.left = "50%";
+      textArea.style.width = "2px";
+      textArea.style.height = "2px";
       textArea.style.padding = "0";
       textArea.style.border = "none";
       textArea.style.outline = "none";
       textArea.style.boxShadow = "none";
       textArea.style.background = "transparent";
+      textArea.style.opacity = "0.01";
+      textArea.style.pointerEvents = "none";
       textArea.setAttribute("readonly", "");
 
       document.body.appendChild(textArea);
       textArea.focus();
       textArea.select();
-      textArea.setSelectionRange(0, 99999); // Mobile Safari support
+      textArea.setSelectionRange(0, 99999);
 
-      successful = document.execCommand("copy");
+      document.execCommand("copy");
       document.body.removeChild(textArea);
+      return true;
     } catch (err) {
       console.warn("execCommand copy error:", err);
-      successful = false;
+      return false;
     }
-
-    // Secondary fallback: Modern Async Clipboard API if execCommand failed
-    if (!successful && navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(text).catch((err) => {
-        console.warn("navigator.clipboard.writeText error:", err);
-      });
-      return true; // Return true as action was dispatched
-    }
-
-    return successful;
   }
 
   /**
@@ -272,7 +270,8 @@
 
   /**
    * Universal Mailto link listener:
-   * When any email link is clicked, copy email to clipboard, display toast, and trigger mail client.
+   * When any email link is clicked, copy email to clipboard, display toast notification,
+   * and allow native browser link handling to launch the email client seamlessly.
    */
   function initMailtoClipboardHandler() {
     document.addEventListener(
@@ -284,38 +283,21 @@
         const rawHref = (link.getAttribute("href") || "").trim();
         if (!rawHref.toLowerCase().startsWith("mailto:")) return;
 
-        // Prevent default navigation to stop conflicting handlers (e.g. smooth scroll or Webflow link handlers)
-        event.preventDefault();
-        event.stopPropagation();
-
         // Extract clean email address
         const emailMatch = rawHref.replace(/^mailto:/i, "").split("?")[0].trim();
         const targetEmail = emailMatch || "Info@flowlineindia.com";
 
-        // Copy clean email address to clipboard synchronously
-        const isCopied = copyTextToClipboard(targetEmail);
+        // Copy clean email address to clipboard
+        copyTextToClipboard(targetEmail);
 
         // Display toast notification
-        if (isCopied) {
-          showNotification(
-            "Email Copied to Clipboard",
-            `<strong>${targetEmail}</strong> copied to clipboard! Opening mail client...`,
-            true
-          );
-        } else {
-          showNotification(
-            "Opening Email Client",
-            `Opening mail client for <strong>${targetEmail}</strong>...`,
-            true
-          );
-        }
-
-        // Trigger email client explicitly
-        setTimeout(() => {
-          window.location.href = rawHref;
-        }, 150);
+        showNotification(
+          "Email Copied to Clipboard",
+          `<strong>${targetEmail}</strong> copied to clipboard. Opening mail client...`,
+          true
+        );
       },
-      true // Capture phase listener
+      false
     );
   }
 
