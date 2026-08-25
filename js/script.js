@@ -200,18 +200,21 @@
     const modalEl = form.closest(".product-modal");
     if (modalEl) {
       const imgEl = modalEl.querySelector(".product-modal__image") || modalEl.querySelector("img");
-      if (imgEl && imgEl.src) {
-        if (imgEl.src.includes("localhost") || imgEl.src.includes("127.0.0.1")) {
+      if (imgEl) {
+        const srcAttr = imgEl.getAttribute("src") || imgEl.src || "";
+        if (srcAttr) {
           try {
-            const parsedUrl = new URL(imgEl.src);
-            productImgUrl = "https://www.flowlineindia.com" + parsedUrl.pathname;
+            productImgUrl = new URL(srcAttr, window.location.origin).href;
           } catch (e) {
-            productImgUrl = imgEl.src;
+            productImgUrl = srcAttr;
           }
-        } else {
-          productImgUrl = imgEl.src;
         }
       }
+    }
+
+    // Default fallback image if productImgUrl is missing or relative/invalid
+    if (!productImgUrl || !productImgUrl.startsWith("http")) {
+      productImgUrl = "https://www.flowlineindia.com/New%20Assets/Axial%20Flow%20Fan/AxialFlowFan_clean.png";
     }
 
     const buttonIdVal = submitBtn ? (submitBtn.id || submitBtn.getAttribute("name") || "") : "";
