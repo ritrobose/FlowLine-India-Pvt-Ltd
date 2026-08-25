@@ -1,8 +1,16 @@
+/* Times Font Definition */
+@font-face {
+  font-family: 'TimesCustom';
+  src: url('/assets/times.woff2') format('woff2');
+  font-weight: normal;
+  font-display: swap;
+  font-style: normal;
+}
+
 /* TT Ramillas Font Definition */
 @font-face {
   font-family: 'TT Ramillas';
   src: url('/assets/TT%20Ramillas%20ExtraLight.woff2') format('woff2');
-  font-weight: 200;
   font-display: swap;
   font-style: normal;
 }
@@ -8150,19 +8158,62 @@ body.modal-open {
   object-fit: contain;
   display: block;
   pointer-events: none;
-  filter: brightness(0.92) contrast(1.06);
+  filter: none;
   will-change: transform;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
 }
 
 .cp-video-overlay {
+  display: none;
   position: absolute;
   inset: 0;
   background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.15) 0%, rgba(0, 0, 0, 0.65) 100%),
     linear-gradient(to bottom, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0) 25%, rgba(0, 0, 0, 0) 75%, rgba(0, 0, 0, 0.6) 100%);
   z-index: 2;
   pointer-events: none;
+}
+
+.cp-privy-block {
+  position: absolute;
+  top: 2.5rem;
+  right: 3rem;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  pointer-events: none;
+  user-select: none;
+}
+
+.cp-privy-title {
+  font-family: 'TT Ramillas', serif;
+  font-size: 18px;
+  font-weight: 300;
+  letter-spacing: 1.2px;
+  color: #ffffff;
+  text-transform: uppercase;
+  line-height: 1;
+  transform: scaleY(1.2);
+  transform-origin: center;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.cp-privy-sub {
+  font-family: 'Satoshi', 'TT Commons Pro', sans-serif;
+  font-size: 7.2px;
+  font-weight: 500;
+  letter-spacing: 0.8px;
+  color: #ffffff;
+  text-transform: uppercase;
+  line-height: 1;
+  margin-top: 8px;
+  margin-left: 0.8px;
+  transform: scaleY(1.2);
+  transform-origin: center;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* Stage Container (Isolated Compositing Layer) */

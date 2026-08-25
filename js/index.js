@@ -193,7 +193,7 @@ const initPreloader = (callbackFunction) => {
       if (!mainContent || mainContent.classList.contains(CLASSES.HIDDEN)) {
         handlePageLoad();
       }
-    }, 3e3);
+    }, 3000);
   }
   startPreloader();
   function handlePageLoad() {
@@ -249,7 +249,6 @@ const initPreloader = (callbackFunction) => {
       mainContent.classList.remove(CLASSES.HIDDEN);
       mainContent.classList.remove(CLASSES.LOADING);
     }
-    document.body.classList.remove(CLASSES.LOCKED);
   }
   function initOtherFeatures() {
     if (callbackFunction) callbackFunction();
