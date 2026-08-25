@@ -4,36 +4,50 @@
   const WEBHOOK_URL = "https://hook.eu1.make.com/jpyvygbbubx3t5wtc1ijcwjol4snw2ca";
 
   /**
-   * Copy text to clipboard with fallback for non-secure contexts or older browsers.
+   * Copy text to clipboard synchronously within the user interaction gesture.
    */
-  async function copyTextToClipboard(text) {
+  function copyTextToClipboard(text) {
     if (!text) return false;
-    try {
-      if (navigator.clipboard && window.isSecureContext) {
-        await navigator.clipboard.writeText(text);
-        return true;
-      }
-    } catch (err) {
-      // Fall through to textarea fallback
-    }
 
+    let successful = false;
+
+    // Primary: Synchronous document.execCommand copy (works across all browsers, HTTP/HTTPS, and mobile)
     try {
       const textArea = document.createElement("textarea");
       textArea.value = text;
       textArea.style.position = "fixed";
+      textArea.style.top = "0";
       textArea.style.left = "-999999px";
-      textArea.style.top = "-999999px";
+      textArea.style.width = "2em";
+      textArea.style.height = "2em";
+      textArea.style.padding = "0";
+      textArea.style.border = "none";
+      textArea.style.outline = "none";
+      textArea.style.boxShadow = "none";
+      textArea.style.background = "transparent";
       textArea.setAttribute("readonly", "");
+
       document.body.appendChild(textArea);
       textArea.focus();
       textArea.select();
-      const successful = document.execCommand("copy");
+      textArea.setSelectionRange(0, 99999); // Mobile Safari support
+
+      successful = document.execCommand("copy");
       document.body.removeChild(textArea);
-      return successful;
     } catch (err) {
-      console.warn("Clipboard copy fallback error:", err);
-      return false;
+      console.warn("execCommand copy error:", err);
+      successful = false;
     }
+
+    // Secondary fallback: Modern Async Clipboard API if execCommand failed
+    if (!successful && navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).catch((err) => {
+        console.warn("navigator.clipboard.writeText error:", err);
+      });
+      return true; // Return true as action was dispatched
+    }
+
+    return successful;
   }
 
   /**
@@ -261,21 +275,31 @@
    * When any email link is clicked, copy email to clipboard, display toast, and trigger mail client.
    */
   function initMailtoClipboardHandler() {
-    document.addEventListener("click", function (event) {
-      const link = event.target.closest('a[href^="mailto:"]');
-      if (!link) return;
+    document.addEventListener(
+      "click",
+      function (event) {
+        const link = event.target.closest ? event.target.closest("a") : null;
+        if (!link) return;
 
-      const rawHref = link.getAttribute("href") || "";
-      // Extract the plain email address before any query params (?subject=... etc.)
-      const emailMatch = rawHref.replace(/^mailto:/i, "").split("?")[0].trim();
-      const targetEmail = emailMatch || "Info@flowlineindia.com";
+        const rawHref = (link.getAttribute("href") || "").trim();
+        if (!rawHref.toLowerCase().startsWith("mailto:")) return;
 
-      // Copy clean email address to clipboard
-      copyTextToClipboard(targetEmail).then((success) => {
-        if (success) {
+        // Prevent default navigation to stop conflicting handlers (e.g. smooth scroll or Webflow link handlers)
+        event.preventDefault();
+        event.stopPropagation();
+
+        // Extract clean email address
+        const emailMatch = rawHref.replace(/^mailto:/i, "").split("?")[0].trim();
+        const targetEmail = emailMatch || "Info@flowlineindia.com";
+
+        // Copy clean email address to clipboard synchronously
+        const isCopied = copyTextToClipboard(targetEmail);
+
+        // Display toast notification
+        if (isCopied) {
           showNotification(
             "Email Copied to Clipboard",
-            `<strong>${targetEmail}</strong> copied to clipboard. Opening mail client...`,
+            `<strong>${targetEmail}</strong> copied to clipboard! Opening mail client...`,
             true
           );
         } else {
@@ -285,8 +309,14 @@
             true
           );
         }
-      });
-    }, { capture: true, passive: true });
+
+        // Trigger email client explicitly
+        setTimeout(() => {
+          window.location.href = rawHref;
+        }, 150);
+      },
+      true // Capture phase listener
+    );
   }
 
   /**
