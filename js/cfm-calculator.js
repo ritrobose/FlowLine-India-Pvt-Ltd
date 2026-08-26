@@ -246,9 +246,9 @@ export function initCfmCalculator() {
             gap: 0.85rem;
             background: rgba(255, 255, 255, 0.035);
             border: 1px solid rgba(255, 255, 255, 0.08);
-            padding: 0.85rem 1rem;
+            padding: 0.9rem 1rem;
             border-radius: 0.75rem;
-            align-items: flex-start;
+            align-items: center;
           ">
             <span style="
               background: #00e5ff;
@@ -262,15 +262,9 @@ export function initCfmCalculator() {
               align-items: center;
               justify-content: center;
               flex-shrink: 0;
-              margin-top: 0.1rem;
             ">1</span>
-            <div>
-              <strong style="display: block; color: #ffffff; font-size: 0.95rem; margin-bottom: 0.2rem;">
-                Open Your Email Account
-              </strong>
-              <span style="font-size: 0.86rem; color: #cbd5e0; line-height: 1.45;">
-                Open your email app or webmail (such as <strong>Gmail, Outlook, Yahoo</strong>) and compose a new email to <strong style="color: #00e5ff;">Info@flowlineindia.com</strong>.
-              </span>
+            <div style="font-size: 0.92rem; color: #e2e8f0; line-height: 1.45;">
+              Open your email (Gmail, Outlook, Yahoo) and compose a new mail to <strong style="color: #00e5ff;">Info@flowlineindia.com</strong>.
             </div>
           </div>
 
@@ -280,9 +274,9 @@ export function initCfmCalculator() {
             gap: 0.85rem;
             background: rgba(255, 255, 255, 0.035);
             border: 1px solid rgba(255, 255, 255, 0.08);
-            padding: 0.85rem 1rem;
+            padding: 0.9rem 1rem;
             border-radius: 0.75rem;
-            align-items: flex-start;
+            align-items: center;
           ">
             <span style="
               background: #00e5ff;
@@ -296,15 +290,9 @@ export function initCfmCalculator() {
               align-items: center;
               justify-content: center;
               flex-shrink: 0;
-              margin-top: 0.1rem;
             ">2</span>
-            <div>
-              <strong style="display: block; color: #ffffff; font-size: 0.95rem; margin-bottom: 0.2rem;">
-                Paste Your Calculation Data
-              </strong>
-              <span style="font-size: 0.86rem; color: #cbd5e0; line-height: 1.45;">
-                Right-click inside the message body and select <strong style="color: #ffffff;">Paste</strong> (or press <kbd style="background: rgba(255,255,255,0.15); padding: 2px 6px; border-radius: 4px; font-family: monospace;">Ctrl + V</kbd> / <kbd style="background: rgba(255,255,255,0.15); padding: 2px 6px; border-radius: 4px; font-family: monospace;">Cmd + V</kbd>) to insert the complete report.
-              </span>
+            <div style="font-size: 0.92rem; color: #e2e8f0; line-height: 1.45;">
+              Right-click inside the message body and select <strong style="color: #ffffff;">Paste</strong> (or press <kbd style="background: rgba(255,255,255,0.15); padding: 2px 6px; border-radius: 4px; font-family: monospace;">Ctrl + V</kbd> / <kbd style="background: rgba(255,255,255,0.15); padding: 2px 6px; border-radius: 4px; font-family: monospace;">Cmd + V</kbd>).
             </div>
           </div>
 
@@ -314,9 +302,9 @@ export function initCfmCalculator() {
             gap: 0.85rem;
             background: rgba(255, 255, 255, 0.035);
             border: 1px solid rgba(255, 255, 255, 0.08);
-            padding: 0.85rem 1rem;
+            padding: 0.9rem 1rem;
             border-radius: 0.75rem;
-            align-items: flex-start;
+            align-items: center;
           ">
             <span style="
               background: #00e5ff;
@@ -330,15 +318,9 @@ export function initCfmCalculator() {
               align-items: center;
               justify-content: center;
               flex-shrink: 0;
-              margin-top: 0.1rem;
             ">3</span>
-            <div>
-              <strong style="display: block; color: #ffffff; font-size: 0.95rem; margin-bottom: 0.2rem;">
-                Send Inquiry to Flowline Engineers
-              </strong>
-              <span style="font-size: 0.86rem; color: #cbd5e0; line-height: 1.45;">
-                Click Send! Our engineering team will review your airflow requirements and respond promptly.
-              </span>
+            <div style="font-size: 0.92rem; color: #e2e8f0; line-height: 1.45;">
+              Click Send! Our engineering team will review your airflow requirements and respond promptly.
             </div>
           </div>
 
