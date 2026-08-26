@@ -283,6 +283,9 @@
         const link = event.target.closest ? event.target.closest("a") : null;
         if (!link) return;
 
+        // Skip calculator inquiry button as it handles its own calculation summary copy & toast
+        if (link.id === "cfm-inquire-btn") return;
+
         const rawHref = (link.getAttribute("href") || "").trim();
         if (!rawHref.toLowerCase().startsWith("mailto:")) return;
 

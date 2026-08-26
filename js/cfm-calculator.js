@@ -88,6 +88,31 @@ export function initCfmCalculator() {
     animFrame = requestAnimationFrame(step);
   }
 
+  function getMailData() {
+    const area = parseFloat(areaSlider.value) || 0;
+    const height = parseFloat(heightSlider.value) || 0;
+    const ach = parseFloat(achSlider.value) || 0;
+    const volume = area * height;
+    const calculatedCfm = (volume * ach) / 60;
+    const m3h = calculatedCfm * 1.69901;
+    const rec = getSmartRecommendation(calculatedCfm, ach, area, height);
+
+    const subject = `Inquiry for ${formatNumber(calculatedCfm)} CFM Airflow Calculation - Flowline India`;
+    const body =
+      `Hello Flowline Team,\n\n` +
+      `I would like to inquire about a ventilation solution for my facility based on the following calculation from your website:\n\n` +
+      `• Space Area: ${formatNumber(area)} sq.ft (${formatNumber(area * 0.0929)} m²)\n` +
+      `• Ceiling Height: ${height} ft (${(height * 0.3048).toFixed(1)} m)\n` +
+      `• Total Space Volume: ${formatNumber(volume)} cu.ft (${formatNumber(volume * 0.0283)} m³)\n` +
+      `• Desired Air Changes (ACH): ${ach} ACH\n` +
+      `• Calculated Airflow Requirement: ${formatNumber(calculatedCfm)} CFM (${formatNumber(m3h)} m³/h)\n` +
+      `• Recommended System: ${rec.title}\n\n` +
+      `Please review these parameters and provide engineering advice, fan selection confirmation, and a commercial quotation.\n\n` +
+      `Thank you!`;
+
+    return { subject, body, calculatedCfm };
+  }
+
   function recalculate() {
     const area = parseFloat(areaSlider.value) || 0;
     const height = parseFloat(heightSlider.value) || 0;
@@ -112,19 +137,34 @@ export function initCfmCalculator() {
 
     // Update Inquire Link
     if (inquireBtn) {
-      const mailSubject = encodeURIComponent(`Inquiry for ${formatNumber(calculatedCfm)} CFM Ventilation Solution`);
-      const mailBody = encodeURIComponent(
-        `Hello Flowline India,\n\nI used the interactive CFM calculator for my facility:\n` +
-        `- Space Area: ${formatNumber(area)} sq.ft\n` +
-        `- Ceiling Height: ${height} ft\n` +
-        `- Total Volume: ${formatNumber(volume)} cu.ft\n` +
-        `- Desired Air Changes (ACH): ${ach} ACH\n` +
-        `- Calculated Airflow Requirement: ${formatNumber(calculatedCfm)} CFM (${formatNumber(calculatedCfm * 1.69901)} m³/h)\n` +
-        `- Recommended Fan Model: ${rec.title}\n\n` +
-        `Please provide engineering advice, sizing verification, and a commercial quotation.\n\nThank you!`
-      );
-      inquireBtn.href = `mailto:Info@flowlineindia.com?subject=${mailSubject}&body=${mailBody}`;
+      const { subject, body } = getMailData();
+      inquireBtn.href = `mailto:Info@flowlineindia.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     }
+  }
+
+  // Handle click on Inquire button to copy calculation summary & notify user
+  if (inquireBtn) {
+    inquireBtn.addEventListener("click", () => {
+      const { subject, body, calculatedCfm } = getMailData();
+      const mailtoUrl = `mailto:Info@flowlineindia.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      inquireBtn.href = mailtoUrl;
+
+      // Copy clean text to clipboard
+      if (typeof window.copyTextToClipboard === "function") {
+        window.copyTextToClipboard(body);
+      } else if (navigator.clipboard && typeof navigator.clipboard.writeText === "function") {
+        navigator.clipboard.writeText(body).catch(() => {});
+      }
+
+      // Display toast notification
+      if (typeof window.showNotification === "function") {
+        window.showNotification(
+          "Airflow Calculation Copied!",
+          `<strong>${formatNumber(calculatedCfm)} CFM</strong> calculation details copied to clipboard. Opening mail client...`,
+          true
+        );
+      }
+    });
   }
 
   // Bind sliders
