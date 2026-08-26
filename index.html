@@ -3,27 +3,7 @@
 	data-wf-status="1" oncontextmenu="return false;">
 
 <head>
-	<script>
-		(function () {
-			function blockRC(e) {
-				if (!e) return true;
-				if (e.pointerType === 'touch' || (e.touches && e.touches.length > 0)) return true;
-				var targetTag = e.target && e.target.tagName ? e.target.tagName.toLowerCase() : '';
-				if (targetTag === 'input' || targetTag === 'textarea') return true;
-				if (e.type === 'contextmenu' || e.button === 2 || e.which === 3) {
-					if (e.preventDefault) e.preventDefault();
-					if (e.stopPropagation) e.stopPropagation();
-					if (e.stopImmediatePropagation) e.stopImmediatePropagation();
-					return false;
-				}
-			}
-			['contextmenu'].forEach(function (evt) {
-				window.addEventListener(evt, blockRC, true);
-				document.addEventListener(evt, blockRC, true);
-			});
-			window.oncontextmenu = document.oncontextmenu = blockRC;
-		})();
-	</script>
+
 	<script src="/js/security-guard.js"></script>
 	<meta charset="utf-8" />
 	<link rel="canonical" href="https://www.flowlineindia.com/" />
