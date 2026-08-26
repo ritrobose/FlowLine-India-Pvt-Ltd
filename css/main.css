@@ -7982,17 +7982,19 @@ body.modal-open {
 }
 
 /* ==========================================================================
-   #team (Founders Section) — Compact Side-by-Side Tablet & Mobile Layout
-   Optimized for tablet portrait (including OnePlus Pad) & landscape
+   #team (Founders Section - After "BY REASON")
+   Compact 2-Column Vertical Division Layout (matching global site grid)
    ========================================================================== */
 @media screen and (max-width: 991px) {
   #team.layout {
     display: grid !important;
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
     grid-template-rows: auto auto auto auto !important;
-    gap: 1rem !important;
+    gap: 0 !important;
     min-height: auto !important;
     height: auto !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
   }
 
   /* Reset default grid placements */
@@ -8004,6 +8006,7 @@ body.modal-open {
   #team > .line:first-child {
     grid-column: 1 / -1 !important;
     grid-row: 1 !important;
+    margin-bottom: 0 !important;
   }
 
   /* Row 2: Paragraph text description */
@@ -8013,8 +8016,9 @@ body.modal-open {
     width: 100% !important;
     max-width: 760px !important;
     margin: 0 auto !important;
-    padding: 1rem 0 !important;
+    padding: 1.25rem 1rem !important;
     text-align: center !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15) !important;
   }
 
   /* Hide intermediate divider lines and filler images so Onkar & Amrita sit in Row 3 side-by-side */
@@ -8023,11 +8027,12 @@ body.modal-open {
     display: none !important;
   }
 
-  /* Row 3: Onkar (Column 1) and Amrita (Column 2) side by side in the SAME row */
+  /* Row 3: Onkar (Column 1) and Amrita (Column 2) side by side in Row 3 */
   #w-node-eb82b424-7a69-4bf9-5dcb-c2a4a2692967-25e2aed5,
   #team .content:nth-of-type(1) {
     grid-column: 1 / 2 !important;
     grid-row: 3 !important;
+    border-right: 1px solid rgba(255, 255, 255, 0.15) !important;
   }
 
   #w-node-_37ee1b34-82b9-8f56-73a4-513f2af65a35-25e2aed5,
@@ -8036,16 +8041,16 @@ body.modal-open {
     grid-row: 3 !important;
   }
 
-  /* Card Heights & Image Sizing: Compact box height matching other layout boxes */
+  /* Card Heights & Image Sizing: Compact box height matching all other layout boxes (~240px) */
   #team .content {
     display: block !important;
     width: 100% !important;
-    height: 320px !important;
-    min-height: 320px !important;
-    max-height: 320px !important;
+    height: clamp(220px, 28vh, 260px) !important;
+    min-height: 220px !important;
+    max-height: 260px !important;
     position: relative !important;
     overflow: hidden !important;
-    border-radius: 4px !important;
+    box-sizing: border-box !important;
   }
 
   #team .background {
@@ -8059,7 +8064,21 @@ body.modal-open {
     width: 100% !important;
     height: 100% !important;
     object-fit: cover !important;
-    object-position: center 20% !important;
+    object-position: center 15% !important;
+  }
+
+  #team .background__text {
+    position: absolute !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    padding: 0.75rem 1rem !important;
+    background: linear-gradient(0deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0) 100%) !important;
+  }
+
+  #team .heading--sm {
+    font-size: 1.15rem !important;
+    margin: 0 !important;
   }
 
   /* Row 4: FOUNDERS Marquee Text */
@@ -8067,7 +8086,8 @@ body.modal-open {
     grid-column: 1 / -1 !important;
     grid-row: 4 !important;
     width: 100% !important;
-    margin-top: 1rem !important;
+    margin-top: 0 !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.15) !important;
     height: auto !important;
   }
 }
@@ -8081,6 +8101,8 @@ body.modal-open {
   #team .content:nth-of-type(1) {
     grid-column: 1 / -1 !important;
     grid-row: 3 !important;
+    border-right: none !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15) !important;
   }
 
   #w-node-_37ee1b34-82b9-8f56-73a4-513f2af65a35-25e2aed5,
@@ -8094,8 +8116,8 @@ body.modal-open {
   }
 
   #team .content {
-    height: 280px !important;
-    min-height: 280px !important;
+    height: 220px !important;
+    min-height: 220px !important;
   }
 }
 
