@@ -782,27 +782,9 @@ if (document.readyState === "loading") {
 
       modal.addEventListener("wheel", (e) => {
         const scrollable = e.target.closest(".product-modal__content");
-        if (!scrollable) {
-          e.preventDefault();
-          return;
-        }
-        const scrollTop = scrollable.scrollTop;
-        const scrollHeight = scrollable.scrollHeight;
-        const height = scrollable.clientHeight;
-        const delta = e.deltaY;
-
-        if ((delta < 0 && scrollTop <= 0) || (delta > 0 && scrollTop + height >= scrollHeight - 1)) {
-          e.preventDefault();
-        }
+        if (!scrollable) return;
         e.stopPropagation();
-      }, { passive: false });
-
-      modal.addEventListener("touchmove", (e) => {
-        const scrollable = e.target.closest(".product-modal__content");
-        if (!scrollable) {
-          e.preventDefault();
-        }
-      }, { passive: false });
+      }, { passive: true });
     });
 
     document.addEventListener("keydown", (e) => {
