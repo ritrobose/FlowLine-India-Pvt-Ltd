@@ -31,13 +31,13 @@
     if (e.type === 'contextmenu' || e.button === 2 || e.which === 3) {
       return killEvent(e);
     }
-    if (e.type === 'dragstart' || e.type === 'selectstart' || e.type === 'copy' || e.type === 'cut') {
+    if (e.type === 'copy' || e.type === 'cut') {
       return killEvent(e);
     }
   }
 
-  // 1. Capture-phase window & document listeners for right-click and selection only (excluding touch/pointerdown)
-  var securityEvents = ['contextmenu', 'dragstart', 'selectstart', 'copy', 'cut'];
+  // 1. Capture-phase window & document listeners for right-click and copy/cut only
+  var securityEvents = ['contextmenu', 'copy', 'cut'];
   for (var i = 0; i < securityEvents.length; i++) {
     window.addEventListener(securityEvents[i], handleMouse, true);
     document.addEventListener(securityEvents[i], handleMouse, true);

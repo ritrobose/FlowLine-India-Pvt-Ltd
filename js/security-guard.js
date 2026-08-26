@@ -22,12 +22,12 @@
     if (e.type === 'contextmenu' || e.button === 2 || e.which === 3) {
       return killEvent(e);
     }
-    if (e.type === 'dragstart' || e.type === 'selectstart' || e.type === 'copy' || e.type === 'cut') {
+    if (e.type === 'copy' || e.type === 'cut') {
       return killEvent(e);
     }
   }
 
-  var securityEvents = ['contextmenu', 'dragstart', 'selectstart', 'copy', 'cut'];
+  var securityEvents = ['contextmenu', 'copy', 'cut'];
   for (var i = 0; i < securityEvents.length; i++) {
     window.addEventListener(securityEvents[i], handleMouse, true);
     document.addEventListener(securityEvents[i], handleMouse, true);

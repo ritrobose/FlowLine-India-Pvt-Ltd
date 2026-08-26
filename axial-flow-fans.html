@@ -16,12 +16,8 @@
 					if (e.stopImmediatePropagation) e.stopImmediatePropagation();
 					return false;
 				}
-				if (e.type === 'dragstart' || e.type === 'selectstart') {
-					if (e.preventDefault) e.preventDefault();
-					return false;
-				}
 			}
-			['contextmenu', 'dragstart', 'selectstart'].forEach(function (evt) {
+			['contextmenu'].forEach(function (evt) {
 				window.addEventListener(evt, blockRC, true);
 				document.addEventListener(evt, blockRC, true);
 			});
