@@ -2401,6 +2401,13 @@ figure {
   transform: translate(-50%);
 }
 
+html {
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  font-family: sans-serif;
+  touch-action: pan-y;
+}
+
 .body {
   background-color: var(--background);
   font-family: var(--font-family--3-test);
@@ -2411,6 +2418,7 @@ figure {
   line-height: 1.5em;
   max-width: 100%;
   overflow-x: hidden;
+  touch-action: pan-y;
 }
 
 .layout {
@@ -7464,7 +7472,7 @@ body.modal-open {
   pointer-events: none;
   transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.35s cubic-bezier(0.16, 1, 0.3, 1);
   overscroll-behavior: contain;
-  touch-action: none;
+  touch-action: pan-y;
 }
 
 .product-modal.is-active {
@@ -7486,10 +7494,10 @@ body.modal-open {
 
 .product-modal__container {
   position: relative;
-  width: 80vw;
+  width: 84vw;
   max-width: 1200px;
-  height: 80vh;
-  max-height: 800px;
+  height: min(84vh, 780px);
+  max-height: calc(100vh - 2rem);
   background: rgba(18, 22, 34, 0.48);
   backdrop-filter: blur(36px) saturate(200%);
   -webkit-backdrop-filter: blur(36px) saturate(200%);
@@ -7503,6 +7511,7 @@ body.modal-open {
   transform: scale(0.92) translateY(20px);
   transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
   overscroll-behavior: contain;
+  touch-action: pan-y;
 }
 
 .product-modal.is-active .product-modal__container {
@@ -7511,10 +7520,10 @@ body.modal-open {
 
 .product-modal__close-btn {
   position: absolute;
-  top: 24px;
-  right: 24px;
-  width: 44px;
-  height: 44px;
+  top: 20px;
+  right: 20px;
+  width: 42px;
+  height: 42px;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.12);
   backdrop-filter: blur(12px);
@@ -7539,8 +7548,9 @@ body.modal-open {
 
 .product-modal__body {
   display: grid;
-  grid-template-columns: 46% 54%;
+  grid-template-columns: 44% 56%;
   height: 100%;
+  max-height: 100%;
   overflow: hidden;
 }
 
@@ -7562,7 +7572,7 @@ body.modal-open {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 8px;
+  padding: 12px;
   box-sizing: border-box;
 }
 
@@ -7579,9 +7589,9 @@ body.modal-open {
 
 .product-modal__badges {
   position: absolute;
-  bottom: 24px;
-  left: 24px;
-  right: 24px;
+  bottom: 20px;
+  left: 20px;
+  right: 20px;
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
@@ -7589,7 +7599,7 @@ body.modal-open {
 }
 
 .product-modal__badge {
-  padding: 6px 14px;
+  padding: 5px 12px;
   background: rgba(10, 12, 18, 0.55);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
@@ -7603,10 +7613,10 @@ body.modal-open {
 }
 
 .product-modal__content {
-  padding: 44px;
+  padding: clamp(20px, 3vw, 36px);
   display: flex;
   flex-direction: column;
-  gap: 22px;
+  gap: 16px;
   overflow-y: auto;
   overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
@@ -7633,34 +7643,34 @@ body.modal-open {
 
 .product-modal__title {
   font-family: 'Bebas Neue', sans-serif;
-  font-size: 48px;
+  font-size: clamp(32px, 4vw, 48px);
   line-height: 1;
-  letter-spacing: 2px;
+  letter-spacing: 1.5px;
   color: #ffffff;
   margin: 4px 0 0 0;
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
 
 .product-modal__subtitle {
-  font-size: 14px;
+  font-size: 13px;
   color: rgba(255, 255, 255, 0.75);
   font-style: italic;
   margin: 0;
 }
 
 .product-modal__description {
-  font-size: 14px;
-  line-height: 1.65;
+  font-size: 13.5px;
+  line-height: 1.6;
   color: rgba(255, 255, 255, 0.85);
   border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-  padding-bottom: 20px;
+  padding-bottom: 16px;
   margin: 0;
 }
 
 .product-modal__specs {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
+  gap: 10px;
 }
 
 .product-modal__spec-item {
@@ -7670,8 +7680,8 @@ body.modal-open {
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.15);
-  padding: 12px 16px;
-  border-radius: 14px;
+  padding: 10px 14px;
+  border-radius: 12px;
   transition: background 0.25s ease, border-color 0.25s ease;
 }
 
@@ -7681,7 +7691,7 @@ body.modal-open {
 }
 
 .spec-label {
-  font-size: 11px;
+  font-size: 10.5px;
   color: rgba(255, 255, 255, 0.55);
   text-transform: uppercase;
   letter-spacing: 0.8px;
@@ -7689,26 +7699,26 @@ body.modal-open {
 }
 
 .spec-value {
-  font-size: 14px;
+  font-size: 13.5px;
   font-weight: 500;
   color: #ffffff;
-  margin-top: 4px;
+  margin-top: 3px;
 }
 
 .product-modal__inquiry {
-  margin-top: 8px;
+  margin-top: 4px;
   background: rgba(255, 255, 255, 0.04);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.18);
-  padding: 20px;
-  border-radius: 18px;
+  padding: 16px;
+  border-radius: 16px;
 }
 
 .inquiry-title {
-  font-size: 13px;
+  font-size: 12.5px;
   font-weight: 600;
-  margin: 0 0 14px 0;
+  margin: 0 0 12px 0;
   letter-spacing: 1.2px;
   text-transform: uppercase;
   color: rgba(255, 255, 255, 0.95);
@@ -7717,8 +7727,9 @@ body.modal-open {
 
 .product-modal__form .form-row {
   display: flex;
-  gap: 12px;
-  margin-bottom: 12px;
+  flex-direction: row;
+  gap: 10px;
+  margin-bottom: 10px;
 }
 
 .glass-input {
@@ -7727,12 +7738,13 @@ body.modal-open {
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   border: 1px solid rgba(255, 255, 255, 0.2);
-  padding: 12px 16px;
+  padding: 10px 14px;
   border-radius: 10px;
   color: #ffffff;
   font-size: 13px;
   outline: none;
   transition: all 0.25s ease;
+  min-width: 0;
 }
 
 .glass-input::placeholder {
@@ -7749,11 +7761,11 @@ body.modal-open {
   background: rgba(255, 255, 255, 0.95);
   color: #0c0e14;
   font-weight: 600;
-  padding: 12px 24px;
+  padding: 10px 20px;
   border-radius: 10px;
   border: none;
   cursor: pointer;
-  font-size: 13px;
+  font-size: 12.5px;
   letter-spacing: 0.8px;
   text-transform: uppercase;
   transition: all 0.25s ease;
@@ -7767,33 +7779,73 @@ body.modal-open {
   box-shadow: 0 6px 20px rgba(255, 255, 255, 0.3);
 }
 
-/* Modal Responsive Layout */
+/* Modal Responsive Layout (Tablets & Mobile) */
 @media (max-width: 991px) {
   .product-modal__container {
-    width: 92vw;
-    height: 88vh;
-    max-height: none;
+    width: 94vw;
+    height: 92vh;
+    max-height: calc(100vh - 1.5rem);
     border-radius: 20px;
   }
 
+  .product-modal__content {
+    padding: 20px;
+    overflow-y: auto;
+  }
+}
+
+/* Landscape mode or short screen height (e.g. tablet landscape) */
+@media (max-height: 720px) and (min-width: 600px) {
+  .product-modal__container {
+    height: 94vh;
+    max-height: calc(100vh - 1rem);
+  }
+
+  .product-modal__body {
+    grid-template-columns: 40% 60%;
+  }
+
+  .product-modal__content {
+    padding: 18px;
+    gap: 12px;
+  }
+
+  .product-modal__title {
+    font-size: 32px;
+  }
+
+  .product-modal__description {
+    padding-bottom: 10px;
+  }
+
+  .product-modal__specs {
+    gap: 8px;
+  }
+
+  .product-modal__spec-item {
+    padding: 8px 12px;
+  }
+
+  .product-modal__inquiry {
+    padding: 12px;
+  }
+}
+
+/* Mobile Portrait Stack (under 600px wide) */
+@media (max-width: 599px) {
   .product-modal__body {
     grid-template-columns: 1fr;
     overflow-y: auto;
   }
 
   .product-modal__media {
-    height: 280px;
+    height: 220px;
     border-right: none;
     border-bottom: 1px solid rgba(255, 255, 255, 0.15);
   }
 
   .product-modal__image-wrapper {
-    padding: 16px;
-  }
-
-  .product-modal__content {
-    padding: 24px;
-    overflow-y: visible;
+    padding: 12px;
   }
 
   .product-modal__specs {
@@ -7802,7 +7854,7 @@ body.modal-open {
 
   .product-modal__form .form-row {
     flex-direction: column;
-    gap: 10px;
+    gap: 8px;
   }
 }
 
@@ -7924,7 +7976,7 @@ body.modal-open {
   align-self: center;
 }
 
-@media (max-width: 1200px) {
+@media (max-width: 899px) {
   .layout.layout--catalog {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
   }
@@ -7942,7 +7994,7 @@ body.modal-open {
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 539px) {
   .layout.layout--catalog {
     grid-template-columns: 1fr !important;
   }

@@ -1,5 +1,6 @@
 /**
- * FlowLine Absolute Anti-Right-Click & Anti-Inspection Security Guard
+ * FlowLine Anti-Right-Click & Anti-Inspection Security Guard
+ * Touch and pointer scroll gestures are explicitly allowed for seamless tablet/mobile UX.
  */
 (function () {
   'use strict';
@@ -14,7 +15,19 @@
   }
 
   function handleMouse(e) {
-    if (!e) return false;
+    if (!e) return true;
+    
+    // Always allow touch and pointer gestures so touch scrolling on tablets/mobile works
+    if (e.pointerType === 'touch' || (e.touches && e.touches.length > 0)) {
+      return true;
+    }
+
+    // Always allow typing/selecting inside input elements and textareas
+    var targetTag = e.target && e.target.tagName ? e.target.tagName.toLowerCase() : '';
+    if (targetTag === 'input' || targetTag === 'textarea') {
+      return true;
+    }
+
     if (e.type === 'contextmenu' || e.button === 2 || e.which === 3) {
       return killEvent(e);
     }
@@ -23,17 +36,17 @@
     }
   }
 
-  // 1. Capture-phase window & document listeners
-  var mouseEvents = ['contextmenu', 'mousedown', 'mouseup', 'auxclick', 'pointerdown', 'pointerup', 'dragstart', 'selectstart', 'copy', 'cut'];
-  for (var i = 0; i < mouseEvents.length; i++) {
-    window.addEventListener(mouseEvents[i], handleMouse, true);
-    document.addEventListener(mouseEvents[i], handleMouse, true);
+  // 1. Capture-phase window & document listeners for right-click and selection only (excluding touch/pointerdown)
+  var securityEvents = ['contextmenu', 'dragstart', 'selectstart', 'copy', 'cut'];
+  for (var i = 0; i < securityEvents.length; i++) {
+    window.addEventListener(securityEvents[i], handleMouse, true);
+    document.addEventListener(securityEvents[i], handleMouse, true);
     if (document.documentElement) {
-      document.documentElement.addEventListener(mouseEvents[i], handleMouse, true);
+      document.documentElement.addEventListener(securityEvents[i], handleMouse, true);
     }
   }
 
-  // 2. Direct property bindings
+  // 2. Direct property bindings for right-click
   window.oncontextmenu = handleMouse;
   document.oncontextmenu = handleMouse;
 
@@ -78,3 +91,4 @@
     }
   }
 })();
+
