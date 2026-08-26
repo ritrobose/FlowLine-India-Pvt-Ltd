@@ -207,6 +207,8 @@ const initPreloader = (callbackFunction) => {
     }
   }
   function hidePreloaderAndShowContent() {
+    document.body.classList.remove(CLASSES.LOCKED);
+    document.body.style.overflow = "";
     hidePreloaderAnimation(() => {
       showContent(initOtherFeatures);
     });
@@ -221,6 +223,8 @@ const initPreloader = (callbackFunction) => {
           preloader.classList.add(CLASSES.HIDDEN);
           preloader.style.display = "none";
           preloader.style.pointerEvents = "none";
+          document.body.classList.remove(CLASSES.LOCKED);
+          document.body.style.overflow = "";
           if (callback) callback();
         }
       });
@@ -229,6 +233,8 @@ const initPreloader = (callbackFunction) => {
     }
   }
   function showContent(callback) {
+    document.body.classList.remove(CLASSES.LOCKED);
+    document.body.style.overflow = "";
     if (progressInterval) {
       clearInterval(progressInterval);
       progressInterval = null;
@@ -249,6 +255,8 @@ const initPreloader = (callbackFunction) => {
       mainContent.classList.remove(CLASSES.HIDDEN);
       mainContent.classList.remove(CLASSES.LOADING);
     }
+    document.body.classList.remove(CLASSES.LOCKED);
+    document.body.style.overflow = "";
   }
   function initOtherFeatures() {
     if (callbackFunction) callbackFunction();
