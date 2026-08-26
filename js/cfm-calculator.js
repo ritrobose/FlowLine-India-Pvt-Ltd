@@ -142,7 +142,303 @@ export function initCfmCalculator() {
     }
   }
 
-  // Handle click on Inquire button to copy calculation summary & notify user
+  function showCfmInquiryModal(calculatedCfm, mailBodyText, mailtoUrl) {
+    let existingModal = document.getElementById("cfm-inquiry-modal");
+    if (existingModal) existingModal.remove();
+
+    const modal = document.createElement("div");
+    modal.id = "cfm-inquiry-modal";
+    modal.className = "cfm-modal-wrapper";
+    modal.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 2147483647;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(5, 8, 15, 0.82);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      opacity: 0;
+      transition: opacity 0.28s ease;
+      padding: 1.25rem;
+      box-sizing: border-box;
+    `;
+
+    modal.innerHTML = `
+      <div class="cfm-modal-card" style="
+        position: relative;
+        background: #0f131c;
+        border: 1px solid rgba(0, 229, 255, 0.35);
+        border-radius: 1.25rem;
+        max-width: 520px;
+        width: 100%;
+        padding: 2.25rem 2rem 2rem 2rem;
+        box-shadow: 0 30px 80px rgba(0, 0, 0, 0.9), 0 0 40px rgba(0, 229, 255, 0.18);
+        color: #ffffff;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        transform: scale(0.92);
+        transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+        box-sizing: border-box;
+      ">
+        <!-- Manual Close Cross Button -->
+        <button id="cfm-modal-close-btn" style="
+          position: absolute;
+          top: 1.25rem;
+          right: 1.25rem;
+          background: rgba(255, 255, 255, 0.08);
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          color: #ffffff;
+          width: 36px;
+          height: 36px;
+          border-radius: 50%;
+          font-size: 1.5rem;
+          line-height: 1;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: all 0.2s ease;
+        " aria-label="Close Instructions">&times;</button>
+
+        <!-- Modal Header -->
+        <div style="display: flex; align-items: center; gap: 0.85rem; margin-bottom: 1.15rem;">
+          <div style="
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            background: rgba(0, 229, 255, 0.15);
+            border: 1px solid rgba(0, 229, 255, 0.45);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            color: #00e5ff;
+          ">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+              <polyline points="22 4 12 14.01 9 11.01"/>
+            </svg>
+          </div>
+          <div>
+            <h3 style="margin: 0; font-size: 1.35rem; font-weight: 700; color: #ffffff; line-height: 1.25;">
+              Airflow Data Copied!
+            </h3>
+            <p style="margin: 0.25rem 0 0 0; font-size: 0.88rem; color: #00e5ff; font-weight: 600;">
+              Calculated Airflow: ${formatNumber(calculatedCfm)} CFM
+            </p>
+          </div>
+        </div>
+
+        <p style="font-size: 0.93rem; color: #a0aec0; line-height: 1.55; margin-bottom: 1.25rem;">
+          Your airflow calculation parameters have been automatically copied to your clipboard. Follow these step-by-step instructions to complete your email inquiry:
+        </p>
+
+        <!-- Step-by-Step Instructions -->
+        <div style="display: flex; flex-direction: column; gap: 0.85rem; margin-bottom: 1.75rem;">
+
+          <!-- Step 1 -->
+          <div style="
+            display: flex;
+            gap: 0.85rem;
+            background: rgba(255, 255, 255, 0.035);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 0.85rem 1rem;
+            border-radius: 0.75rem;
+            align-items: flex-start;
+          ">
+            <span style="
+              background: #00e5ff;
+              color: #080d14;
+              font-weight: 800;
+              font-size: 0.85rem;
+              width: 24px;
+              height: 24px;
+              border-radius: 50%;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              flex-shrink: 0;
+              margin-top: 0.1rem;
+            ">1</span>
+            <div>
+              <strong style="display: block; color: #ffffff; font-size: 0.95rem; margin-bottom: 0.2rem;">
+                Open Your Email Account
+              </strong>
+              <span style="font-size: 0.86rem; color: #cbd5e0; line-height: 1.45;">
+                Open your email app or webmail (such as <strong>Gmail, Outlook, Yahoo</strong>) and compose a new email to <strong style="color: #00e5ff;">Info@flowlineindia.com</strong>.
+              </span>
+            </div>
+          </div>
+
+          <!-- Step 2 -->
+          <div style="
+            display: flex;
+            gap: 0.85rem;
+            background: rgba(255, 255, 255, 0.035);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 0.85rem 1rem;
+            border-radius: 0.75rem;
+            align-items: flex-start;
+          ">
+            <span style="
+              background: #00e5ff;
+              color: #080d14;
+              font-weight: 800;
+              font-size: 0.85rem;
+              width: 24px;
+              height: 24px;
+              border-radius: 50%;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              flex-shrink: 0;
+              margin-top: 0.1rem;
+            ">2</span>
+            <div>
+              <strong style="display: block; color: #ffffff; font-size: 0.95rem; margin-bottom: 0.2rem;">
+                Paste Your Calculation Data
+              </strong>
+              <span style="font-size: 0.86rem; color: #cbd5e0; line-height: 1.45;">
+                Right-click inside the message body and select <strong style="color: #ffffff;">Paste</strong> (or press <kbd style="background: rgba(255,255,255,0.15); padding: 2px 6px; border-radius: 4px; font-family: monospace;">Ctrl + V</kbd> / <kbd style="background: rgba(255,255,255,0.15); padding: 2px 6px; border-radius: 4px; font-family: monospace;">Cmd + V</kbd>) to insert the complete report.
+              </span>
+            </div>
+          </div>
+
+          <!-- Step 3 -->
+          <div style="
+            display: flex;
+            gap: 0.85rem;
+            background: rgba(255, 255, 255, 0.035);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 0.85rem 1rem;
+            border-radius: 0.75rem;
+            align-items: flex-start;
+          ">
+            <span style="
+              background: #00e5ff;
+              color: #080d14;
+              font-weight: 800;
+              font-size: 0.85rem;
+              width: 24px;
+              height: 24px;
+              border-radius: 50%;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              flex-shrink: 0;
+              margin-top: 0.1rem;
+            ">3</span>
+            <div>
+              <strong style="display: block; color: #ffffff; font-size: 0.95rem; margin-bottom: 0.2rem;">
+                Send Inquiry to Flowline Engineers
+              </strong>
+              <span style="font-size: 0.86rem; color: #cbd5e0; line-height: 1.45;">
+                Click Send! Our engineering team will review your airflow requirements and respond promptly.
+              </span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Action Buttons -->
+        <div style="display: flex; gap: 0.85rem; flex-wrap: wrap;">
+          <a href="${mailtoUrl}" id="cfm-modal-launch-mail" style="
+            flex: 1;
+            min-width: 180px;
+            text-align: center;
+            padding: 0.85rem 1.25rem;
+            background: linear-gradient(135deg, #00e5ff 0%, #00b0ff 100%);
+            color: #080d14;
+            font-weight: 700;
+            font-size: 0.95rem;
+            border-radius: 0.65rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            box-shadow: 0 4px 15px rgba(0, 229, 255, 0.35);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+          ">
+            <span>Launch Email App</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+              <polyline points="15 3 21 3 21 9"/>
+              <line x1="10" y1="14" x2="21" y2="3"/>
+            </svg>
+          </a>
+
+          <button id="cfm-modal-dismiss-btn" style="
+            padding: 0.85rem 1.25rem;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            color: #ffffff;
+            font-weight: 600;
+            font-size: 0.92rem;
+            border-radius: 0.65rem;
+            cursor: pointer;
+            transition: background 0.2s ease;
+          ">
+            Close
+          </button>
+        </div>
+      </div>
+    `;
+
+    document.body.appendChild(modal);
+
+    // Trigger smooth fade-in
+    requestAnimationFrame(() => {
+      modal.style.opacity = "1";
+      const card = modal.querySelector(".cfm-modal-card");
+      if (card) card.style.transform = "scale(1)";
+    });
+
+    function closeModal() {
+      modal.style.opacity = "0";
+      const card = modal.querySelector(".cfm-modal-card");
+      if (card) card.style.transform = "scale(0.92)";
+      setTimeout(() => {
+        if (modal.parentNode) modal.parentNode.removeChild(modal);
+      }, 280);
+    }
+
+    // Manual close cross button
+    const closeBtn = modal.querySelector("#cfm-modal-close-btn");
+    if (closeBtn) closeBtn.addEventListener("click", closeModal);
+
+    // Dismiss button
+    const dismissBtn = modal.querySelector("#cfm-modal-dismiss-btn");
+    if (dismissBtn) dismissBtn.addEventListener("click", closeModal);
+
+    // Launch mail button closes modal after click
+    const launchMailBtn = modal.querySelector("#cfm-modal-launch-mail");
+    if (launchMailBtn) {
+      launchMailBtn.addEventListener("click", () => {
+        setTimeout(closeModal, 400);
+      });
+    }
+
+    // Backdrop click
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal) closeModal();
+    });
+
+    // Escape key
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape") {
+        closeModal();
+        document.removeEventListener("keydown", handleKeyDown);
+      }
+    };
+    document.addEventListener("keydown", handleKeyDown);
+  }
+
+  // Handle click on Inquire button to copy calculation summary & trigger centered instruction modal
   if (inquireBtn) {
     inquireBtn.addEventListener("click", () => {
       const { subject, body, calculatedCfm } = getMailData();
@@ -156,14 +452,8 @@ export function initCfmCalculator() {
         navigator.clipboard.writeText(body).catch(() => {});
       }
 
-      // Display toast notification
-      if (typeof window.showNotification === "function") {
-        window.showNotification(
-          "Airflow Calculation Copied!",
-          `<strong>${formatNumber(calculatedCfm)} CFM</strong> calculation details copied to clipboard. Opening mail client...`,
-          true
-        );
-      }
+      // Open centered instruction modal
+      showCfmInquiryModal(calculatedCfm, body, mailtoUrl);
     });
   }
 
