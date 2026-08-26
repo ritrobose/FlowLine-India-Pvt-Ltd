@@ -345,10 +345,9 @@ export function initCfmCalculator() {
         </div>
 
         <!-- Action Buttons -->
-        <div style="display: flex; gap: 0.85rem; flex-wrap: wrap;">
-          <a href="${mailtoUrl}" id="cfm-modal-launch-mail" style="
-            flex: 1;
-            min-width: 180px;
+        <div style="display: flex; justify-content: stretch;">
+          <button id="cfm-modal-dismiss-btn" style="
+            width: 100%;
             text-align: center;
             padding: 0.85rem 1.25rem;
             background: linear-gradient(135deg, #00e5ff 0%, #00b0ff 100%);
@@ -356,32 +355,10 @@ export function initCfmCalculator() {
             font-weight: 700;
             font-size: 0.95rem;
             border-radius: 0.65rem;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
+            border: none;
+            cursor: pointer;
             box-shadow: 0 4px 15px rgba(0, 229, 255, 0.35);
             transition: transform 0.2s ease, box-shadow 0.2s ease;
-          ">
-            <span>Launch Email App</span>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
-              <polyline points="15 3 21 3 21 9"/>
-              <line x1="10" y1="14" x2="21" y2="3"/>
-            </svg>
-          </a>
-
-          <button id="cfm-modal-dismiss-btn" style="
-            padding: 0.85rem 1.25rem;
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            color: #ffffff;
-            font-weight: 600;
-            font-size: 0.92rem;
-            border-radius: 0.65rem;
-            cursor: pointer;
-            transition: background 0.2s ease;
           ">
             Close
           </button>
@@ -414,14 +391,6 @@ export function initCfmCalculator() {
     // Dismiss button
     const dismissBtn = modal.querySelector("#cfm-modal-dismiss-btn");
     if (dismissBtn) dismissBtn.addEventListener("click", closeModal);
-
-    // Launch mail button closes modal after click
-    const launchMailBtn = modal.querySelector("#cfm-modal-launch-mail");
-    if (launchMailBtn) {
-      launchMailBtn.addEventListener("click", () => {
-        setTimeout(closeModal, 400);
-      });
-    }
 
     // Backdrop click
     modal.addEventListener("click", (e) => {
