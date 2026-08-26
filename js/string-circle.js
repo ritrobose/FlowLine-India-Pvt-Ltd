@@ -563,9 +563,26 @@ export function initStringCircle(options = {}) {
   const handleMouseMove = (e) => updatePointerFromClient(e.clientX, e.clientY);
   const handleMouseLeave = () => { mouse.active = false; mouse.vx = mouse.vy = 0; };
 
-  window.addEventListener("mousemove", handleMouseMove);
-  window.addEventListener("mouseleave", handleMouseLeave);
-  window.addEventListener("blur", handleMouseLeave);
+  const handleTouchStartMove = (e) => {
+    if (e.touches && e.touches.length > 0) {
+      updatePointerFromClient(e.touches[0].clientX, e.touches[0].clientY);
+    }
+  };
+
+  const handlePointerMove = (e) => {
+    if (e.pointerType === "touch") {
+      updatePointerFromClient(e.clientX, e.clientY);
+    }
+  };
+
+  window.addEventListener("mousemove", handleMouseMove, { passive: true });
+  window.addEventListener("pointermove", handlePointerMove, { passive: true });
+  window.addEventListener("touchstart", handleTouchStartMove, { passive: true });
+  window.addEventListener("touchmove", handleTouchStartMove, { passive: true });
+  window.addEventListener("touchend", handleMouseLeave, { passive: true });
+  window.addEventListener("touchcancel", handleMouseLeave, { passive: true });
+  window.addEventListener("mouseleave", handleMouseLeave, { passive: true });
+  window.addEventListener("blur", handleMouseLeave, { passive: true });
 
   mqDesktopRing.addEventListener("change", resizeSoft);
   mqMobile.addEventListener("change", resizeSoft);
@@ -600,6 +617,11 @@ export function initStringCircle(options = {}) {
   return function destroy() {
     stopLoop();
     window.removeEventListener("mousemove", handleMouseMove);
+    window.removeEventListener("pointermove", handlePointerMove);
+    window.removeEventListener("touchstart", handleTouchStartMove);
+    window.removeEventListener("touchmove", handleTouchStartMove);
+    window.removeEventListener("touchend", handleMouseLeave);
+    window.removeEventListener("touchcancel", handleMouseLeave);
     window.removeEventListener("mouseleave", handleMouseLeave);
     window.removeEventListener("blur", handleMouseLeave);
     window.removeEventListener("resize", smartResize);
