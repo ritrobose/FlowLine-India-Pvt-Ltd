@@ -71,7 +71,7 @@
   height: 100%;
   display: block;
   cursor: default;
-  touch-action: none;
+  touch-action: pan-y;
 }
 
 .cantor-badge-tag {
