@@ -7982,22 +7982,41 @@ body.modal-open {
 }
 
 /* ==========================================================================
-   #team (Founders Section - After "BY REASON")
-   Compact 2-Column Vertical Division Layout (matching global site grid)
+   #vision & #team (Founders Section - After "BY REASON")
+   Tablet & Mobile Grid Fix: Matches horizontal layout, collapses tall 1fr row voids
    ========================================================================== */
 @media screen and (max-width: 991px) {
-  #team.layout {
-    display: grid !important;
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    grid-template-rows: auto auto auto auto !important;
-    gap: 0 !important;
+  /* 1. Collapse all forced 1fr grid row stretching across #vision and #team */
+  #vision.layout,
+  #team.layout,
+  #vision .layout,
+  #team .layout,
+  .section--lg-xl .layout {
+    grid-template-rows: auto !important;
+    grid-auto-rows: auto !important;
     min-height: auto !important;
     height: auto !important;
+  }
+
+  #vision .section--lg-xl,
+  #team .section--lg-xl,
+  .section.section--lg-xl {
+    min-height: auto !important;
+    height: auto !important;
+    padding-top: 1.5rem !important;
+    padding-bottom: 1.5rem !important;
+  }
+
+  /* 2. 4-Column Grid layout matching horizontal view down the page */
+  #team.layout {
+    display: grid !important;
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    gap: 0 !important;
     border-top: 1px solid rgba(255, 255, 255, 0.15);
     border-bottom: 1px solid rgba(255, 255, 255, 0.15);
   }
 
-  /* Reset default grid placements */
+  /* Reset default grid placements so elements stay in grid flow */
   #team > * {
     grid-area: auto !important;
   }
@@ -8006,28 +8025,28 @@ body.modal-open {
   #team > .line:first-child {
     grid-column: 1 / -1 !important;
     grid-row: 1 !important;
-    margin-bottom: 0 !important;
   }
 
-  /* Row 2: Paragraph text description */
+  /* Row 2: Paragraph text description ("A steadfast commitment...") */
   #team > .text-wrapper {
     grid-column: 1 / -1 !important;
     grid-row: 2 !important;
     width: 100% !important;
-    max-width: 760px !important;
-    margin: 0 auto !important;
+    max-width: 100% !important;
     padding: 1.25rem 1rem !important;
     text-align: center !important;
     border-bottom: 1px solid rgba(255, 255, 255, 0.15) !important;
   }
 
-  /* Hide intermediate divider lines and filler images so Onkar & Amrita sit in Row 3 side-by-side */
-  #team > .line:not(:first-child),
-  #team > .content.content--center {
-    display: none !important;
+  /* Restore all grid lines and filler image boxes for authentic horizontal grid look */
+  #team .line,
+  #team .line--no-mobile,
+  #team .line--tablet,
+  #team .content.content--center {
+    display: block !important;
   }
 
-  /* Row 3: Onkar (Column 1) and Amrita (Column 2) side by side in Row 3 */
+  /* Row 3: Onkar (Col 1), Filler OS.png (Col 2), Amrita (Col 3), Filler RS.png (Col 4) */
   #w-node-eb82b424-7a69-4bf9-5dcb-c2a4a2692967-25e2aed5,
   #team .content:nth-of-type(1) {
     grid-column: 1 / 2 !important;
@@ -8035,22 +8054,41 @@ body.modal-open {
     border-right: 1px solid rgba(255, 255, 255, 0.15) !important;
   }
 
+  #w-node-_85dcf870-8ce5-667c-54f2-3e712342df00-25e2aed5 {
+    grid-column: 2 / 3 !important;
+    grid-row: 3 !important;
+    border-right: 1px solid rgba(255, 255, 255, 0.15) !important;
+  }
+
   #w-node-_37ee1b34-82b9-8f56-73a4-513f2af65a35-25e2aed5,
   #team .content:nth-of-type(2) {
-    grid-column: 2 / 3 !important;
+    grid-column: 3 / 4 !important;
+    grid-row: 3 !important;
+    border-right: 1px solid rgba(255, 255, 255, 0.15) !important;
+  }
+
+  #w-node-_4d926ee8-0996-e3ca-94d2-7a7046f93661-25e2aed5 {
+    grid-column: 4 / 5 !important;
     grid-row: 3 !important;
   }
 
-  /* Card Heights & Image Sizing: Compact box height matching all other layout boxes (~240px) */
+  /* Compact container box sizing matching horizontal layout box ratios */
   #team .content {
     display: block !important;
     width: 100% !important;
-    height: clamp(220px, 28vh, 260px) !important;
+    height: 100% !important;
     min-height: 220px !important;
-    max-height: 260px !important;
+    max-height: 280px !important;
     position: relative !important;
     overflow: hidden !important;
     box-sizing: border-box !important;
+  }
+
+  #team .content.content--center img,
+  #team .content__image {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
   }
 
   #team .background {
@@ -8072,12 +8110,12 @@ body.modal-open {
     bottom: 0 !important;
     left: 0 !important;
     right: 0 !important;
-    padding: 0.75rem 1rem !important;
+    padding: 0.6rem 0.75rem !important;
     background: linear-gradient(0deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0) 100%) !important;
   }
 
   #team .heading--sm {
-    font-size: 1.15rem !important;
+    font-size: 1rem !important;
     margin: 0 !important;
   }
 
