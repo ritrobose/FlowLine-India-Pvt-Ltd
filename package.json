@@ -4,8 +4,8 @@
   "description": "Website for Flowline India Private Limited",
   "main": "index.html",
   "scripts": {
-    "dev": "serve -p 8080 .",
-    "start": "serve -p 8080 .",
+    "dev": "node scripts/dev-server.mjs",
+    "start": "node scripts/dev-server.mjs",
     "build": "node scripts/obfuscate.js"
   },
   "devDependencies": {
@@ -23,6 +23,9 @@
     "#intlayer/config/built": ".intlayer/config/configuration.mjs"
   },
   "dependencies": {
-    "motion": "^12.43.0"
+    "clsx": "^2.1.1",
+    "lucide-react": "^1.35.0",
+    "motion": "^12.43.0",
+    "tailwind-merge": "^3.6.0"
   }
 }

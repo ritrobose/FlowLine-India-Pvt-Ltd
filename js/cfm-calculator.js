@@ -400,7 +400,7 @@ export function initCfmCalculator() {
       if (typeof window.copyTextToClipboard === "function") {
         window.copyTextToClipboard(body);
       } else if (navigator.clipboard && typeof navigator.clipboard.writeText === "function") {
-        navigator.clipboard.writeText(body).catch(() => {});
+        navigator.clipboard.writeText(body).catch(() => { });
       }
 
       // Open centered instruction modal

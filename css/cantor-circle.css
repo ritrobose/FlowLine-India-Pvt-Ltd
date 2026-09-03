@@ -99,6 +99,7 @@
     top: 14px;
     padding: 4px 12px;
   }
+
   .cantor-badge-tag .badge-text {
     font-size: 10px;
   }
@@ -122,11 +123,13 @@
 }
 
 @keyframes pulseDot {
+
   0%,
   100% {
     opacity: 0.4;
     transform: scale(0.9);
   }
+
   50% {
     opacity: 1;
     transform: scale(1.2);

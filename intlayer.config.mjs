@@ -29,12 +29,12 @@ const config = {
     /**
      * Whether the visual editor is enabled.
      */
-    enabled: false,
+    enabled: true,
 
     /**
      * URL of your application for origin validation.
      */
-    applicationURL: 'http://localhost:3000',
+    applicationURL: 'http://localhost:8080',
   },
   ai: {
     /**
