@@ -53,23 +53,153 @@
 	<meta property="og:type" content="website" />
 	<meta content="summary_large_image" name="twitter:card" />
 	<meta content="width=device-width, initial-scale=1" name="viewport" />
+	<meta name="geo.region" content="IN-DL" />
+	<meta name="geo.placename" content="New Delhi" />
+	<meta name="geo.position" content="28.6538;77.1467" />
+	<meta name="ICBM" content="28.6538, 77.1467" />
 	<script type="application/ld+json">
 	{
 		"@context": "https://schema.org",
-		"@type": "LocalBusiness",
-		"name": "Flowline India Private Limited",
-		"url": "https://www.flowlineindia.com/",
-		"logo": "https://www.flowlineindia.com/favicon-512x512.png",
-		"description": "Trader, wholesaler and distributor of Axial Flow Fans, Centrifugal Fans & Direct Driven Centrifugal Fans from New Delhi, India.",
-		"telephone": "+91 9667016333, +91 9717497328",
-		"email": "Info@flowlineindia.com",
-		"address": {
-			"@type": "PostalAddress",
-			"streetAddress": "Industrial Area, 3/24, Block 3, Kirti Nagar",
-			"addressLocality": "New Delhi",
-			"postalCode": "110015",
-			"addressCountry": "IN"
-		}
+		"@graph": [
+			{
+				"@type": ["LocalBusiness", "Corporation"],
+				"@id": "https://www.flowlineindia.com/#organization",
+				"name": "Flowline India Private Limited",
+				"legalName": "Flowline India Private Limited",
+				"url": "https://www.flowlineindia.com/",
+				"logo": "https://www.flowlineindia.com/favicon-512x512.png",
+				"image": "https://www.flowlineindia.com/favicon-512x512.png",
+				"description": "Flowline India Private Limited is a leading trader, wholesaler, and distributor of industrial Axial Flow Fans, DIDW & SISW Centrifugal Fans, Direct Driven Blowers, Plug Fans, and HVAC Ventilation Systems based in New Delhi, India.",
+				"telephone": "+91 9667016333",
+				"email": "Info@flowlineindia.com",
+				"priceRange": "$$",
+				"address": {
+					"@type": "PostalAddress",
+					"streetAddress": "Industrial Area, 3/24, Block 3, Kirti Nagar",
+					"addressLocality": "New Delhi",
+					"addressRegion": "Delhi",
+					"postalCode": "110015",
+					"addressCountry": "IN"
+				},
+				"geo": {
+					"@type": "GeoCoordinates",
+					"latitude": 28.6538,
+					"longitude": 77.1467
+				},
+				"openingHoursSpecification": [
+					{
+						"@type": "OpeningHoursSpecification",
+						"dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+						"opens": "09:30",
+						"closes": "18:30"
+					}
+				],
+				"areaServed": [
+					{
+						"@type": "Country",
+						"name": "India"
+					},
+					{
+						"@type": "AdministrativeArea",
+						"name": "Delhi NCR"
+					}
+				],
+				"hasOfferCatalog": {
+					"@type": "OfferCatalog",
+					"name": "Industrial Ventilation & HVAC Fans Catalog",
+					"itemListElement": [
+						{
+							"@type": "OfferCatalog",
+							"name": "Axial Flow Fans",
+							"itemListElement": [
+								{ "@type": "Product", "name": "Vane Axial Flow Fan" },
+								{ "@type": "Product", "name": "High Temp Bifurcated Axial Fan" },
+								{ "@type": "Product", "name": "Axial Smoke Extract Impulse Jetfan" }
+							]
+						},
+						{
+							"@type": "OfferCatalog",
+							"name": "Centrifugal Fans",
+							"itemListElement": [
+								{ "@type": "Product", "name": "Belt Driven Centrifugal Fan (DIDW)" },
+								{ "@type": "Product", "name": "DIDW Backward Curved Fan" },
+								{ "@type": "Product", "name": "SISW Forward Curved Fan" },
+								{ "@type": "Product", "name": "Direct Driven Centrifugal Fan" },
+								{ "@type": "Product", "name": "EC Smart Energy Plug Fan" }
+							]
+						}
+					]
+				}
+			},
+			{
+				"@type": "WebSite",
+				"@id": "https://www.flowlineindia.com/#website",
+				"url": "https://www.flowlineindia.com/",
+				"name": "Flowline India",
+				"description": "Axial Flow Fans & Centrifugal Fans Trader & Distributor",
+				"publisher": {
+					"@id": "https://www.flowlineindia.com/#organization"
+				}
+			},
+			{
+				"@type": "BreadcrumbList",
+				"@id": "https://www.flowlineindia.com/#breadcrumb",
+				"itemListElement": [
+					{
+						"@type": "ListItem",
+						"position": 1,
+						"name": "Home",
+						"item": "https://www.flowlineindia.com/"
+					}
+				]
+			},
+			{
+				"@type": "FAQPage",
+				"@id": "https://www.flowlineindia.com/#faq",
+				"mainEntity": [
+					{
+						"@type": "Question",
+						"name": "What industrial fan products does Flowline India Private Limited distribute?",
+						"acceptedAnswer": {
+							"@type": "Answer",
+							"text": "Flowline India Private Limited specializes in distributing Axial Flow Fans, DIDW and SISW Centrifugal Fans, Direct Driven Centrifugal Fans, Plug Fans, EC Smart Energy Fans, Circular Inline Duct Fans, Kitchen Exhaust Fans, and Tunnel Jet Ventilation Fans."
+						}
+					},
+					{
+						"@type": "Question",
+						"name": "What is the primary difference between an Axial Fan and a Centrifugal Fan?",
+						"acceptedAnswer": {
+							"@type": "Answer",
+							"text": "Axial flow fans move high volumes of air parallel to the impeller shaft at low to medium static pressures, making them ideal for general warehouse ventilation, tunnel exhaust, and cooling. Centrifugal fans draw air into the impeller center and discharge it radially at a 90-degree angle, generating higher static pressure suited for extensive ducted HVAC systems, AHUs, and grease-heavy kitchen exhausts."
+						}
+					},
+					{
+						"@type": "Question",
+						"name": "How do I calculate CFM requirements for my ventilation project?",
+						"acceptedAnswer": {
+							"@type": "Answer",
+							"text": "CFM (Cubic Feet per Minute) is calculated based on room volume and required Air Changes per Hour (ACH): CFM = (Room Volume in cubic feet × ACH) / 60. Flowline India provides an interactive CFM Calculator tool directly on our website to size fans accurately for industrial plants, kitchens, and basements."
+						}
+					},
+					{
+						"@type": "Question",
+						"name": "Where is Flowline India located and which regions are served?",
+						"acceptedAnswer": {
+							"@type": "Answer",
+							"text": "Flowline India Private Limited is located at Industrial Area, 3/24, Block 3, Kirti Nagar, New Delhi, 110015. We serve commercial and industrial clients across Delhi NCR, pan-India, and neighboring international territories."
+						}
+					},
+					{
+						"@type": "Question",
+						"name": "How can I request a technical quote or engineering catalog from Flowline India?",
+						"acceptedAnswer": {
+							"@type": "Answer",
+							"text": "You can request engineering datasheets and custom quotes by calling +91 9667016333 / +91 9717497328, emailing Info@flowlineindia.com, or submitting a product inquiry directly through our website."
+						}
+					}
+				]
+			}
+		]
 	}
 	</script>
 	<meta content="Webflow" name="generator" />
